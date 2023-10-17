@@ -43,7 +43,22 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 
 
 
-### Lote de Pruebas: 
+### Info para Pruebas: 
+
+Recordar correr: 
+
+```bash
+npm init -y
+
+```
+
+Verificar ruta de archivo en el Constructor del FileManager: 
+
+```bash
+
+const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/02-SegundoDesafio');
+
+```
 
 
 #### Creo 3 productos 
