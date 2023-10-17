@@ -53,7 +53,7 @@ console.log('Paso 1 - Se crean los 3 productos');
 
 ```
 
-#### Crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
+#### Crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
 ```bash
 
