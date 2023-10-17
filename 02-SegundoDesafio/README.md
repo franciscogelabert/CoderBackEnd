@@ -34,6 +34,81 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 | getProducts | Obtiene lista de Productos , la lista previamente se actualiza con los datos del archivo. |
 | getProductByCode |Obtiene un producto de la lista por su Código, la lista previamente se actualiza con los datos del archivo.  |
 
+
+
+
+### Lote de Pruebas: 
+
+```bash
+// Creo 3 productos 
+const p1 = new Product('Manzana', 'Fruta Manzana', 20, 'url imagen', 'cod1', 10);
+const p2 = new Product('Banana', 'Fruta Banana', 20, 'url imagen', 'cod2', 12);
+const p3 = new Product('Naranja', 'Fruta Naranja', 20, 'url imagen', 'cod3', 13);
+
+console.log('Paso 1 - Se crean los 3 productos');
+
+```
+
+
+```bash
+// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
+const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/02-SegundoDesafio');
+console.log('00- el archivo es',farchivo.archivo);
+
+// creo el ProductManager
+const lp = new ProductManager(farchivo);
+console.log('Paso 2 - Se crea el Product Manager');
+
+// le agrego los productos al ProductManager
+
+lp.addProduct(p1);
+lp.addProduct(p2);
+lp.addProduct(p3);
+
+
+console.log('Paso 3 - Se cargan los 3 productos en el Product Manager');
+
+```
+
+```bash
+// Se agrega un 4to Producto al Product Manager
+
+const p4 = new Product('Berenjena', 'Verdura Berenjena', 20, 'url imagen', 'cod4', 14);
+lp.addProduct(p4);
+
+console.log('Paso 4 - Se carga el 4to producto');
+
+```
+
+```bash
+// Se actualiza el producto con COD4
+
+const p5 = new Product('Berenjena', 'Verdura', 20, 'url imagen', 'cod4', 80);
+lp.updateProduct(p5);
+console.log('se Actualiza el 4to Producto: ');
+
+```
+
+```bash
+// Se elimina el producto con COD3
+
+lp.eliminarProductoPorCodigo('cod3');
+console.log('Se elimina el producto cod3: ', lp.lista);
+
+
+```
+
+
+```bash
+
+// Valida la existencia de un archivo
+
+farchivo.validarExistenciaArchivo('archivo.json');
+
+```
+
+
+
     
 
     
