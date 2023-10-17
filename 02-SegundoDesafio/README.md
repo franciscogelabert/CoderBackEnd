@@ -1,5 +1,9 @@
-## Detalles de la Solución: 
+## Programación Backend -  Comisión 55595 
 
+*Segundo Desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
+
+
+## Descripción entrega inicial
 La solución del Segundo Desafío se plantea con tres clases:
 
 ### Clase Product: 
