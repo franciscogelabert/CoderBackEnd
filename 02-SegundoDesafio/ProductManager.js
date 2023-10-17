@@ -9,7 +9,7 @@ class FileManager {
     }
 
 
-    async setArchivo(origenDatos) {
+    setArchivo(origenDatos) {
         try {
             this.fs.writeFileSync(this.archivo, JSON.stringify(origenDatos), 'utf8');
             console.log('Archivo escrito con éxito');
@@ -122,6 +122,7 @@ class ProductManager {
     }
 
     getProductByCode = function (code) {
+        this.fs.getProducts();
         return this.lista.find((element) => element.code == code) || `Not Found`;
     };
 
