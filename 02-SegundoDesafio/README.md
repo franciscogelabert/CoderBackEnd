@@ -39,8 +39,10 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 
 ### Lote de Pruebas: 
 
+
+#### Creo 3 productos 
 ```bash
-// Creo 3 productos 
+
 const p1 = new Product('Manzana', 'Fruta Manzana', 20, 'url imagen', 'cod1', 10);
 const p2 = new Product('Banana', 'Fruta Banana', 20, 'url imagen', 'cod2', 12);
 const p3 = new Product('Naranja', 'Fruta Naranja', 20, 'url imagen', 'cod3', 13);
@@ -49,9 +51,10 @@ console.log('Paso 1 - Se crean los 3 productos');
 
 ```
 
+#### Crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
 
 ```bash
-// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
+
 const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/02-SegundoDesafio');
 console.log('00- el archivo es',farchivo.archivo);
 
@@ -70,9 +73,10 @@ console.log('Paso 3 - Se cargan los 3 productos en el Product Manager');
 
 ```
 
-```bash
-// Se agrega un 4to Producto al Product Manager
 
+#### Se agrega un 4to Producto al Product Manager
+
+```bash
 const p4 = new Product('Berenjena', 'Verdura Berenjena', 20, 'url imagen', 'cod4', 14);
 lp.addProduct(p4);
 
@@ -80,8 +84,9 @@ console.log('Paso 4 - Se carga el 4to producto');
 
 ```
 
+#### Se actualiza el producto con COD4
+
 ```bash
-// Se actualiza el producto con COD4
 
 const p5 = new Product('Berenjena', 'Verdura', 20, 'url imagen', 'cod4', 80);
 lp.updateProduct(p5);
@@ -89,8 +94,10 @@ console.log('se Actualiza el 4to Producto: ');
 
 ```
 
+#### Se elimina el producto con COD3
+
 ```bash
-// Se elimina el producto con COD3
+
 
 lp.eliminarProductoPorCodigo('cod3');
 console.log('Se elimina el producto cod3: ', lp.lista);
@@ -98,10 +105,9 @@ console.log('Se elimina el producto cod3: ', lp.lista);
 
 ```
 
+#### Valida la existencia de un archivo
 
 ```bash
-
-// Valida la existencia de un archivo
 
 farchivo.validarExistenciaArchivo('archivo.json');
 
