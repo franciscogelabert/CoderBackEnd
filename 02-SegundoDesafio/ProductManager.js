@@ -1,10 +1,11 @@
 
 
-class ProductManager {
+class FileManager {
     constructor(archivo, ruta) {
         this.fs = require('fs');
-        this.archivo = archivo;
-        this.ruta = ruta;
+        this.path = require('path');
+        this.archivo = this.path.join(ruta, archivo);
+        
     }
 
 
@@ -69,7 +70,7 @@ class Product {
 }
 
 
-class ListProductManager {
+class ProductManager {
     constructor(fs) {
         this.id = 0;
         this.lista = [];
@@ -137,11 +138,11 @@ console.log('Paso 1 - Se crean los 3 productos');
 
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
-const farchivo = new ProductManager('archivo.json', '/');
-
+const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/02-SegundoDesafio');
+console.log('00- el archivo es',farchivo.archivo);
 
 // creo el ProductManager
-const lp = new ListProductManager(farchivo);
+const lp = new ProductManager(farchivo);
 console.log('Paso 2 - Se crea el Product Manager');
 
 // le agrego los productos al ProductManager
