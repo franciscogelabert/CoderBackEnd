@@ -1,3 +1,5 @@
+## Detalles de la Solución: 
+
 La solución del Segundo Desafío se plantea con tres clases:
 
 ### Clase Product: 
