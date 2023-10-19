@@ -1,5 +1,5 @@
-import Product from './Product.js';
-import FileManager from './FileManager.js';
+import Product from './class/Product.js';
+import FileManager from './class/FileManager.js';
 
 class ProductManager {
     constructor(fs) {
@@ -65,12 +65,14 @@ class ProductManager {
 
 export default ProductManager;
 
+/*
+
 // Creo 4 productos 
 const p1 = new Product('Manzana', 'Fruta Manzana', 20, 'url imagen', 'cod1', 10);
 const p2 = new Product('Banana', 'Fruta Banana', 20, 'url imagen', 'cod2', 12);
 const p3 = new Product('Naranja', 'Fruta Naranja', 20, 'url imagen', 'cod3', 13);
 const p4 = new Product('Berenjena', 'Verdura Berenjena', 20, 'url imagen', 'cod4', 14);
-const p5 = new Product('Berenjena', 'Lechuga', 20, 'url imagen', 'cod5', 85);
+const p5 = new Product('Berenjena', 'Lechuga', 20, 'url imagen', 'cod5', 95);
 
 console.log('Paso 1 - Se crean los 4 productos');
 
@@ -93,6 +95,6 @@ lp.addProduct(p4);
 lp.addProduct(p5);
 
 console.log('Paso 3 - Se cargan los 5 productos en el Product Manager'); 
-
+*/
 
 
