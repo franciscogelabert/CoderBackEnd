@@ -1,5 +1,5 @@
-import Product from './class/Product.js';
-import FileManager from './class/FileManager.js';
+import Product from './Product.js';
+import FileManager from './FileManager.js';
 
 class ProductManager {
     constructor(fs) {

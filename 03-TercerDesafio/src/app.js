@@ -1,6 +1,6 @@
 /*  Server  */
 
-import ProductManager from '../ProductManager.js';
+import ProductManager from '../class/ProductManager.js';
 import express  from 'express';
 
 // Ahora puedes usar la clase ProductManager en tu código de app.js
@@ -13,7 +13,7 @@ const productManager = new ProductManager();
 const app = express();
 const port = 8081;
 
-app.get('/saludo',(req,res)=>{res.send('Hola Express de Node Js');})
+app.get('/saludo',(req,res)=>{res.send('Hola Express de Node Js 2');})
 
 app.listen(port,()=>{console.log("Escuchando en Puerto: ", {port})})
 
