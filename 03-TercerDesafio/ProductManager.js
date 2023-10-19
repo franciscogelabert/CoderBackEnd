@@ -157,6 +157,6 @@ lp.addProduct(p3);
 lp.addProduct(p4);
 lp.addProduct(p5);
 
-console.log('Paso 3 - Se cargan los 5 productos en el Product Manager');
+console.log('Paso 3 - Se cargan los 5 productos en el Product Manager'); 
 
 
