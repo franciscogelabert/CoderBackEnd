@@ -1,72 +1,5 @@
-class Product {
-    constructor(title, description, price, thumbnail, code, stock) {
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.thumbnail = thumbnail;
-        this.code = code;
-        this.stock = stock;
-    }
-
-    esValido() {
-        return (
-            this.title &&
-            this.description &&
-            this.price &&
-            this.thumbnail &&
-            this.code &&
-            this.stock
-        );
-    }
-}
-
-class FileManager {
-    constructor(archivo, ruta) {
-        this.fs = require('fs');
-        this.path = require('path');
-        this.archivo = this.path.join(ruta, archivo);
-
-    }
-
-    setArchivo(origenDatos) {
-        try {
-            this.fs.writeFileSync(this.archivo, JSON.stringify(origenDatos), 'utf8');
-            console.log('Archivo escrito con éxito');
-        } catch (error) {
-            console.error('Error al escribir en el archivo:', error);
-        }
-    }
-
-    async getItemsArchivo() {
-        try {
-            const data = await this.fs.promises.readFile(this.archivo, 'utf8');
-            this.lista = JSON.parse(data);
-        } catch (error) {
-            console.error('Error al leer el archivo:', error);
-        }
-    }
-
-
-    eliminarArchivo() {
-        try {
-            this.fs.unlinkSync(this.archivo);
-            console.log('Archivo eliminado con éxito');
-        } catch (error) {
-            console.error('Error al eliminar el archivo:', error);
-        }
-    }
-
-    validarExistenciaArchivo(archivo) {
-        try {
-            this.fs.existsSync(archivo);
-            console.log('El archivo existe');
-        } catch (error) {
-            console.log('El archivo no existe');
-        }
-    }
-
-}
-
+import Product from './Product.js';
+import FileManager from './FileManager.js';
 
 class ProductManager {
     constructor(fs) {
@@ -130,12 +63,14 @@ class ProductManager {
     };
 }
 
+export default ProductManager;
+
 // Creo 4 productos 
 const p1 = new Product('Manzana', 'Fruta Manzana', 20, 'url imagen', 'cod1', 10);
 const p2 = new Product('Banana', 'Fruta Banana', 20, 'url imagen', 'cod2', 12);
 const p3 = new Product('Naranja', 'Fruta Naranja', 20, 'url imagen', 'cod3', 13);
 const p4 = new Product('Berenjena', 'Verdura Berenjena', 20, 'url imagen', 'cod4', 14);
-const p5 = new Product('Berenjena', 'Lechuga', 20, 'url imagen', 'cod5', 80);
+const p5 = new Product('Berenjena', 'Lechuga', 20, 'url imagen', 'cod5', 85);
 
 console.log('Paso 1 - Se crean los 4 productos');
 
@@ -158,5 +93,6 @@ lp.addProduct(p4);
 lp.addProduct(p5);
 
 console.log('Paso 3 - Se cargan los 5 productos en el Product Manager'); 
+
 
 
