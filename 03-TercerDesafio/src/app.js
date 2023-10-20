@@ -2,8 +2,7 @@
 
 import ProductManager from '../class/ProductManager.js';
 import FileManager from '../class/FileManager.js';
-import express  from 'express';
-
+import express from 'express';
 
 const app = express();
 const port = 8080;
@@ -17,26 +16,24 @@ const lp = new ProductManager(farchivo);
 console.log('Paso 2 - Se crea el Product Manager');
 
 
+app.get('/productos', (req, res) => {
 
-
-app.get('/productos',(req,res)=>{
-    
     lp.getProducts()
-    .then(() => {
-        res.send(lp.lista);
-    })
-    .catch(error => {
-      console.error('Error al cargar la lista de productos:', error);
-    });
+        .then(() => {
+            res.send(lp.lista);
+        })
+        .catch(error => {
+            console.error('Error al cargar la lista de productos:', error);
+        });
 })
 
 
 
 
-app.get('/saludo',(req,res)=>{
+app.get('/saludo', (req, res) => {
     res.send('Hola Express de Node Js 2');
 })
 
-app.listen(port,()=>{console.log("Escuchando en Puerto: ", {port})})
+app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })
 
 

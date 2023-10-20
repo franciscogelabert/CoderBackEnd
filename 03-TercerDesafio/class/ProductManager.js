@@ -51,19 +51,19 @@ class ProductManager {
     };
 
 
-   
-      getProducts = function () {
+
+    getProducts = function () {
         return new Promise(async (resolve, reject) => {
-          try {
-            const result = await this.fs.getItemsArchivo();
-            this.lista = result;
-            resolve(this.lista);
-          } catch (error) {
-            console.error('Error:', error);
-            reject(error);
-          }
+            try {
+                const result = await this.fs.getItemsArchivo();
+                this.lista = result;
+                resolve(this.lista);
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
         });
-      };
+    };
 
 
 
