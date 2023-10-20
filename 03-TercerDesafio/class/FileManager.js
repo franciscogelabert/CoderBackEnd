@@ -21,13 +21,14 @@ class FileManager {
     async getItemsArchivo() {
         try {
             const data = await this.fs.promises.readFile(this.archivo, 'utf8');
-            this.lista = JSON.parse(data);
+            const contenido = JSON.parse(data);
+            return contenido;
         } catch (error) {
             console.error('Error al leer el archivo:', error);
         }
     }
 
-    eliminarArchivo() {
+   eliminarArchivo() {
         try {
             this.fs.unlinkSync(this.archivo);
             console.log('Archivo eliminado con éxito');
@@ -48,4 +49,12 @@ class FileManager {
 }
 
 export default FileManager;
+
+//const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/03-TercerDesafio');
+//console.log('00- el archivo es', farchivo.archivo);
+
+
+
+
+
 

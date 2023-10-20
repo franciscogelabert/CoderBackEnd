@@ -1,5 +1,6 @@
-import Product from './Product.js';
-import FileManager from './FileManager.js';
+import FileManager from '../class/FileManager.js';
+import Product from '../class/Product.js';
+
 
 class ProductManager {
     constructor(fs) {
@@ -49,9 +50,22 @@ class ProductManager {
         return this.lista[id] || `Not Found`
     };
 
-    getProducts = function () {
-        return this.lista;
-    };
+
+   
+      getProducts = function () {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const result = await this.fs.getItemsArchivo();
+            this.lista = result;
+            resolve(this.lista);
+          } catch (error) {
+            console.error('Error:', error);
+            reject(error);
+          }
+        });
+      };
+
+
 
     seEncuentra(code) {
         return this.getProductByCode(code) != `Not Found`;
@@ -65,8 +79,29 @@ class ProductManager {
 
 export default ProductManager;
 
+
 /*
 
+// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
+const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/03-TercerDesafio');
+console.log('00- el archivo es', farchivo.archivo);
+
+// creo el ProductManager
+const lp = new ProductManager(farchivo);
+console.log('Paso 2 - Se crea el Product Manager');
+
+lp.getProducts()
+  .then(() => {
+    console.log('La lista de productos se ha cargado correctamente:', lp.lista);
+  })
+  .catch(error => {
+    console.error('Error al cargar la lista de productos:', error);
+  });
+
+*/
+
+
+/*
 // Creo 4 productos 
 const p1 = new Product('Manzana', 'Fruta Manzana', 20, 'url imagen', 'cod1', 10);
 const p2 = new Product('Banana', 'Fruta Banana', 20, 'url imagen', 'cod2', 12);
@@ -86,6 +121,11 @@ console.log('00- el archivo es', farchivo.archivo);
 const lp = new ProductManager(farchivo);
 console.log('Paso 2 - Se crea el Product Manager');
 
+
+console.log('getProducts ver --->', lp.getProducts());
+
+
+
 // le agrego los productos al ProductManager
 
 lp.addProduct(p1);
@@ -95,6 +135,9 @@ lp.addProduct(p4);
 lp.addProduct(p5);
 
 console.log('Paso 3 - Se cargan los 5 productos en el Product Manager'); 
-*/
 
+
+console.log('getProducts --->',lp.getProducts())
+
+*/
 

@@ -1,19 +1,41 @@
 /*  Server  */
 
 import ProductManager from '../class/ProductManager.js';
+import FileManager from '../class/FileManager.js';
 import express  from 'express';
 
-// Ahora puedes usar la clase ProductManager en tu código de app.js
-const productManager = new ProductManager();
-
-//const http = require('http');
-//const server = http.createServer((request, response) => { response.end("Hola Mundo Lindo") })
-//server.listen(port,()=>{console.log("Escuchando en Puerto: ", {port})})
 
 const app = express();
-const port = 8081;
+const port = 8080;
 
-app.get('/saludo',(req,res)=>{res.send('Hola Express de Node Js 2');})
+// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
+const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/03-TercerDesafio');
+console.log('00- el archivo es', farchivo.archivo);
+
+// creo el ProductManager
+const lp = new ProductManager(farchivo);
+console.log('Paso 2 - Se crea el Product Manager');
+
+
+
+
+app.get('/productos',(req,res)=>{
+    
+    lp.getProducts()
+    .then(() => {
+        res.send(lp.lista);
+    })
+    .catch(error => {
+      console.error('Error al cargar la lista de productos:', error);
+    });
+})
+
+
+
+
+app.get('/saludo',(req,res)=>{
+    res.send('Hola Express de Node Js 2');
+})
 
 app.listen(port,()=>{console.log("Escuchando en Puerto: ", {port})})
 
