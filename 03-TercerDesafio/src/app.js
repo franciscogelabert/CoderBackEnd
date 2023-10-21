@@ -13,7 +13,7 @@ console.log('00- el archivo es', farchivo.archivo);
 
 // creo el ProductManager
 const lp = new ProductManager(farchivo);
-console.log('Paso 2 - Se crea el Product Manager');
+console.log('Paso 1 - Se crea el Product Manager');
 
 
 app.get('/productos', (req, res) => {
