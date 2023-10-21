@@ -50,8 +50,6 @@ class FileManager {
 
 export default FileManager;
 
-//const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/03-TercerDesafio');
-//console.log('00- el archivo es', farchivo.archivo);
 
 
 
