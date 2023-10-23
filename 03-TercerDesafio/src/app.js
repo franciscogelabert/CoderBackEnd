@@ -61,10 +61,6 @@ app.get('/products/code/:cod', (req, res) => {
         });
 })
 
-app.get('/saludo', (req, res) => {
-    res.send('Hola Express de Node Js 2');
-})
-
 app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })
 
 

@@ -132,7 +132,7 @@ lp.getProducts()
 /*
 
 
-// Creo 4 productos 
+// Creo 10 productos 
 const p1 = new Product('Manzana', 'Fruta Manzana', 20, 'url imagen', 'cod1', 10);
 const p2 = new Product('Banana', 'Fruta Banana', 20, 'url imagen', 'cod2', 12);
 const p3 = new Product('Naranja', 'Fruta Naranja', 20, 'url imagen', 'cod3', 13);
@@ -145,7 +145,7 @@ const p9 = new Product('Ananá', 'Fruta Ananá', 20, 'url imagen', 'cod9', 20);
 const p10 = new Product('Acelga', 'Acelga', 20, 'url imagen', 'cod10', 30);
 
 
-console.log('Paso 1 - Se crean los 4 productos');
+console.log('Paso 1 - Se crean los 10 productos');
 
 
 
