@@ -4,15 +4,17 @@ import ProductManager from '../class/ProductManager.js';
 import FileManager from '../class/FileManager.js';
 import express from 'express';
 
+
 const app = express();
 const port = 8080;
 
 app.use(express.urlencoded({ extended: true }));
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
+
 const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/03-TercerDesafio');
 //const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/03-TercerDesafio');
-console.log('00- el archivo es', farchivo.archivo);
+
 
 // creo el ProductManager
 const lp = new ProductManager(farchivo);
