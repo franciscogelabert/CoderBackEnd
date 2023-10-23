@@ -57,6 +57,15 @@ const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/03-Terce
 
 ```
 
+Para correr la app
+
+```bash
+
+nodemon src/app.js
+
+```
+
+
 ## Carpeta Class
 
 ### Clase Product: 
