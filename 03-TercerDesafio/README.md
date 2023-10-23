@@ -10,9 +10,9 @@ Por otro lado se crea la carpeta src y dentro se crea la app.js en la misma se p
 
 | Función | Descripción | 
 | --- | --- | 
-| get('/products', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit  toma como cantidad de elementos a devolver el valor cargado el limit|
-| get('/products/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL.|
-| get('/products/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL.|
+| get('/products', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('/products/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
+| get('/products/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
 
 
 ### Info para Pruebas: 
@@ -41,9 +41,6 @@ Agregar → "type": "module",
 
 ```
 
-
-
-
 Instalar Express
 
 ```bash
@@ -51,7 +48,6 @@ Instalar Express
 npm install express  
 
 ```
-
 
 Verificar ruta de archivo en el Constructor del FileManager en src/app.js: 
 

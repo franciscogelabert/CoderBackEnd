@@ -60,7 +60,7 @@ class ProductManager {
             try {
                 const result = await this.fs.getItemsArchivo();
                 this.lista = result; // actualizo lista con archivo
-                resolve(this.lista[id] || `Not Found`);
+                resolve(this.lista[id] || `Id Product Not Found`);
             } catch (error) {
                 console.error('Error:', error);
                 reject(error);
@@ -73,7 +73,7 @@ class ProductManager {
             try {
                 const result = await this.fs.getItemsArchivo();
                 this.lista = result; // actualizo lista con archivo
-                resolve(this.lista.find((element) => element.code == code) || `Not Found`);
+                resolve(this.lista.find((element) => element.code == code) || `Code Not Found`);
             } catch (error) {
                 console.error('Error:', error);
                 reject(error);
