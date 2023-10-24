@@ -5,6 +5,7 @@ import FileManager from '../FileSystem/FileManager.js'
 
 class CartManager {
     constructor(fs) {
+        this.id = 0;
         this.lista = [];
         this.fs = fs;
     }
@@ -13,6 +14,7 @@ class CartManager {
         const findCart = this.lista.find(c => c.id === cart.id)
         if (!findCart) {
             this.lista.push(cart);
+            this.id = this.id + 1;
             this.fs.setArchivo(this.lista);
         }
         else {
@@ -20,8 +22,15 @@ class CartManager {
         }
     }
 
+
+    addCart = function (cart) {
+        this.id = this.id + 1;
+        this.lista.push(cart);
+        this.fs.setArchivo(this.lista);
+    };
+
     addProductCart(idProduct, idCart) {
-        const findCart = this.lista.find(c => c.id === idCart)
+        const findCart = this.lista[idCart];
         console.log(findCart);
         if (findCart) {
             findCart.addProduct(idProduct);
@@ -44,69 +53,29 @@ class CartManager {
             }
         });
     };
-  
-  
+
+
     getCartsById = function (id) {
-       
         return new Promise(async (resolve, reject) => {
             try {
-                let found=true;
                 const result = await this.fs.getItemsArchivo();
-                this.lista = result; 
-                for (const cart of this.lista) {
-                    if (cart.id === id) {
-                        found=false;
-                        resolve(cart);
-                        return; // Termina el bucle una vez que se encuentra el elemento
-                    } 
-                }
-                if (found){
-                    resolve('No se encuentra Cart con ese ID '+ id);
-                    return; // Termina el bucle una vez que se encuentra el elemento
-                }
-              
+                this.lista = result; // actualizo lista con archivo
+                resolve(this.lista[id] || `Id Product Not Found`);
             } catch (error) {
                 console.error('Error:', error);
                 reject(error);
             }
         });
-    }
-
-    getProdCartsById = function (id) {
-       
-        return new Promise(async (resolve, reject) => {
-            try {
-                let found=true;
-                const result = await this.fs.getItemsArchivo();
-                this.lista = result; 
-                for (const cart of this.lista) {
-                    if (cart.id === id) {
-                        found=false;
-                        resolve(cart.lista);
-                        return; // Termina el bucle una vez que se encuentra el elemento
-                    } 
-                }
-
-                if (found){
-                    resolve('No se encuentra Cart con ese ID ' +  id);
-                    return; // Termina el bucle una vez que se encuentra el elemento
-                }
-              
-            } catch (error) {
-                console.error('Error:', error);
-                reject(error);
-            }
-        });
-    }
+    };
 
 }
 
 export default CartManager;
 
-const cart1 = new Cart(1, [{ IdProd: 101, CantProd: 3 }, { IdProd: 102, CantProd: 2 }]);
-const cart2 = new Cart(2, [{ IdProd: 103, CantProd: 4 }]);
-const cart3 = new Cart(3, [{ IdProd: 104, CantProd: 5 }]);
-const cart4 = new Cart(2, [{ IdProd: 104, CantProd: 5 }]);
+const cart1 = new Cart([{ IdProd: 101, CantProd: 3 }, { IdProd: 102, CantProd: 2 }]);
+const cart2 = new Cart([{ IdProd: 103, CantProd: 4 }]);
+const cart3 = new Cart([{ IdProd: 104, CantProd: 5 }]);
+const cart4 = new Cart([{ IdProd: 104, CantProd: 5 }]);
 
 console.log('00- Se crean los 3 carritos');
 
@@ -133,6 +102,10 @@ lc.addProductCart(101, 1);
 console.log('04 - Se Actualiza producto 101 en carrito 1');
 
 lc.addProductCart(102, 1);
+lc.addProductCart(103, 1);
+lc.addProductCart(103, 1);
+lc.addProductCart(105, 1);
+
 console.log('05 - Se Actualiza producto 102 en carrito 1');
 console.log(lc.lista);
 
@@ -144,15 +117,9 @@ lc.getCarts()
         console.error('Error al cargar la lista de productos:', error);
     });
 
-lc.getCartsById(4).then((result) => {
+lc.getCartsById(0).then((result) => {
     console.log('Resultado:', result);
 }).catch((error) => {
     console.error('Error:', error);
 });
 
-
-lc.getProdCartsById(1).then((result) => {
-    console.log('Resultado:', result);
-}).catch((error) => {
-    console.error('Error:', error);
-});

@@ -1,6 +1,5 @@
 class Cart {
-    constructor(id, lista) {
-        this.id = id;
+    constructor(lista) {
         this.lista = lista;
     }
 
