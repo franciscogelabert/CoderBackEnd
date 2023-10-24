@@ -44,12 +44,27 @@ class CartManager {
             }
         });
     };
+  
+  
     getCartsById = function (id) {
+       
         return new Promise(async (resolve, reject) => {
             try {
+                let found=true;
                 const result = await this.fs.getItemsArchivo();
-                this.lista = result; // actualizo lista con archivo
-                resolve(this.lista[id] || `Id Product Not Found`);
+                this.lista = result; 
+                for (const cart of this.lista) {
+                    if (cart.id === id) {
+                        found=false;
+                        resolve(cart);
+                        return; // Termina el bucle una vez que se encuentra el elemento
+                    } 
+                }
+                if (found){
+                    resolve('No se encuentra Cart con ese ID '+ id);
+                    return; // Termina el bucle una vez que se encuentra el elemento
+                }
+              
             } catch (error) {
                 console.error('Error:', error);
                 reject(error);
@@ -57,7 +72,32 @@ class CartManager {
         });
     }
 
+    getProdCartsById = function (id) {
+       
+        return new Promise(async (resolve, reject) => {
+            try {
+                let found=true;
+                const result = await this.fs.getItemsArchivo();
+                this.lista = result; 
+                for (const cart of this.lista) {
+                    if (cart.id === id) {
+                        found=false;
+                        resolve(cart.lista);
+                        return; // Termina el bucle una vez que se encuentra el elemento
+                    } 
+                }
 
+                if (found){
+                    resolve('No se encuentra Cart con ese ID ' +  id);
+                    return; // Termina el bucle una vez que se encuentra el elemento
+                }
+              
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    }
 
 }
 
@@ -104,8 +144,14 @@ lc.getCarts()
         console.error('Error al cargar la lista de productos:', error);
     });
 
+lc.getCartsById(4).then((result) => {
+    console.log('Resultado:', result);
+}).catch((error) => {
+    console.error('Error:', error);
+});
 
-lc.getCartsById(2).then((result) => {
+
+lc.getProdCartsById(1).then((result) => {
     console.log('Resultado:', result);
 }).catch((error) => {
     console.error('Error:', error);
