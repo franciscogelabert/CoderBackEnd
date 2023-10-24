@@ -1,11 +1,13 @@
 class Product {
-    constructor(title, description, price, thumbnail, code, stock) {
+    constructor(title, description, code, price, stock, thumbnail, estado, category) {
         this.title = title;
         this.description = description;
-        this.price = price;
-        this.thumbnail = thumbnail;
         this.code = code;
+        this.price = price;
         this.stock = stock;
+        this.thumbnail = thumbnail;
+        this.estado = estado;
+        this.category = category;
     }
 
     /*id: 
@@ -17,16 +19,18 @@ class Product {
     thumbnails:
     status:Boolean
     category:String*/
-    
+
 
     esValido() {
         return (
             this.title &&
             this.description &&
-            this.price &&
-            this.thumbnail &&
             this.code &&
-            this.stock
+            this.price &&
+            this.stock &&
+            this.thumbnail &&
+            this.estado &&
+            this.category
         );
     }
 }
