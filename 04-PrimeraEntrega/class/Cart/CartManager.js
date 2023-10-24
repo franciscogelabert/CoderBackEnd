@@ -10,20 +10,7 @@ class CartManager {
         this.fs = fs;
     }
 
-    addCart(cart) {
-        const findCart = this.lista.find(c => c.id === cart.id)
-        if (!findCart) {
-            this.lista.push(cart);
-            this.id = this.id + 1;
-            this.fs.setArchivo(this.lista);
-        }
-        else {
-            console.log('ya se encuentra agregado el carrito')
-        }
-    }
-
-
-    addCart = function (cart) {
+        addCart = function (cart) {
         this.id = this.id + 1;
         this.lista.push(cart);
         this.fs.setArchivo(this.lista);

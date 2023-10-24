@@ -8,6 +8,17 @@ class Product {
         this.stock = stock;
     }
 
+    /*id: 
+    title:String,
+    description:String
+    code:String
+    price:Number
+    stock:Number
+    thumbnails:
+    status:Boolean
+    category:String*/
+    
+
     esValido() {
         return (
             this.title &&
