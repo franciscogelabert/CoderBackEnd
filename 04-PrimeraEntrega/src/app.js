@@ -1,7 +1,7 @@
 /*  Server  */
 
-import ProductManager from '../class/ProductManager.js';
-import FileManager from '../class/FileManager.js';
+import ProductManager from '../class/Product/ProductManager';
+import FileManager from '../class/FileSystem/FileManager';
 import express from 'express';
 
 

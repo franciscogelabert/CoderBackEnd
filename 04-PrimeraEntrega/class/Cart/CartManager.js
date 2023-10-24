@@ -1,6 +1,6 @@
 
-import Cart from '../class/Cart.js';
-import FileManager from '../class/FileManager.js';
+import Cart from './Cart.js';
+import FileManager from '../FileSystem/FileManager.js'
 
 
 class CartManager {
