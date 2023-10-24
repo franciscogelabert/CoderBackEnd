@@ -10,8 +10,9 @@ class ProductManager {
     }
 
 
-    seEncuentra(code) {
+    seEncuentra = function (code) {
         this.getProductByCode(code).then((result) => {
+            console.log('code.....', code )
             console.log('Resultado:', result);
         }).catch((error) => {
             console.error('Error:', error);
@@ -20,7 +21,7 @@ class ProductManager {
 
 
     addProduct = function (producto) {
-        console.log('producto.code......',producto.code);
+        console.log('valor ', !this.seEncuentra(producto.code));
        if (!this.seEncuentra(producto.code) && producto.esValido()) {
             this.id = this.id + 1;
             this.lista.push(producto);
@@ -150,7 +151,7 @@ lp.getProducts()
 
 
 // Creo 10 productos 
-const p1 = new Product('Manzana', 'Fruta Manzana', 1, 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
+const p1 = new Product('Manzana', 'Fruta Manzana', '1', 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
 const p2 = new Product('Pera', 'Fruta Pera', 2, 600, 21, ['url Pera1', 'url Pera2'], true, 'Fruta');
 const p3 = new Product('Uva', 'Fruta Uva', 3, 700, 30, ['url Uva1'], true, 'Fruta');
 const p4 = new Product('Banana', 'Fruta Banana', 4, 300, 31, ['url Banana1', 'url Banana2'], true, 'Fruta');
