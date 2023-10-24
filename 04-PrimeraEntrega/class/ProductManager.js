@@ -13,14 +13,18 @@ class ProductManager {
         } else console.log(`El producto ${producto.title} ya fué ingresado`);
     };
 
+ 
+
     updateProduct = function (producto) {
-        for (let i = 0; i < this.lista.length; i++) {
-            if (this.lista[i].code === producto.code) {
-                this.lista[i] = producto;
-                this.fs.setArchivo(this.lista);
-                break; // Para salir del bucle una vez que se ha actualizado el objeto.
+        if (this.seEncuentra(producto.code) && producto.esValido()) {
+            for (let i = 0; i < this.lista.length; i++) {
+                if (this.lista[i].code === producto.code) {
+                    this.lista[i] = producto;
+                    this.fs.setArchivo(this.lista);
+                    break; // Para salir del bucle una vez que se ha actualizado el objeto.
+                }
             }
-        }
+        } else console.log('El producto No se encuentra');
     };
 
 

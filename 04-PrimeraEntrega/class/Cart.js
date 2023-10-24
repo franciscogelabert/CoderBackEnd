@@ -5,22 +5,19 @@ class Cart {
     }
 
     addProduct(idPoducto) {
-
         const findProd = this.lista.find(c => c.IdProd === idPoducto);
         if (findProd) {
-
             findProd.CantProd++;
         }
         else {
-            //ver que el producto exista en archivo.json
-            this.lista.push({ IdProd: idPoducto, CantProd: 1 });
+             this.lista.push({ IdProd: idPoducto, CantProd: 1 });
         }
 
     }
 }
 
 export default Cart;
-
+/*
 
 const cart1 = new Cart(1, [{ IdProd: 101, CantProd: 3 }, { IdProd: 102, CantProd: 2 }]);
 const cart2 = new Cart(2, [{ IdProd: 103, CantProd: 4 }]);
@@ -37,3 +34,4 @@ cart1.addProduct(103);
 
 console.log(cart1);
 
+*/
