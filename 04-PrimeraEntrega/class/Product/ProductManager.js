@@ -50,10 +50,10 @@ class ProductManager {
             });
     }
 
-    updateProduct = function (producto) {
+    updateProducts = function (producto) {
         for (let i = 0; i < this.lista.length; i++) {
             if (this.lista[i].code === producto.code) {
-                this.lista[i] = producto;
+                this.lista[i].updateProduct(producto);
                 this.fs.setArchivo(this.lista);
                 break; // Para salir del bucle una vez que se ha actualizado el objeto.
             }
