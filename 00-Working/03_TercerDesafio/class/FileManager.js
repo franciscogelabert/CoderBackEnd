@@ -39,9 +39,14 @@ class FileManager {
 
     validarExistenciaArchivo(archivo) {
         try {
-            this.fs.existsSync(archivo);
-            console.log('El archivo existe');
-        } catch (error) {
+            if (this.fs.existsSync(archivo)) {
+                
+                return true;
+            } else {
+                
+                return false;
+            }
+            } catch (error) {
             console.log('El archivo no existe');
         }
     }
@@ -49,6 +54,16 @@ class FileManager {
 }
 
 export default FileManager;
+
+
+// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
+const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/00-working/03_tercerdesafio');
+//const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/03-TercerDesafio');
+console.log('01- el archivo es', farchivo.archivo);
+
+farchivo.validarExistenciaArchivo('C:/Proyectos/Coder/00-working/03_tercerdesafio/archivo.json');
+farchivo.validarExistenciaArchivo('C:/Proyectos/Coder/00-working/03_tercerdesafio/archivo2.json');
+
 
 
 

@@ -1,6 +1,8 @@
 
+import FileManager from '../FileSystem/FileManager.js';
 import Product from './Product.js';
-import FileManager from '../FileSystem/FileManager.js'
+
+
 
 class ProductManager {
     constructor(fs) {
@@ -9,38 +11,53 @@ class ProductManager {
         this.fs = fs;
     }
 
-
     seEncuentra = function (code) {
-        this.getProductByCode(code).then((result) => {
-            console.log('code.....', code )
-            console.log('Resultado:', result);
-        }).catch((error) => {
-            console.error('Error:', error);
+        return new Promise(async (resolve, reject) => {
+            try {
+                
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // actualizo lista con archivo
+                    const productoEncontrado = this.lista.find((element) => element.code == code);
+                    resolve(!!productoEncontrado);
+                } else {
+                    console.log('El archivo no existee');
+                    resolve(false); // Puedes cambiar esto según lo que desees hacer en caso de que el archivo no exista
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
         });
-    }
-
-
-    addProduct = function (producto) {
-        console.log('valor ', !this.seEncuentra(producto.code));
-       if (!this.seEncuentra(producto.code) && producto.esValido()) {
-            this.id = this.id + 1;
-            this.lista.push(producto);
-            this.fs.setArchivo(this.lista);
-        } else {console.log(`El producto ${producto.title} ya fué ingresado`)};
     };
 
 
+    addProduct = function (producto) {
+        this.seEncuentra(producto.code)
+            .then((encontrado) => {
+                 if (!encontrado && producto.esValido()) {
+                    this.id = this.id + 1;
+                    this.lista.push(producto);
+                    this.fs.setArchivo(this.lista);
+                } else if (encontrado) {
+                    console.log(`El producto ${producto.title} ya fue ingresado`);
+                } else {
+                    console.log(`El producto ${producto.title} no es válido`);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
     updateProduct = function (producto) {
-        if (this.seEncuentra(producto.code) && producto.esValido()) {
-            for (let i = 0; i < this.lista.length; i++) {
-                if (this.lista[i].code === producto.code) {
-                    this.lista[i] = producto;
-                    this.fs.setArchivo(this.lista);
-                    break; // Para salir del bucle una vez que se ha actualizado el objeto.
-                }
+        for (let i = 0; i < this.lista.length; i++) {
+            if (this.lista[i].code === producto.code) {
+                this.lista[i] = producto;
+                this.fs.setArchivo(this.lista);
+                break; // Para salir del bucle una vez que se ha actualizado el objeto.
             }
-        } else console.log('El producto No se encuentra');
+        }
     };
 
 
@@ -84,74 +101,17 @@ class ProductManager {
         });
     };
 
-    getProductByCode = function (code) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const result = await this.fs.getItemsArchivo();
-                this.lista = result; // actualizo lista con archivo
-                resolve(this.lista.find((element) => element.code == code) || `Code Not Found`);
-            } catch (error) {
-                console.error('Error:', error);
-                reject(error);
-            }
-        });
-    };
-
-
 }
+
+
 
 export default ProductManager;
 
 
 
-/*
-// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
-//const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/03-TercerDesafio');
-const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/03-TercerDesafio');
-console.log('00- el archivo es', farchivo.archivo);
 
-// creo el ProductManager
-const lp = new ProductManager(farchivo);
-console.log('Paso 2 - Se crea el Product Manager');
-
-
-lp.getProductById(1).then((result) => {
-    console.log('Resultado:', result);
-}).catch((error) => {
-    console.error('Error:', error);
-});
-
-lp.getProductByCode('cod4').then((result) => {
-    console.log('Resultado:', result);
-}).catch((error) => {
-    console.error('Error:', error);
-});
-
-
-lp.getProducts()
-  .then(() => {
-    console.log('La lista de productos se ha cargado correctamente:', lp.lista);
-  })
-  .catch(error => {
-    console.error('Error al cargar la lista de productos:', error);
-  });
-
-*/
-
-
-/*id: 
-   title:String,
-   description:String
-   code:String
-   price:Number
-   stock:Number
-   thumbnails:
-   status:Boolean
-   category:String*/
-
-
-// Creo 10 productos 
-const p1 = new Product('Manzana', 'Fruta Manzana', '1', 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
+// Creo 12 productos 
+const p1 = new Product('Manzana', 'Fruta Manzana', 1, 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
 const p2 = new Product('Pera', 'Fruta Pera', 2, 600, 21, ['url Pera1', 'url Pera2'], true, 'Fruta');
 const p3 = new Product('Uva', 'Fruta Uva', 3, 700, 30, ['url Uva1'], true, 'Fruta');
 const p4 = new Product('Banana', 'Fruta Banana', 4, 300, 31, ['url Banana1', 'url Banana2'], true, 'Fruta');
@@ -164,7 +124,7 @@ const p10 = new Product('Rabanito', 'Verdura Rabanito', 10, 900, 8, ['url Rabani
 const p11 = new Product('Apio', 'Verdura Apio', 11, 1500, 17, ['url Apio1', 'url Apio2'], true, 'Verdura');
 const p12 = new Product('Remolacha', 'Verdura Remolacha', 12, 540, 15, ['url Remolacha1'], true, 'Verdura');
 
-console.log('00 - Se crean los 10 productos');
+console.log('00 - Se crean los 12 productos');
 
 
 
@@ -180,8 +140,7 @@ console.log('Paso 2 - Se crea el Product Manager');
 // le agrego los productos al ProductManager
 
 lp.addProduct(p1);
-lp.addProduct(p1);
-/*lp.addProduct(p2);
+lp.addProduct(p2);
 lp.addProduct(p3);
 lp.addProduct(p4);
 lp.addProduct(p5);
@@ -190,21 +149,9 @@ lp.addProduct(p7);
 lp.addProduct(p8);
 lp.addProduct(p9);
 lp.addProduct(p10);
-*/
-
-console.log('Paso 3 - Se cargan los 1 productos en el Product Manager');
-
-
-/*lp.getProducts()
-    .then(() => {
-        console.log('La lista de productos se ha cargado correctamente:', lp.lista);
-    })
-    .catch(error => {
-        console.error('Error al cargar la lista de productos:', error);
-    });*/
+lp.addProduct(p11);
+lp.addProduct(p12);
 
 
-
-lp.seEncuentra(1);
-
+console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
 

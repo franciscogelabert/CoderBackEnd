@@ -33,6 +33,26 @@ class Product {
             this.category
         );
     }
+
+    esValido() {
+        return (
+            this.title !== '' &&
+            this.description !== '' &&
+            !isNaN( this.price) && // Verifica que 'price' sea un número
+            this.thumbnail !== '' &&
+            this.code !== '' &&
+            !isNaN( this.stock) &&// Verifica que 'stock' sea un número
+            this.estado &&
+            this.category !== ''
+        );
+    }
 }
 
 export default Product;
+
+
+const p12 = new Product('Remolacha', 'Verdura Remolacha', 12, 540, 15, ['url Remolacha1'], true, 'Verdura');
+
+const esValido = p12.esValido(); // Llama al método y almacena su resultado
+
+console.log(esValido); // Imprime el resultado (true o false) en lugar de los valores de los campos

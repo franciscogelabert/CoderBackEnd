@@ -28,7 +28,7 @@ class FileManager {
         }
     }
 
-   eliminarArchivo() {
+    eliminarArchivo() {
         try {
             this.fs.unlinkSync(this.archivo);
             console.log('Archivo eliminado con éxito');
@@ -39,8 +39,11 @@ class FileManager {
 
     validarExistenciaArchivo(archivo) {
         try {
-            this.fs.existsSync(archivo);
-            console.log('El archivo existe');
+            if (this.fs.existsSync(archivo)) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (error) {
             console.log('El archivo no existe');
         }
