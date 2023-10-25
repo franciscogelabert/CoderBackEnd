@@ -31,6 +31,25 @@ class ProductManager {
         });
     };
 
+  seEncuentraID = function (id) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                 if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // actualizo lista con archivo
+                    const productoEncontrado = this.lista[id];;
+                    resolve(!!productoEncontrado);
+                } else {
+                    console.log('El archivo no existee');
+                    resolve(false); // Puedes cambiar esto según lo que desees hacer en caso de que el archivo no exista
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
+
 
     addProduct = function (producto) {
         this.seEncuentra(producto.code)
@@ -49,6 +68,25 @@ class ProductManager {
                 console.error('Error:', error);
             });
     }
+
+    addProductById = function (id, producto) {
+        this.seEncuentraID(id)
+            .then((encontrado) => {
+                 if (!encontrado && producto.esValido()) {
+                    this.id = this.id + 1;
+                    this.lista.push(producto);
+                    this.fs.setArchivo(this.lista);
+                } else if (encontrado) {
+                    console.log(`Ya existe un Producto con ID: ${id}`);
+                } else {
+                    console.log(`El producto ${producto.title} no es válido`);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
 
     updateProducts = function (producto) {
         for (let i = 0; i < this.lista.length; i++) {
@@ -122,7 +160,7 @@ const p8 = new Product('Acelga', 'Verdura Acelga', 8, 100, 13, ['url Acelga1', '
 const p9 = new Product('Rúcula', 'Verdura Rúcula', 9, 700, 15, [], true, 'Verdura');
 const p10 = new Product('Rabanito', 'Verdura Rabanito', 10, 900, 8, ['url Rabanito1', 'url Rabanito2', 'url Rabanito3'], true, 'Verdura');
 const p11 = new Product('Apio', 'Verdura Apio', 11, 1500, 17, ['url Apio1', 'url Apio2'], true, 'Verdura');
-const p12 = new Product('Remolacha', 'Verdura Remolacha', 12, 540, 15, ['url Remolacha1'], true, 'Verdura');
+const p12 = new Product('Choclo', 'Verdura Remolacha', 12, 540, 15, ['url Remolacha1'], true, 'Verdura');
 
 console.log('00 - Se crean los 12 productos');
 
@@ -138,7 +176,7 @@ const lp = new ProductManager(farchivo);
 console.log('Paso 2 - Se crea el Product Manager');
 
 // le agrego los productos al ProductManager
-
+/*
 lp.addProduct(p1);
 lp.addProduct(p2);
 lp.addProduct(p3);
@@ -154,4 +192,14 @@ lp.addProduct(p12);
 
 
 console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
+*/
+
+lp.seEncuentraID(12)
+.then((result) => {
+    console.log(result);
+}).catch((error) => {
+    console.error('Error:', error);
+});
+
+lp.addProductById(14,p12);
 

@@ -36,7 +36,7 @@ class Product {
 
 export default Product;
 
-
+/*
 const p12 = new Product('Remolacha', 'Verdura Remolacha', 12, 540, 15, ['url Remolacha1'], true, 'Verdura');
 
 const p13 = new Product('Remolacha2', 'Verdura Remolacha2', 13, 600, 56, ['url Remolacha2'], true, 'Verdura2');
@@ -47,3 +47,4 @@ console.log(esValido); // Imprime el resultado (true o false) en lugar de los va
 console.log(p12);
 p12.updateProduct(p13);
 console.log(p12);
+*/
