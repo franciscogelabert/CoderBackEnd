@@ -51,7 +51,7 @@ class ProductManager {
     };
 
 
-    addProduct = function (producto) {
+    addProductByCode = function (producto) {
         this.seEncuentra(producto.code)
             .then((encontrado) => {
                  if (!encontrado && producto.esValido()) {
@@ -76,6 +76,7 @@ class ProductManager {
                     this.id = this.id + 1;
                     this.lista.push(producto);
                     this.fs.setArchivo(this.lista);
+                    console.log(`Producto ingresado con ID: ${this.lista.length-1}`);
                 } else if (encontrado) {
                     console.log(`Ya existe un Producto con ID: ${id}`);
                 } else {
@@ -176,23 +177,23 @@ const lp = new ProductManager(farchivo);
 console.log('Paso 2 - Se crea el Product Manager');
 
 // le agrego los productos al ProductManager
-/*
-lp.addProduct(p1);
-lp.addProduct(p2);
-lp.addProduct(p3);
-lp.addProduct(p4);
-lp.addProduct(p5);
-lp.addProduct(p6);
-lp.addProduct(p7);
-lp.addProduct(p8);
-lp.addProduct(p9);
-lp.addProduct(p10);
-lp.addProduct(p11);
-lp.addProduct(p12);
+
+lp.addProductByCode(p1);
+lp.addProductByCode(p2);
+lp.addProductByCode(p3);
+lp.addProductByCode(p4);
+lp.addProductByCode(p5);
+lp.addProductByCode(p6);
+lp.addProductByCode(p7);
+lp.addProductByCode(p8);
+lp.addProductByCode(p9);
+lp.addProductByCode(p10);
+lp.addProductByCode(p11);
+lp.addProductByCode(p12);
 
 
 console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
-*/
+
 
 lp.seEncuentraID(12)
 .then((result) => {
@@ -200,6 +201,8 @@ lp.seEncuentraID(12)
 }).catch((error) => {
     console.error('Error:', error);
 });
+
+lp.addProductByCode(p12);
 
 lp.addProductById(14,p12);
 
