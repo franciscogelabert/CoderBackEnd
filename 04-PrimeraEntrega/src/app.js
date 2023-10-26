@@ -22,8 +22,8 @@ app.use('/api/carts', cartsRouter);
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
 
-const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega');
-//const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega');
+//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega');
+const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega');
 
 
 // creo el ProductManager

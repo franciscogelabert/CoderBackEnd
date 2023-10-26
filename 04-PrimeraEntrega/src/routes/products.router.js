@@ -30,11 +30,6 @@ productsRouter.post('/', (req, res) => {
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
 
-
-
-
-
-
 productsRouter.get('/products', (req, res) => {
     lp.getProducts()
         .then(() => {
