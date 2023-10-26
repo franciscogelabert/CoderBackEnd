@@ -14,7 +14,7 @@ class ProductManager {
     seEncuentra = function (code) {
         return new Promise(async (resolve, reject) => {
             try {
-                
+
                 if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
                     const result = await this.fs.getItemsArchivo();
                     this.lista = result; // actualizo lista con archivo
@@ -31,10 +31,10 @@ class ProductManager {
         });
     };
 
-  seEncuentraID = function (id) {
+    seEncuentraID = function (id) {
         return new Promise(async (resolve, reject) => {
             try {
-                 if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
                     const result = await this.fs.getItemsArchivo();
                     this.lista = result; // actualizo lista con archivo
                     const productoEncontrado = this.lista[id];;
@@ -54,7 +54,7 @@ class ProductManager {
     addProductByCode = function (producto) {
         this.seEncuentra(producto.code)
             .then((encontrado) => {
-                 if (!encontrado && producto.esValido()) {
+                if (!encontrado && producto.esValido()) {
                     this.id = this.id + 1;
                     this.lista.push(producto);
                     this.fs.setArchivo(this.lista);
@@ -72,11 +72,11 @@ class ProductManager {
     addProductById = function (id, producto) {
         this.seEncuentraID(id)
             .then((encontrado) => {
-                 if (!encontrado && producto.esValido()) {
+                if (!encontrado && producto.esValido()) {
                     this.id = this.id + 1;
                     this.lista.push(producto);
                     this.fs.setArchivo(this.lista);
-                    console.log(`Producto ingresado con ID: ${this.lista.length-1}`);
+                    console.log(`Producto ingresado con ID: ${this.lista.length - 1}`);
                 } else if (encontrado) {
                     console.log(`Ya existe un Producto con ID: ${id}`);
                 } else {
@@ -89,29 +89,113 @@ class ProductManager {
     }
 
 
-    updateProducts = function (producto) {
-        for (let i = 0; i < this.lista.length; i++) {
-            if (this.lista[i].code === producto.code) {
-                this.lista[i].updateProduct(producto);
-                this.fs.setArchivo(this.lista);
-                break; // Para salir del bucle una vez que se ha actualizado el objeto.
+    updateProductById = function (id, producto) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // Actualizo lista con archivo
+
+                    if (id >= 0 && id < this.lista.length) {
+                        // Verifica si el índice es válido
+                        const updatedProduct = new Product(
+                            producto.title,
+                            producto.description,
+                            producto.code,
+                            producto.price,
+                            producto.stock,
+                            producto.thumbnail,
+                            producto.estado,
+                            producto.category
+                        );
+
+                        this.lista[id] = updatedProduct; // Reemplaza el elemento en la lista
+                        this.fs.setArchivo(this.lista);
+                        console.log('Producto Actualizado');
+                        resolve(true);
+                    } else {
+                        console.log('El índice no es válido');
+                        resolve(false);
+                    }
+                } else {
+                    console.log('El archivo no existe');
+                    resolve(false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
             }
-        }
+        });
     };
 
 
-    // Buscar y eliminar un producto de la lista por su código
-    eliminarProductoPorCodigo(code) {
-        const productoIndex = this.lista.findIndex(producto => producto.code === code);
+    updateProductByCode = function (code, producto) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // Actualizo lista con archivo
+                    const productoIndex = this.lista.findIndex(producto => producto.code === code);
+                    if (productoIndex !== -1) {
+                        // Verifica si el índice es válido
+                        const updatedProduct = new Product(
+                            producto.title,
+                            producto.description,
+                            producto.code,
+                            producto.price,
+                            producto.stock,
+                            producto.thumbnail,
+                            producto.estado,
+                            producto.category
+                        );
 
-        if (productoIndex !== -1) {
-            const productoEliminado = this.lista.splice(productoIndex, 1)[0];
-            this.fs.setArchivo(this.lista);
-            console.log(`Producto con código "${code}" eliminado:`, productoEliminado);
-        } else {
-            console.log(`Producto con código "${code}" no encontrado en la lista.`);
-        }
-    }
+                        this.lista[productoIndex] = updatedProduct; // Reemplaza el elemento en la lista
+                        this.fs.setArchivo(this.lista);
+                        console.log('Producto Actualizado');
+                        resolve(true);
+                    } else {
+                        console.log('El índice no es válido');
+                        resolve(false);
+                    }
+                } else {
+                    console.log('El archivo no existe');
+                    resolve(false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
+
+
+    deleteProductByCode = function (code) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // actualizo lista con archivo
+                    const productoIndex = this.lista.findIndex(producto => producto.code === code);
+                    if (productoIndex !== -1) {
+                        const productoEliminado = this.lista.splice(productoIndex, 1)[0];
+                        this.fs.setArchivo(this.lista);
+                        console.log(`Producto con código "${code}" eliminado:`, productoEliminado);
+                        resolve(true);
+                    } else {
+                        console.log(`Producto con código "${code}" no encontrado en la lista.`);
+                        resolve(false);
+                    }
+                }
+                else {
+                    console.log('El archivo no existe');
+                    resolve(false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
 
 
     getProducts = function () {
@@ -130,9 +214,33 @@ class ProductManager {
     getProductById = function (id) {
         return new Promise(async (resolve, reject) => {
             try {
-                const result = await this.fs.getItemsArchivo();
-                this.lista = result; // actualizo lista con archivo
-                resolve(this.lista[id] || `Id Product Not Found`);
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // actualizo lista con archivo
+                    resolve(this.lista[id] || `Id Product Not Found`);
+                } else {
+                    console.log('El archivo no existe');
+                    resolve(false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
+
+    getProductByCode = function (code) {
+        return new Promise(async (resolve, reject) => {
+
+            try {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // actualizo lista con archivo
+                    resolve(this.lista.find((element) => element.code == code) || `Code Not Found`);
+                } else {
+                    console.log('El archivo no existe');
+                    resolve(false);
+                }
             } catch (error) {
                 console.error('Error:', error);
                 reject(error);
@@ -162,7 +270,8 @@ const p9 = new Product('Rúcula', 'Verdura Rúcula', 9, 700, 15, [], true, 'Verd
 const p10 = new Product('Rabanito', 'Verdura Rabanito', 10, 900, 8, ['url Rabanito1', 'url Rabanito2', 'url Rabanito3'], true, 'Verdura');
 const p11 = new Product('Apio', 'Verdura Apio', 11, 1500, 17, ['url Apio1', 'url Apio2'], true, 'Verdura');
 const p12 = new Product('Choclo', 'Verdura Remolacha', 12, 540, 15, ['url Remolacha1'], true, 'Verdura');
-
+const p13 = new Product('Coliflor', 'Verdura Coliflor', 13, 540, 15, ['url Coliflor'], true, 'Verdura');
+const p14 = new Product('Zapallo', 'Verdura Zapallo', 14, 540, 15, ['url Zapallo'], true, 'Verdura');
 console.log('00 - Se crean los 12 productos');
 
 
@@ -195,14 +304,56 @@ lp.addProductByCode(p12);
 console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
 
 
-lp.seEncuentraID(12)
+//lp.addProductByCode(p14);
+
+//lp.addProductById(16,p12);
+
+// lp.updateProductById(0, p13); // Modifica P1
+
+// lp.updateProductByCode(3, p14); // Modifica P2
+
+/*
+lp.deleteProductByCode(1)
+    .then((result) => {
+        console.log(result);
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
+*/
+
+/*
+lp.getProducts()
 .then((result) => {
     console.log(result);
 }).catch((error) => {
     console.error('Error:', error);
 });
+*/
 
-lp.addProductByCode(p12);
+/*
+lp.getProductById(20)
+    .then((result) => {
+        console.log(result);
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
+ */
+/*
+lp.getProductByCode(123313)
+    .then((result) => {
+        console.log(result);
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
+*/
+/*
+lp.seEncuentraID(18)
+.then((result) => {
+    console.log(result);
+}).catch((error) => {
+    console.error('Error:', error);
+});
+*/
 
-lp.addProductById(14,p12);
+
 
