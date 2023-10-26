@@ -277,8 +277,8 @@ console.log('00 - Se crean los 12 productos');
 
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
-const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega');
-//const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega');
+const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/files/04-PrimeraEntrega');
+//const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/files/04-PrimeraEntrega');
 console.log('01- el archivo es', farchivo.archivo);
 
 // creo el ProductManager
