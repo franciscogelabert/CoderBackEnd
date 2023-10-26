@@ -15,8 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 // Conectar los routers a las rutas principales
-app.use('/api/products', cartsRouter);
-app.use('/api/carts', productsRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
@@ -30,7 +30,7 @@ const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-Primer
 const lp = new ProductManager(farchivo);
 console.log('Paso 1 - Se crea el Product Manager');
 
-
+/*
 app.get('/products', (req, res) => {
     lp.getProducts()
         .then(() => {
@@ -49,7 +49,7 @@ app.get('/products', (req, res) => {
         .catch(error => {
             console.error('Error al cargar la lista de productos:', error);
         });
-})
+})*/
 
 app.get('/products/:id', (req, res) => {
     
