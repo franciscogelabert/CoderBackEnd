@@ -80,7 +80,7 @@ const cart4 = new Cart([{ IdProd: 104, CantProd: 5 }]);
 console.log('00- Se crean los 3 carritos');
 
 
-
+/*
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
 const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraEntrega');
 //const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega');
@@ -132,3 +132,7 @@ lc.getCarts()
     .catch(error => {
         console.error('Error al cargar la lista de productos:', error);
     });
+
+    */
+
+    

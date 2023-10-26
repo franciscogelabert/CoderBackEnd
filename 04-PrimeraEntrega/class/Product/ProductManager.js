@@ -255,7 +255,7 @@ class ProductManager {
 export default ProductManager;
 
 
-
+/*
 
 // Creo 12 productos 
 const p1 = new Product('Manzana', 'Fruta Manzana', 1, 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
@@ -278,7 +278,7 @@ console.log('00 - Se crean los 12 productos');
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
 const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega');
-//const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega');
+//const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega');
 console.log('01- el archivo es', farchivo.archivo);
 
 // creo el ProductManager
@@ -312,47 +312,42 @@ console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
 
 // lp.updateProductByCode(3, p14); // Modifica P2
 
-/*
+
 lp.deleteProductByCode(1)
     .then((result) => {
         console.log(result);
     }).catch((error) => {
         console.error('Error:', error);
     });
-*/
 
-/*
 lp.getProducts()
 .then((result) => {
     console.log(result);
 }).catch((error) => {
     console.error('Error:', error);
 });
-*/
 
-/*
 lp.getProductById(20)
     .then((result) => {
         console.log(result);
     }).catch((error) => {
         console.error('Error:', error);
     });
- */
-/*
+
 lp.getProductByCode(123313)
     .then((result) => {
         console.log(result);
     }).catch((error) => {
         console.error('Error:', error);
     });
-*/
-/*
+
 lp.seEncuentraID(18)
 .then((result) => {
     console.log(result);
 }).catch((error) => {
     console.error('Error:', error);
 });
+
 */
 
 
