@@ -15,12 +15,7 @@ console.log('Paso 1 - Se crea el Product Manager');
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
-<<<<<<< HEAD
 productsRouter.get('/', (req, res) => {
-=======
-
-productsRouter.get('/products', (req, res) => {
->>>>>>> 1b200def83dc5b8f9142181b0013da026d433c56
     lp.getProducts()
         .then(() => {
             const limitQuery = req.query.limit;
