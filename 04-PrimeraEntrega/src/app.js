@@ -49,7 +49,7 @@ app.get('/products', (req, res) => {
         .catch(error => {
             console.error('Error al cargar la lista de productos:', error);
         });
-})*/
+})
 
 app.get('/products/:id', (req, res) => {
     
@@ -73,6 +73,8 @@ app.get('/products/code/:cod', (req, res) => {
             console.error('Error:', error);
         });
 })
+
+*/
 
 app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })
 

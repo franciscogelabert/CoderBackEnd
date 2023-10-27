@@ -17,7 +17,8 @@ class CartManager {
     };
 
     addProductCart(idProduct, idCart) {
-        const findCart = this.lista[idCart];
+        const findCart = new Cart();
+        findCart= this.lista[idCart];
         console.log(findCart);
         if (findCart) {
             findCart.addProduct(idProduct);
@@ -71,7 +72,7 @@ class CartManager {
 }
 
 export default CartManager;
-
+/*
 const cart1 = new Cart([{ IdProd: 101, CantProd: 3 }, { IdProd: 102, CantProd: 2 }]);
 const cart2 = new Cart([{ IdProd: 103, CantProd: 4 }]);
 const cart3 = new Cart([{ IdProd: 104, CantProd: 5 }]);
@@ -80,10 +81,9 @@ const cart4 = new Cart([{ IdProd: 104, CantProd: 5 }]);
 console.log('00- Se crean los 3 carritos');
 
 
-/*
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
-const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/files/04-PrimeraEntrega');
-//const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/files/04-PrimeraEntrega');
+const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
+//const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
 console.log('01- el archivo es', farchivo.archivo);
 
 // creo el ProductManager
@@ -124,15 +124,7 @@ lc.getCartsById(0).then((result) => {
 }).catch((error) => {
     console.error('Error:', error);
 });
+*/
 
-lc.getCarts()
-    .then(() => {
-        console.log('La lista de Carritos se ha cargado correctamente:', lc.lista);
-    })
-    .catch(error => {
-        console.error('Error al cargar la lista de productos:', error);
-    });
-
-    */
 
     
