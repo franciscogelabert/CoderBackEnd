@@ -14,8 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
 
-const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/04-PrimeraEntrega');
-//const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/03-TercerDesafio');
+//const farchivo = new FileManager('archivo.json', 'C:/Proyectos/Coder/04-PrimeraEntrega');
+const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/03-TercerDesafio');
 
 
 // creo el ProductManager
