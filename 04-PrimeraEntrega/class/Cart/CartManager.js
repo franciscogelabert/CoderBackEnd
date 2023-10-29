@@ -11,13 +11,6 @@ class CartManager {
     }
 
     addCart = function (cart) {
-        this.id = this.id + 1;
-        this.lista.push(cart);
-        this.fs.setArchivo(this.lista);
-    };
-
-
-    addCart = function (cart) {
         return new Promise(async (resolve, reject) => {
             try {
                 if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
@@ -26,10 +19,13 @@ class CartManager {
                     this.id = this.id + 1;
                     this.lista.push(cart);
                     this.fs.setArchivo(this.lista);
+                    resolve(true);
 
                 } else {
-                    console.log('El archivo no existe');
-                    resolve(false);
+                    this.id = this.id + 1;
+                    this.lista.push(cart);
+                    this.fs.setArchivo(this.lista);
+                    resolve(true);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -55,14 +51,13 @@ class CartManager {
                         console.log('findProd', findProd);
                     }
                     else {
-
                         this.lista[idCart].lista.push({ IdProd: idProduct, CantProd: 1 });
                         console.log('entra', this.lista[idCart]);
                         this.fs.setArchivo(this.lista);
                     }
 
                 } else {
-                    console.log('El archivo no existe');
+                    console.log('No se encuentra el archivo');
                     resolve(false);
                 }
             } catch (error) {
@@ -72,7 +67,7 @@ class CartManager {
         });
     };
 
-    getCarts = function () {
+ getCarts = function () {
         return new Promise(async (resolve, reject) => {
             try {
                 if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
@@ -149,11 +144,13 @@ lc.addProductCart(101, 0);
 lc.addProductCart(101, 0);
 lc.addProductCart(101, 0);
 lc.addProductCart(104, 0);
-lc.addProductCart(105, 1);
+lc.addProductCart(105, 0);
 
 
 console.log('04 - Se Actualizan productos de carritos');
+*/
 
+/*
 
 lc.getCartsById(0).then((result) => {
     console.log('Resultado:', result);

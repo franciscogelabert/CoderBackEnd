@@ -65,31 +65,27 @@ cartsRouter.post('/', (req, res) => {
  });
 */
 // Ruta raíz para agregar un producto a un Cart
-/*cartsRouter.post('/', (req, res) => {
+cartsRouter.put('/', (req, res) => {
 
-    const id = req.query.id;
-    const codProd = req.query.codProd;
-    if (id && codProd) {
+    if (req.query.id ?? req.query.codProd) {
+        const id = parseInt(req.query.id, 10);
+        const codProd = parseInt(req.query.codProd, 10);
         lc.addProductCart(codProd, id);
         res.status(201).json('Producto actualizado');
 
     } else {
-
-        //verr
-        const newCart = new Cart(req.body);
-        lc.addCart(newCart);
-        res.status(201).json('Producto agregado');
+        
+        res.status(201).json('Parámetros inválidos');
     }
 
-});*/
-
-cartsRouter.put('/', (req, res) => {
-
-        const newCart = new Cart(req.body);
-        lc.addCart(newCart);
-        console.log('newCart--->',newCart);
-        res.status(201).json('Producto agregado');
-   
-
 });
+
+cartsRouter.post('/', (req, res) => {
+    console.log('llega !!!!!', req.body)
+    const newCart = new Cart(req.body);
+    lc.addCart(newCart);
+    res.status(201).json('Producto agregadoooo');
+    });
+
+
 export { cartsRouter };

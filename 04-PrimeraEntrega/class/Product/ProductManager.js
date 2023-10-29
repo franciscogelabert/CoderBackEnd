@@ -254,8 +254,8 @@ class ProductManager {
 
 export default ProductManager;
 
-
 /*
+
 
 // Creo 12 productos 
 const p1 = new Product('Manzana', 'Fruta Manzana', 1, 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
@@ -277,8 +277,8 @@ console.log('00 - Se crean los 12 productos');
 
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
-const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
-//const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
+//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
+const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
 console.log('01- el archivo es', farchivo.archivo);
 
 // creo el ProductManager
@@ -302,7 +302,7 @@ lp.addProductByCode(p12);
 
 
 console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
-
+*/
 
 //lp.addProductByCode(p14);
 
@@ -311,7 +311,7 @@ console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
 // lp.updateProductById(0, p13); // Modifica P1
 
 // lp.updateProductByCode(3, p14); // Modifica P2
-
+/*
 
 lp.deleteProductByCode(1)
     .then((result) => {
