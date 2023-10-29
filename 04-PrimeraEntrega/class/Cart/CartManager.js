@@ -16,6 +16,30 @@ class CartManager {
         this.fs.setArchivo(this.lista);
     };
 
+
+    addCart = function (cart) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // Actualizo lista con archivo
+                    this.id = this.id + 1;
+                    this.lista.push(cart);
+                    this.fs.setArchivo(this.lista);
+
+                } else {
+                    console.log('El archivo no existe');
+                    resolve(false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
+
+
+
     addProductCart = function (idProduct, idCart) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -31,7 +55,7 @@ class CartManager {
                         console.log('findProd', findProd);
                     }
                     else {
-                        
+
                         this.lista[idCart].lista.push({ IdProd: idProduct, CantProd: 1 });
                         console.log('entra', this.lista[idCart]);
                         this.fs.setArchivo(this.lista);

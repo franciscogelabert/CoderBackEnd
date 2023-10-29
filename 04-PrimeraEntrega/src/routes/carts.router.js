@@ -65,7 +65,7 @@ cartsRouter.post('/', (req, res) => {
  });
 */
 // Ruta raíz para agregar un producto a un Cart
-cartsRouter.post('/', (req, res) => {
+/*cartsRouter.post('/', (req, res) => {
 
     const id = req.query.id;
     const codProd = req.query.codProd;
@@ -81,7 +81,15 @@ cartsRouter.post('/', (req, res) => {
         res.status(201).json('Producto agregado');
     }
 
+});*/
+
+cartsRouter.put('/', (req, res) => {
+
+        const newCart = new Cart(req.body);
+        lc.addCart(newCart);
+        console.log('newCart--->',newCart);
+        res.status(201).json('Producto agregado');
+   
+
 });
-
-
 export { cartsRouter };
