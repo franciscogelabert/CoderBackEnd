@@ -16,10 +16,10 @@ class Cart {
 }
 
 export default Cart;
-/*
 
-const cart1 = new Cart(1, [{ IdProd: 101, CantProd: 3 }, { IdProd: 102, CantProd: 2 }]);
-const cart2 = new Cart(2, [{ IdProd: 103, CantProd: 4 }]);
+/*
+const cart1 = new Cart([{ IdProd: 101, CantProd: 3 }, { IdProd: 102, CantProd: 2 }]);
+const cart2 = new Cart([{ IdProd: 103, CantProd: 4 }]);
 
 
 console.log(cart1);

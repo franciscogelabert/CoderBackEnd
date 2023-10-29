@@ -57,9 +57,14 @@ cartsRouter.get('/code/:cod', (req, res) => {
 })
 
 
+// Ruta raíz para agregar un Cart
+cartsRouter.post('/', (req, res) => {
+    const newCart = new Cart(req.body);
+    lc.addCart(newCart);
+    res.status(201).json(newCart);
+ });
 
-// !!!!corregir !
-// Ruta raíz para agregar una mascota
+// Ruta raíz para agregar un producto a un Cart
 cartsRouter.post('/', (req, res) => {
     const id = req.query.id;
     const codProd = req.query.codProd;
@@ -67,14 +72,5 @@ cartsRouter.post('/', (req, res) => {
     res.status(201).json('Producto actualizado');
  });
  
-
-
-
-// Ruta raíz para agregar una mascota
-cartsRouter.post('/', (req, res) => {
-   const newCart = new Cart(req.body);
-   lc.addCart(newCart);
-   res.status(201).json(newCart);
-});
 
 export { cartsRouter };
