@@ -2,17 +2,6 @@ class Cart {
     constructor(lista) {
         this.lista = lista;
     }
-
-    addProduct(idPoducto) {
-        const findProd = this.lista.find(c => c.IdProd === idPoducto);
-        if (findProd) {
-            findProd.CantProd++;
-        }
-        else {
-             this.lista.push({ IdProd: idPoducto, CantProd: 1 });
-        }
-
-    }
 }
 
 export default Cart;

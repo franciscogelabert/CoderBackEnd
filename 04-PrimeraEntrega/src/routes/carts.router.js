@@ -7,11 +7,11 @@ const cartsRouter = express.Router();
 // Array para almacenar mascotas
 const products = [];
 
-const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
-//const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
+//const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
+const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
 
 
-const listaAux=[];
+const listaAux = [];
 
 
 // creo el CartManager
@@ -38,7 +38,7 @@ cartsRouter.get('/:id', (req, res) => {
 
     lc.getCartsById(id).then((result) => {
         res.send(result);
-        })
+    })
         .catch(error => {
             console.error('Error:', error);
         });
@@ -55,7 +55,7 @@ cartsRouter.get('/code/:cod', (req, res) => {
             console.error('Error:', error);
         });
 })
-
+/*
 
 // Ruta raíz para agregar un Cart
 cartsRouter.post('/', (req, res) => {
@@ -63,14 +63,25 @@ cartsRouter.post('/', (req, res) => {
     lc.addCart(newCart);
     res.status(201).json(newCart);
  });
-
+*/
 // Ruta raíz para agregar un producto a un Cart
 cartsRouter.post('/', (req, res) => {
+
     const id = req.query.id;
     const codProd = req.query.codProd;
-    lc.addProductCart(codProd, id);
-    res.status(201).json('Producto actualizado');
- });
- 
+    if (id && codProd) {
+        lc.addProductCart(codProd, id);
+        res.status(201).json('Producto actualizado');
+
+    } else {
+
+        //verr
+        const newCart = new Cart(req.body);
+        lc.addCart(newCart);
+        res.status(201).json('Producto agregado');
+    }
+
+});
+
 
 export { cartsRouter };

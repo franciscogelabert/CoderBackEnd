@@ -16,18 +16,37 @@ class CartManager {
         this.fs.setArchivo(this.lista);
     };
 
-    addProductCart(idProduct, idCart) {
-        let findCart = new Cart();
-        findCart= this.lista[idCart];
-        if (findCart) {
-            findCart.addProduct(idProduct);
-            this.fs.setArchivo(this.lista);
-            console.log('cart actualizado', findCart);
-        }
-        else {
-            console.log('No se encontró ningún Carrito con ID: ', idCart)
-        }
-    }
+    addProductCart = function (idProduct, idCart) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // Actualizo lista con archivo
+                    console.log('this.lista[idCart]', this.lista[idCart]);
+                    const findProd = this.lista[idCart].lista.find(c => c.IdProd === idProduct);
+                    console.log('findProd', findProd);
+                    if (findProd) {
+                        findProd.CantProd++;
+                        this.fs.setArchivo(this.lista);
+                        console.log('findProd', findProd);
+                    }
+                    else {
+                        
+                        this.lista[idCart].lista.push({ IdProd: idProduct, CantProd: 1 });
+                        console.log('entra', this.lista[idCart]);
+                        this.fs.setArchivo(this.lista);
+                    }
+
+                } else {
+                    console.log('El archivo no existe');
+                    resolve(false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
 
     getCarts = function () {
         return new Promise(async (resolve, reject) => {
@@ -75,7 +94,7 @@ export default CartManager;
 
 /*
 
-const cart1 = new Cart([{ IdProd: 101, CantProd: 3 }, { IdProd: 102, CantProd: 2 }]);
+const cart1 = new Cart([{ IdProd: 101, CantProd: 5 }, { IdProd: 102, CantProd: 2 }]);
 const cart2 = new Cart([{ IdProd: 103, CantProd: 4 }]);
 const cart3 = new Cart([{ IdProd: 104, CantProd: 5 }]);
 const cart4 = new Cart([{ IdProd: 104, CantProd: 5 }]);
@@ -105,12 +124,20 @@ console.log('03 - Se cargan los 4 carritos en el Cart Manager');
 lc.addProductCart(101, 0);
 lc.addProductCart(101, 0);
 lc.addProductCart(101, 0);
-lc.addProductCart(103, 0);
+lc.addProductCart(104, 0);
+lc.addProductCart(105, 1);
 
 
 console.log('04 - Se Actualizan productos de carritos');
 
+
+lc.getCartsById(0).then((result) => {
+    console.log('Resultado:', result);
+}).catch((error) => {
+    console.error('Error:', error);
+});
 */
+
 /*
 lc.getCarts()
     .then(() => {
@@ -119,19 +146,8 @@ lc.getCarts()
     .catch(error => {
         console.error('Error al cargar la lista de productos:', error);
     });
-
     */
 
-    /*
-lc.getCartsById(0).then((result) => {
-    console.log('Resultado:', result);
-}).catch((error) => {
-    console.error('Error:', error);
-});
-*/
 
 
 
-
-
-    
