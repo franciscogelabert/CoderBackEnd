@@ -1,5 +1,3 @@
-
-import FileManager from '../FileSystem/FileManager.js';
 import Product from './Product.js';
 
 
