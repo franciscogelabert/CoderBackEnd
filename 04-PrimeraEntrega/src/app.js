@@ -1,11 +1,8 @@
 /*  Server  */
 
-import ProductManager from '../class/Product/ProductManager.js';
-import FileManager from '../class/FileSystem/FileManager.js';
 import { cartsRouter } from './routes/carts.router.js';
 import { productsRouter } from './routes/products.router.js';
 import express from 'express';
-
 
 
 const app = express();
