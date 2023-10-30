@@ -18,6 +18,15 @@ class FileManager {
         }
     }
 
+    updateArchivo(origenDatos) {
+        try {
+            this.fs.appendFileSync(this.archivo, JSON.stringify(origenDatos), 'utf8');
+            console.log('Archivo modificado con éxito');
+        } catch (error) {
+            console.error('Error al escribir en el archivo:', error);
+        }
+    }
+
     async getItemsArchivo() {
         try {
             const data = await this.fs.promises.readFile(this.archivo, 'utf8');

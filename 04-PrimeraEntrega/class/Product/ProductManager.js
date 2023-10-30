@@ -68,25 +68,31 @@ class ProductManager {
                 console.error('Error:', error);
             });
     }
-
-    addProductById = function (id, producto) {
-        this.seEncuentraID(id)
-            .then((encontrado) => {
-                if (!encontrado && producto.esValido()) {
+    addProduct = function (producto) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // Actualizo lista con archivo
+                }
+                if (producto.esValido()) {
                     this.id = this.id + 1;
                     this.lista.push(producto);
                     this.fs.setArchivo(this.lista);
                     console.log(`Producto ingresado con ID: ${this.lista.length - 1}`);
-                } else if (encontrado) {
-                    console.log(`Ya existe un Producto con ID: ${id}`);
                 } else {
                     console.log(`El producto ${producto.title} no es válido`);
                 }
-            })
-            .catch((error) => {
+
+            } catch (error) {
                 console.error('Error:', error);
-            });
-    }
+                reject(error);
+            }
+        });
+    };
+
+
+
 
 
     updateProductById = function (id, producto) {
@@ -95,32 +101,30 @@ class ProductManager {
                 if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
                     const result = await this.fs.getItemsArchivo();
                     this.lista = result; // Actualizo lista con archivo
+                }
 
-                    if (id >= 0 && id < this.lista.length) {
-                        // Verifica si el índice es válido
-                        const updatedProduct = new Product(
-                            producto.title,
-                            producto.description,
-                            producto.code,
-                            producto.price,
-                            producto.stock,
-                            producto.thumbnail,
-                            producto.estado,
-                            producto.category
-                        );
+                if (id >= 0 && id < this.lista.length) {
+                    // Verifica si el índice es válido
+                    const updatedProduct = new Product(
+                        producto.title,
+                        producto.description,
+                        producto.code,
+                        producto.price,
+                        producto.stock,
+                        producto.thumbnail,
+                        producto.estado,
+                        producto.category
+                    );
 
-                        this.lista[id] = updatedProduct; // Reemplaza el elemento en la lista
-                        this.fs.setArchivo(this.lista);
-                        console.log('Producto Actualizado');
-                        resolve(true);
-                    } else {
-                        console.log('El índice no es válido');
-                        resolve(false);
-                    }
+                    this.lista[id] = updatedProduct; // Reemplaza el elemento en la lista
+                    this.fs.setArchivo(this.lista);
+                    console.log('Producto Actualizado');
+                    resolve(true);
                 } else {
-                    console.log('El archivo no existe');
+                    console.log('El índice no es válido');
                     resolve(false);
                 }
+
             } catch (error) {
                 console.error('Error:', error);
                 reject(error);
@@ -168,6 +172,33 @@ class ProductManager {
         });
     };
 
+    deleteProductById = function (id) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
+                    const result = await this.fs.getItemsArchivo();
+                    this.lista = result; // Actualizo lista con archivo
+
+                    if (id >= 0 && id < this.lista.length) {
+                        const listaNueva = this.lista.slice();
+                        listaNueva.splice(id, 1);
+                        this.fs.setArchivo(listaNueva);
+                        console.log('Producto Actualizado');
+                        resolve(true);
+                    } else {
+                        console.log('El índice no es válido');
+                        resolve(false);
+                    }
+                } else {
+                    console.log('El archivo no existe');
+                    resolve(false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
 
     deleteProductByCode = function (code) {
         return new Promise(async (resolve, reject) => {
@@ -257,7 +288,7 @@ export default ProductManager;
 /*
 
 
-// Creo 12 productos 
+// Creo 12 productos
 const p1 = new Product('Manzana', 'Fruta Manzana', 1, 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
 const p2 = new Product('Pera', 'Fruta Pera', 2, 600, 21, ['url Pera1', 'url Pera2'], true, 'Fruta');
 const p3 = new Product('Uva', 'Fruta Uva', 3, 700, 30, ['url Uva1'], true, 'Fruta');

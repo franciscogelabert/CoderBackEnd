@@ -19,19 +19,6 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
 
-// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
-
-
-//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega');
-const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
-
-
-// creo el ProductManager
-const lp = new ProductManager(farchivo);
-console.log('Paso 1 - Se crea el Product Manager');
-
-
-
 app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })
 
 
@@ -45,9 +32,22 @@ app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })
 
     Router ---->     /api/products/
 
-    - GET / ---> deberá listar todos los productos de la base. (Incluyendo la limitación ?limit del desafío anterior
-    - GET /:pid ----> deberá traer sólo el producto con el id proporcionado
-    - POST / deberá agregar un nuevo producto con los campos:
+    Listo - http://localhost:8080/api/products/   - GET / ---> deberá listar todos los productos de la base. (Incluyendo la limitación ?limit del desafío anterior
+    Listo - http://localhost:8080/api/products/2  - GET /:pid ----> deberá traer sólo el producto con el id proporcionado
+    Listo - http://localhost:8080/api/products/ 
+    
+    Body: {
+    "title": "Apio",
+    "description": "Verdura de hoja",
+    "code": 3,
+    "price": 400,
+    "stock": 40,
+    "thumbnail": [
+        "url Uva1"
+    ],
+    "estado": true,
+    "category": "Fruta"
+} - POST / deberá agregar un nuevo producto con los campos:
             -id: Number/String (A tu elección, el id NO se manda desde body, se autogenera como lo hemos visto desde los primeros entregables, asegurando que NUNCA se repetirán los ids en el archivo.
             -title:String,
             -description:String
@@ -60,8 +60,26 @@ app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })
         Status es true por defecto.
         Todos los campos son obligatorios, a excepción de thumbnails
 
-    - PUT /:pid ---> deberá tomar un producto y actualizarlo por los campos enviados desde body. NUNCA se debe actualizar o eliminar el id al momento de hacer dicha actualización.
-    - DELETE /:pid ---> deberá eliminar el producto con el pid indicado. 
+    Listo - http://localhost:8080/api/products/1 
+    
+    Body:
+
+    {
+    "title": "Ananá",
+    "description": "Verdura de Ananá",
+    "code": 4,
+    "price": 400,
+    "stock": 40,
+    "thumbnail": [
+        "url Anana"
+    ],
+    "estado": true,
+    "category": "Fruta"
+} - PUT /:pid ---> deberá tomar un producto y actualizarlo por los campos enviados desde body. NUNCA se debe actualizar o eliminar el id al momento de hacer dicha actualización.
+    
+
+
+Listo - DELETE /:pid ---> deberá eliminar el producto con el pid indicado. 
 
     Router ---->     /api/carts/
 
@@ -75,5 +93,5 @@ app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })
     Además, si un producto ya existente intenta agregarse al producto, incrementar el campo quantity de dicho producto. 
 
     
-    */ 
+    */
 
