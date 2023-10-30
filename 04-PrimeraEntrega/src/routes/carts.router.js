@@ -14,12 +14,9 @@ const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraE
 const listaAux = [];
 
 
-// creo el CartManager
+// crea Instancia del Cart Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 const lc = new CartManager(farchivo);
 console.log('02 - Se crea el Cart Manager');
-
-// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
-
 
 
 cartsRouter.get('/', (req, res) => {
@@ -55,18 +52,31 @@ cartsRouter.get('/code/:cod', (req, res) => {
             console.error('Error:', error);
         });
 })
-/*
 
-// Ruta raíz para agregar un Cart
 cartsRouter.post('/', (req, res) => {
     const newCart = new Cart(req.body);
     lc.addCart(newCart);
-    res.status(201).json(newCart);
- });
-*/
-// Ruta raíz para agregar un producto a un Cart
-cartsRouter.put('/', (req, res) => {
+    res.status(201).json('Producto agregadoooo');
+});
 
+cartsRouter.post('/:cid/product/:pid', (req, res) => {
+
+    if (req.params.cid ?? req.params.pid) {
+        const id = parseInt(req.params.cid, 10);
+        const codProd = parseInt(req.params.pid, 10);
+        lc.addProductCart(codProd, id);
+        res.status(201).json({ message: `Carrito con ID ${id} Modificado. Se modificó la cantidad del Producto con Código ${codProd}` });
+
+    } else {
+
+        res.status(201).json('Parámetros inválidos');
+    }
+
+});
+
+
+
+cartsRouter.put('/', (req, res) => {
     if (req.query.id ?? req.query.codProd) {
         const id = parseInt(req.query.id, 10);
         const codProd = parseInt(req.query.codProd, 10);
@@ -74,18 +84,10 @@ cartsRouter.put('/', (req, res) => {
         res.status(201).json('Producto actualizado');
 
     } else {
-        
+
         res.status(201).json('Parámetros inválidos');
     }
 
 });
-
-cartsRouter.post('/', (req, res) => {
-    console.log('llega !!!!!', req.body)
-    const newCart = new Cart(req.body);
-    lc.addCart(newCart);
-    res.status(201).json('Producto agregadoooo');
-    });
-
 
 export { cartsRouter };

@@ -83,10 +83,22 @@ Listo - DELETE /:pid ---> deberá eliminar el producto con el pid indicado.
 
     Router ---->     /api/carts/
 
-    - POST / deberá crear un nuevo carrito con la siguiente estructura:
+    - Listo http://localhost:8080/api/carts/ 
+    
+    Body: [{ "IdProd": 111, "CantProd": 5 } , { "IdProd": 112, "CantProd": 6 } ]  - POST / deberá crear un nuevo carrito con la siguiente estructura:
              - Id:Number/String (A tu elección, de igual manera como con los productos, debes asegurar que nunca se dupliquen los ids y que este se autogenere).
              - products: Array que contendrá objetos que representen cada producto
-    - GET /:cid deberá listar los productos que pertenezcan al carrito con el parámetro cid proporcionados.
+
+
+
+    Listo - http://localhost:8080/api/carts/  - GET /:cid deberá listar los productos que pertenezcan al carrito con el parámetro cid proporcionados.
+    
+    listo 
+    http://localhost:8080/api/carts/1/product/200   (modifica)
+
+    http://localhost:8080/api/carts/1/product/201   (agrega Producto)
+
+
     - POST  /:cid/product/:pid deberá agregar el producto al arreglo “products” del carrito seleccionado, agregándose como un objeto bajo el siguiente formato:
               -Id_product: SÓLO DEBE CONTENER EL ID DEL PRODUCTO (Es crucial que no agregues el producto completo)
             -  quantity: debe contener el número de ejemplares de dicho producto. El producto, de momento, se agregará de uno en uno.
