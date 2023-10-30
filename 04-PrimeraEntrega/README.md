@@ -1,18 +1,30 @@
 ## Programación Backend -  Comisión 55595 
 
-*Tercer Desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
+*Primera Entrega - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
 
+## Descripción Funcional
 
-## Descripción tercer desafío
+Se disponibilzan diferentes API's para consumir servicios relacionados a Gestión de Productos (Products) y de Carritos (Carts) de un e-commerce.
+Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si aplica y Body si aplica; mas una breve descripción.
 
-Para este tercer desafío, se crea la carpeta class, donde se guardan las clases Product, FileManager y ProductManager (debajo se describen sus funcionalidades).
-Por otro lado se crea la carpeta src y dentro se crea la app.js en la misma se publican las siguientes funcionalidades 
+## Descripción Técnica
+Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Router tanto para Product (productsRouter) como para Cart (cartRouter). En dichas clases se accede a los diferentes métodos (GET, PUT, DELETE y POST) para acceder a los Manager de las diferentes clases. Mediante funciones tanto del ProductManager como del CartManager, se accede a un FileManager para todo lo relacionado al acceso de la Info persistida en archivos. (carrito.json y productos.json) 
+
+### Descripción Products
+
+| Función GET | Descripción | 
+| --- | --- | 
+| get('/products', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('/products/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
+| get('/products/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
 
 | Función | Descripción | 
 | --- | --- | 
 | get('/products', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
 | get('/products/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
 | get('/products/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
+
+### Descripción Carts
 
 
 ### Info para Pruebas: 
