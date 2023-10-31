@@ -105,7 +105,7 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 | getProducts | Obtiene lista de Productos , la lista previamente se actualiza con los datos del archivo. |
 | getProductByCode |Obtiene un producto de la lista por su Código, la lista previamente se actualiza con los datos del archivo.  |
 
-### Clase CarttManager: 
+### Clase CartManager: 
 Se utiliza para gestionar un listado de instancias de la Clase Cart y de administrar la persistencia de los objetos utilizando una instancia de FileManager.
 Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. 
 
