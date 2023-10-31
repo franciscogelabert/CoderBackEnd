@@ -14,7 +14,7 @@ Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Rou
 
 | Función | Descripción | 
 | --- | --- | 
-| get('/', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('/', (req, res) | Devuelve el listado completo de productos, si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
 | get('/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
 | get('/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
 | post('/', (req, res) | Recibe un nuevo producto en el Body y lo persiste.|
@@ -24,13 +24,10 @@ Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Rou
 ### Descripción Carts
 | Función | Descripción | 
 | --- | --- | 
-| get('/', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('/', (req, res) | Devuelve el listado completo de carritos|
 | get('/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
-| get('/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
-| post('/', (req, res) | Recibe un nuevo producto en el Body y lo persiste.|
-| put('/:id', (req, res)  | Actualiza un producto cuya referencia se recibe por parámetro id y la nueva información se recibe en el Body.|
-
-
+| post('/', (req, res) | Recibe un nuevo cart en el Body y lo persiste.|
+| post('/:cid/product/:pid', (req, res)  | recibe como parámetro un id de carrito y un id de producto, si el carrito tiene dicho producto incrementa su cantidad en 1 y si no lo tiene lo ahgrega.|
 
 ### Info para Pruebas: 
 
@@ -127,46 +124,89 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 
 ```bash
 
-// Creo 10 productos 
+// Creo 10 productos
 
-const p1 = new Product('Manzana', 'Fruta Manzana', 20, 'url imagen', 'cod1', 10);
-const p2 = new Product('Banana', 'Fruta Banana', 20, 'url imagen', 'cod2', 12);
-const p3 = new Product('Naranja', 'Fruta Naranja', 20, 'url imagen', 'cod3', 13);
-const p4 = new Product('Berenjena', 'Verdura Berenjena', 20, 'url imagen', 'cod4', 14);
-const p5 = new Product('Lechuga', 'Lechuga', 20, 'url imagen', 'cod5', 95);
-const p6 = new Product('Mandarina', 'Fruta Mandarina', 15, 'url imagen', 'cod6', 54);
-const p7 = new Product('Uva', 'Fruta Uva', 15, 'url imagen', 'cod7', 45);
-const p8 = new Product('Kiwi', 'Fruta Kiwi', 15, 'url imagen', 'cod8', 12);
-const p9 = new Product('Ananá', 'Fruta Ananá', 20, 'url imagen', 'cod9', 20);
-const p10 = new Product('Acelga', 'Acelga', 20, 'url imagen', 'cod10', 30);
+const p1 = new Product('Manzana', 'Fruta Manzana', 1, 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
+const p2 = new Product('Pera', 'Fruta Pera', 2, 600, 21, ['url Pera1', 'url Pera2'], true, 'Fruta');
+const p3 = new Product('Uva', 'Fruta Uva', 3, 700, 30, ['url Uva1'], true, 'Fruta');
+const p4 = new Product('Banana', 'Fruta Banana', 4, 300, 31, ['url Banana1', 'url Banana2'], true, 'Fruta');
+const p5 = new Product('Kiwi', 'Fruta Kiwi', 5, 700, 40, ['url Kiwi1', 'url Kiwi2', 'url Kiwi3'], true, 'Fruta');
+const p6 = new Product('Naranja', 'Fruta Naranja', 6, 800, 41, [], true, 'Fruta');
+const p7 = new Product('Lechuga', 'Verdura Lechuga', 7, 300, 12, ['url Lechuga1'], true, 'Verdura');
+const p8 = new Product('Acelga', 'Verdura Acelga', 8, 100, 13, ['url Acelga1', 'url Acelga2'], true, 'Verdura');
+const p9 = new Product('Rúcula', 'Verdura Rúcula', 9, 700, 15, [], true, 'Verdura');
+const p10 = new Product('Rabanito', 'Verdura Rabanito', 10, 900, 8, ['url Rabanito1', 'url Rabanito2', 'url Rabanito3'], true, 'Verdura');
+
+console.log('00 - Se crean los 10 productos');
 
 
-console.log('Paso 1 - Se crean los 10 productos');
 
-// Crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
+// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
+//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
+const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
+console.log('01- el archivo es', farchivo.archivo);
 
-const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/03-TercerDesafio');
-console.log('paso 2 - el archivo es', farchivo.archivo);
-
-// Creo el ProductManager
+// creo el ProductManager
 const lp = new ProductManager(farchivo);
+console.log('Paso 2 - Se crea el Product Manager');
 
-console.log('Paso 3 - Se crea el Product Manager');
+// le agrego los productos al ProductManager
 
-// Agrego los productos al ProductManager
+lp.addProductByCode(p1);
+lp.addProductByCode(p2);
+lp.addProductByCode(p3);
+lp.addProductByCode(p4);
+lp.addProductByCode(p5);
+lp.addProductByCode(p6);
+lp.addProductByCode(p7);
+lp.addProductByCode(p8);
+lp.addProductByCode(p9);
+lp.addProductByCode(p10);
 
-lp.addProduct(p1);
-lp.addProduct(p2);
-lp.addProduct(p3);
-lp.addProduct(p4);
-lp.addProduct(p5);
-lp.addProduct(p6);
-lp.addProduct(p7);
-lp.addProduct(p8);
-lp.addProduct(p9);
-lp.addProduct(p10);
+console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
 
-console.log('Paso 4 - Se cargan los 10 productos en el Product Manager y se persisten en el archivo de Paso 2');
+
+```
+
+
+#### Para la prueba ya se encuentran registrados 4 carritos en el caerito.json, igualmente en el caso que desee crearlos debajo se carga el código a corre en el CartManager.
+
+```bash
+const cart1 = new Cart([{ IdProd: 101, CantProd: 5 }, { IdProd: 102, CantProd: 2 }]);
+const cart2 = new Cart([{ IdProd: 103, CantProd: 4 }]);
+const cart3 = new Cart([{ IdProd: 104, CantProd: 5 }]);
+const cart4 = new Cart([{ IdProd: 104, CantProd: 5 }]);
+
+console.log('00- Se crean los 3 carritos');
+
+
+// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
+//const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
+const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
+console.log('01- el archivo es', farchivo.archivo);
+
+// creo el ProductManager
+const lc = new CartManager(farchivo);
+console.log('02 - Se crea el Cart Manager');
+
+
+// le agrego los productos al ProductManager
+
+lc.addCart(cart1);
+lc.addCart(cart2);
+lc.addCart(cart3);
+lc.addCart(cart4);
+
+console.log('03 - Se cargan los 4 carritos en el Cart Manager');
+
+lc.addProductCart(101, 0);
+lc.addProductCart(101, 0);
+lc.addProductCart(101, 0);
+lc.addProductCart(104, 0);
+lc.addProductCart(105, 0);
+
+
+console.log('04 - Se Actualizan productos de carritos');
 
 
 ```
