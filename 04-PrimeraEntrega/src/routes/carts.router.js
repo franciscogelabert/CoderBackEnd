@@ -7,8 +7,8 @@ const cartsRouter = express.Router();
 // Array para almacenar mascotas
 const products = [];
 
-const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
-//const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
+//const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
+const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
 
 
 const listaAux = [];
@@ -41,17 +41,6 @@ cartsRouter.get('/:id', (req, res) => {
         });
 })
 
-
-cartsRouter.get('/code/:cod', (req, res) => {
-    const cod = req.params.cod;
-
-    lc.getProductByCode(cod)
-        .then((result) => {
-            res.send(result);
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-})
 
 cartsRouter.post('/', (req, res) => {
     const newCart = new Cart(req.body);

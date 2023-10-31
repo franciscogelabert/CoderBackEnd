@@ -1,5 +1,5 @@
 import Product from './Product.js';
-
+import FileManager from '../FileSystem/FileManager.js'
 
 
 class ProductManager {
@@ -282,102 +282,4 @@ class ProductManager {
 
 
 export default ProductManager;
-
-/*
-
-
-// Creo 12 productos
-const p1 = new Product('Manzana', 'Fruta Manzana', 1, 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
-const p2 = new Product('Pera', 'Fruta Pera', 2, 600, 21, ['url Pera1', 'url Pera2'], true, 'Fruta');
-const p3 = new Product('Uva', 'Fruta Uva', 3, 700, 30, ['url Uva1'], true, 'Fruta');
-const p4 = new Product('Banana', 'Fruta Banana', 4, 300, 31, ['url Banana1', 'url Banana2'], true, 'Fruta');
-const p5 = new Product('Kiwi', 'Fruta Kiwi', 5, 700, 40, ['url Kiwi1', 'url Kiwi2', 'url Kiwi3'], true, 'Fruta');
-const p6 = new Product('Naranja', 'Fruta Naranja', 6, 800, 41, [], true, 'Fruta');
-const p7 = new Product('Lechuga', 'Verdura Lechuga', 7, 300, 12, ['url Lechuga1'], true, 'Verdura');
-const p8 = new Product('Acelga', 'Verdura Acelga', 8, 100, 13, ['url Acelga1', 'url Acelga2'], true, 'Verdura');
-const p9 = new Product('Rúcula', 'Verdura Rúcula', 9, 700, 15, [], true, 'Verdura');
-const p10 = new Product('Rabanito', 'Verdura Rabanito', 10, 900, 8, ['url Rabanito1', 'url Rabanito2', 'url Rabanito3'], true, 'Verdura');
-const p11 = new Product('Apio', 'Verdura Apio', 11, 1500, 17, ['url Apio1', 'url Apio2'], true, 'Verdura');
-const p12 = new Product('Choclo', 'Verdura Remolacha', 12, 540, 15, ['url Remolacha1'], true, 'Verdura');
-const p13 = new Product('Coliflor', 'Verdura Coliflor', 13, 540, 15, ['url Coliflor'], true, 'Verdura');
-const p14 = new Product('Zapallo', 'Verdura Zapallo', 14, 540, 15, ['url Zapallo'], true, 'Verdura');
-console.log('00 - Se crean los 12 productos');
-
-
-
-// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
-//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
-const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
-console.log('01- el archivo es', farchivo.archivo);
-
-// creo el ProductManager
-const lp = new ProductManager(farchivo);
-console.log('Paso 2 - Se crea el Product Manager');
-
-// le agrego los productos al ProductManager
-
-lp.addProductByCode(p1);
-lp.addProductByCode(p2);
-lp.addProductByCode(p3);
-lp.addProductByCode(p4);
-lp.addProductByCode(p5);
-lp.addProductByCode(p6);
-lp.addProductByCode(p7);
-lp.addProductByCode(p8);
-lp.addProductByCode(p9);
-lp.addProductByCode(p10);
-lp.addProductByCode(p11);
-lp.addProductByCode(p12);
-
-
-console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
-*/
-
-//lp.addProductByCode(p14);
-
-//lp.addProductById(16,p12);
-
-// lp.updateProductById(0, p13); // Modifica P1
-
-// lp.updateProductByCode(3, p14); // Modifica P2
-/*
-
-lp.deleteProductByCode(1)
-    .then((result) => {
-        console.log(result);
-    }).catch((error) => {
-        console.error('Error:', error);
-    });
-
-lp.getProducts()
-.then((result) => {
-    console.log(result);
-}).catch((error) => {
-    console.error('Error:', error);
-});
-
-lp.getProductById(20)
-    .then((result) => {
-        console.log(result);
-    }).catch((error) => {
-        console.error('Error:', error);
-    });
-
-lp.getProductByCode(123313)
-    .then((result) => {
-        console.log(result);
-    }).catch((error) => {
-        console.error('Error:', error);
-    });
-
-lp.seEncuentraID(18)
-.then((result) => {
-    console.log(result);
-}).catch((error) => {
-    console.error('Error:', error);
-});
-
-*/
-
-
 
