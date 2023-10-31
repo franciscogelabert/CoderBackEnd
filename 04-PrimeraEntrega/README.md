@@ -117,7 +117,7 @@ Se crea esta clase para desacoplar el manejo de archivos en las otras clases, de
 | validarExistenciaArchivo | verifica la existencia de un archivo.|
 
 
-### Info Escenario del Archivo: 
+### Info Escenario de los archivos Archivo: 
 
 #### Para la prueba ya se encuentran registrados 10 productos en el archivo.json, igualmente en el caso que desee crearlos debajo se carga el código a corre en el ProductManage.
 
