@@ -12,19 +12,24 @@ Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Rou
 
 ### Descripción Products
 
-| Función GET | Descripción | 
-| --- | --- | 
-| get('/products', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
-| get('/products/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
-| get('/products/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
-
 | Función | Descripción | 
 | --- | --- | 
-| get('/products', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
-| get('/products/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
-| get('/products/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
+| get('/', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
+| get('/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
+| post('/', (req, res) | Recibe un nuevo producto en el Body y lo persiste.|
+| put('/:id', (req, res)  | Actualiza un producto cuya referencia se recibe por parámetro id y la nueva información se recibe en el Body.|
+| delete('/:id', (req, res)  | Borra un producto cuya referencia se recibe por parámetro id.|
 
 ### Descripción Carts
+| Función | Descripción | 
+| --- | --- | 
+| get('/', (req, res) | Devuelve el listado completo de archivos si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
+| get('/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
+| post('/', (req, res) | Recibe un nuevo producto en el Body y lo persiste.|
+| put('/:id', (req, res)  | Actualiza un producto cuya referencia se recibe por parámetro id y la nueva información se recibe en el Body.|
+
 
 
 ### Info para Pruebas: 
