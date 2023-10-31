@@ -10,7 +10,7 @@ Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si apl
 ## Descripción Técnica
 Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Router tanto para Product (productsRouter) como para Cart (cartRouter). En dichas clases se accede a los diferentes métodos (GET, PUT, DELETE y POST) para acceder a los Manager de las diferentes clases. Mediante funciones tanto del ProductManager como del CartManager, se accede a un FileManager para todo lo relacionado al acceso de la Info persistida en archivos. (carrito.json y productos.json) 
 
-### Descripción Products
+### Descripción API Products
 
 | Función | Descripción | 
 | --- | --- | 
@@ -21,7 +21,7 @@ Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Rou
 | put('/:id', (req, res)  | Actualiza un producto cuya referencia se recibe por parámetro id y la nueva información se recibe en el Body.|
 | delete('/:id', (req, res)  | Borra un producto cuya referencia se recibe por parámetro id.|
 
-### Descripción Carts
+### Descripción API Carts
 | Función | Descripción | 
 | --- | --- | 
 | get('/', (req, res) | Devuelve el listado completo de carritos|
@@ -91,17 +91,6 @@ La misma se utiliza para la gestión de productos/articulos a guardar.
 | constructor | Crea una instancia de un Objeto *Producto* con Título, Descripción, Precio, imágen Preliminar, Código y Stock|
 | esValido | Valida que se hayan ingresado todos los datos.|
 
-### Clase FileManager: 
-Se crea esta clase para desacoplar el manejo de archivos en las otras clases, de esta manera se pueden crear otros FileSystem para que guarden otras instancias de otros objetos en diferentes archivos.
-
-| Función | Descripción | 
-| --- | --- | 
-| constructor | Crea instancia instancia del Objeto *FileManager* con el nombre del archivo. la ruta de almacenado y la metodología con la que se va a gestionar la persistencia  |
-| setArchivo | Persiste los datos en el archivo, en este caso persiste una lista de productos en formato Json |
-| getItemsArchivo | Consulta el total de items almacenados en el archivo, en este caso actualiza la lista de Productos con todos los Productos que se encuentran almacenados en el archivo.|
-| eliminarArchivo | Elimina un archivo.|
-| validarExistenciaArchivo | verifica la existencia de un archivo.|
-
 ### Clase ProductManager: 
 Se utiliza para gestionar un listado de instancias de la Clase Product y de administrar la persistencia de los objetos utilizando una instancia de FileManager.
 Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. 
@@ -116,6 +105,16 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 | getProducts | Obtiene lista de Productos , la lista previamente se actualiza con los datos del archivo. |
 | getProductByCode |Obtiene un producto de la lista por su Código, la lista previamente se actualiza con los datos del archivo.  |
 
+### Clase FileManager: 
+Se crea esta clase para desacoplar el manejo de archivos en las otras clases, de esta manera se pueden crear otros FileSystem para que guarden otras instancias de otros objetos en diferentes archivos.
+
+| Función | Descripción | 
+| --- | --- | 
+| constructor | Crea instancia instancia del Objeto *FileManager* con el nombre del archivo. la ruta de almacenado y la metodología con la que se va a gestionar la persistencia  |
+| setArchivo | Persiste los datos en el archivo, en este caso persiste una lista de productos en formato Json |
+| getItemsArchivo | Consulta el total de items almacenados en el archivo, en este caso actualiza la lista de Productos con todos los Productos que se encuentran almacenados en el archivo.|
+| eliminarArchivo | Elimina un archivo.|
+| validarExistenciaArchivo | verifica la existencia de un archivo.|
 
 
 ### Info Escenario del Archivo: 
@@ -169,7 +168,7 @@ console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
 ```
 
 
-#### Para la prueba ya se encuentran registrados 4 carritos en el caerito.json, igualmente en el caso que desee crearlos debajo se carga el código a corre en el CartManager.
+#### Para la prueba ya se encuentran registrados 4 carritos en el carrito.json, igualmente en el caso que desee crearlos debajo se carga el código a corre en el CartManager.
 
 ```bash
 const cart1 = new Cart([{ IdProd: 101, CantProd: 5 }, { IdProd: 102, CantProd: 2 }]);
