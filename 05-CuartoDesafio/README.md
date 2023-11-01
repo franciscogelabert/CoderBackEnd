@@ -63,12 +63,16 @@ npm install express
 
 ```
 
-Verificar ruta de archivo en el Constructor del FileManager en src/app.js: 
+Verificar ruta de archivo en src/routes: 
 
 ```bash
+carts.router.js -->
 
-const farchivo = new FileManager('archivo.json', 'C:/Coderhouse/Backend/03-TercerDesafio');
+const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
 
+products.router.js -->
+
+const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
 ```
 
 Para correr la app
