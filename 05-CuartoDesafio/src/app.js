@@ -1,6 +1,7 @@
 
 import { cartsRouter } from './routes/carts.router.js';
 import { productsRouter } from './routes/products.router.js';
+import { usersRouter } from './routes/users.router.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
@@ -21,21 +22,11 @@ app.use(express.json())
 // Conectar los routers a las rutas principales
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/users', usersRouter);
 
 
 
-// Ruta para manejar la solicitud de la página de inicio
-app.get('/', (req, res) => {
-    
-    // Generar un índice aleatorio para seleccionar un usuario al azar
-    let user = {
-        name: "Francisco",
-        lastName: "Gelabert"
-    }
- 
-    // Renderizar la plantilla y pasar los datos del usuario
-    res.render('index', { user });
-});
+
 
 
 app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })

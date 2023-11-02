@@ -55,8 +55,11 @@ productsRouter.get('/:id', (req, res) => {
 })
 
 productsRouter.post('/', (req, res) => {
+    let thumbnail=[];
+    thumbnail.push(req.body.thumbnail1);
+    thumbnail.push(req.body.thumbnail2);
 
-    const newProduct = new Product(req.body.title, req.body.description, req.body.code, req.body.price, req.body.stock, req.body.thumbnail, req.body.estado, req.body.category);
+    const newProduct = new Product(req.body.title, req.body.description, req.body.code, req.body.price, req.body.stock, thumbnail, req.body.estado, req.body.category);
     lp.addProduct(newProduct);
     res.status(201).json('Producto agregado');
 });
