@@ -7,8 +7,8 @@ const cartsRouter = express.Router();
 // Array para almacenar mascotas
 const products = [];
 
-//const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
-const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/05-CuartoDesafio/files');
+const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
+//const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/05-CuartoDesafio/files');
 
 
 const listaAux = [];
@@ -16,7 +16,7 @@ const listaAux = [];
 
 // crea Instancia del Cart Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 const lc = new CartManager(farchivo);
-console.log('02 - Se crea el Cart Manager');
+
 
 
 cartsRouter.get('/', (req, res) => {

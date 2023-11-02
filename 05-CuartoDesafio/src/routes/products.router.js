@@ -6,13 +6,19 @@ const productsRouter = express.Router();
 
 
 
-//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
-const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/05-CuartoDesafio/files');
+const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
+//const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/05-CuartoDesafio/files');
 
 
 // creo el ProductManager
 const lp = new ProductManager(farchivo);
-console.log('Paso 1 - Se crea el Product Manager');
+
+// renderiza el index con el Form 
+
+productsRouter.get('/handler', (req, res) => {
+    res.render('index');
+});
+
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
@@ -50,6 +56,13 @@ productsRouter.get('/:id', (req, res) => {
 
 productsRouter.post('/', (req, res) => {
 
+    const newProduct = new Product(req.body.title, req.body.description, req.body.code, req.body.price, req.body.stock, req.body.thumbnail, req.body.estado, req.body.category);
+    lp.addProduct(newProduct);
+    res.status(201).json('Producto agregado');
+});
+
+
+productsRouter.post('/handler/', (req, res) => {
     const newProduct = new Product(req.body.title, req.body.description, req.body.code, req.body.price, req.body.stock, req.body.thumbnail, req.body.estado, req.body.category);
     lp.addProduct(newProduct);
     res.status(201).json('Producto agregado');
