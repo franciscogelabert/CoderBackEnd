@@ -1,7 +1,7 @@
 
 import { cartsRouter } from './routes/carts.router.js';
 import { productsRouter } from './routes/products.router.js';
-import { usersRouter } from './routes/users.router.js';
+import { viewsRouter } from './routes/views.router.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
@@ -22,12 +22,7 @@ app.use(express.json())
 // Conectar los routers a las rutas principales
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-app.use('/users', usersRouter);
-
-
-
-
-
+app.use('/users', viewsRouter);
 
 app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) })
 
