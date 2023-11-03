@@ -1,0 +1,252 @@
+/* selectores de etiqueta*/
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+/* selector universal */
+* {
+    font-family: 'Open Sans', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+/* selectores de etiqueta */
+
+
+main {
+    margin: 30px 0;
+}
+
+section {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+p {
+    color: red;
+    font-weight: 300;
+    font-size: 2rem;
+    line-height: 3rem;
+}
+
+h1,
+h2,
+h3 {
+    background-color: #ebe8e8;
+    line-height: 6rem;
+    margin: 10px;
+}
+
+
+h1 {
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 3rem;
+    text-align: center;
+}
+
+h3 {
+    font-size: 2.5rem;
+}
+
+label,
+a {
+    font-size: 2rem;
+    margin: 10px;
+}
+
+
+nav {
+    background-color: #1d1d1f;
+    padding: 6px 30px;
+    height: auto;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+
+
+ul {
+    list-style: none;
+    display: inline-block;
+    margin: 20px 0;
+}
+
+ul li {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+ul li a {
+    font-size: 2.2rem;
+    color: white;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    left: 150px;
+}
+
+/*hover*/
+ul li a:hover {
+    font-size: 2.4rem;
+    color: white;
+    text-decoration: underline;
+}
+
+header img {
+    width: 100%;
+    height: 450px;
+}
+
+table {
+    width: 80%;
+    border: 1px solid #000;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 20px 0;
+}
+
+th,
+td {
+    text-align: center;
+    vertical-align: top;
+    border: 1px solid #000;
+    border-collapse: collapse;
+    padding: 0.4em;
+    caption-side: bottom;
+    font-size: 2rem;
+    width: 5rem;
+    color: black;
+}
+
+th {
+    background: #eeeee4;
+}
+
+table tr th {
+    text-align: center;
+}
+
+footer {
+    width: 100%;
+    font-size: 2rem;
+    background-color: #1d1d1f;
+    padding: 10px 10px;
+    height: auto;
+    text-align: center;
+}
+
+/* selectores de clase */
+
+.imagebox {
+    width: 560px;
+    height: auto;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.smallimagebox {
+    width: 50px;
+    height: auto;
+    margin: 10px;
+}
+
+.miniatura {
+    width: 40px;
+    height: 30px;
+}
+
+.imageboxReceta {
+    width: 550px;
+    height: auto;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.imageico {
+    width: 150px;
+    height: 150px;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.mapa {
+    width: 200 px;
+    height: 200 px;
+    margin: 5px 0;
+    padding: 5px;
+    border-style: hidden;
+}
+
+.videoReceta {
+    width: 550px;
+    height: 400px;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.contenedor {
+    height: auto;
+    width: 80%;
+    margin: 10px auto;
+    padding: 10px;
+
+}
+
+.contenedorReceta {
+    height: auto;
+    width: 30%;
+    margin: 10px auto;
+    padding: 5px;
+
+}
+
+.contenedorForm {
+    height: auto;
+    width: 40%;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+.center {
+    text-align: center
+}
+
+.right {
+    text-align: right
+}
+
+.urlfondooscuro {
+    color: lightskyblue;
+    font-size: 2rem;
+}
+
+.button {
+    height: 50px;
+    width: auto;
+    margin: 10px;
+    font-size: 1.8rem;
+    padding: 10px;
+}
+
+.label {
+    height: 30px;
+    width: 250px;
+    margin: 10px;
+
+}
+
+.textbox {
+    height: 100px;
+    width: 250px;
+    margin: 10px;
+}
