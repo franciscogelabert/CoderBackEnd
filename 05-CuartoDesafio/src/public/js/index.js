@@ -1,1 +1,5 @@
-console.log("hola desde el JS");
+const socket = io();
+
+socket.emit('message','hola desde el Cliente');
+
+
