@@ -1,0 +1,8 @@
+<div>
+    <h1> Lista de Productos en Stock</h1>
+   {{#each food}}
+    <div>
+        <p>{{this.title}} {{this.description}} {{this.price}} {{this.stock}} {{this.category}} </p>
+    </div>
+    {{/each}}
+</div>

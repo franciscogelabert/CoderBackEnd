@@ -13,7 +13,7 @@ const viewsRouter = express.Router();
 
 // Ruta para manejar la solicitud de la página de inicio
 viewsRouter.get('/', (req, res) => {
-
+/*
     // Generar un índice aleatorio para seleccionar un usuario al azar
     let testUser = {
         name: "Francisco",
@@ -37,16 +37,15 @@ viewsRouter.get('/', (req, res) => {
             category: item.category
         };
     });
-
+*/
    
     // Se puede importar elotro router ??
 
   lp.getProducts()
         .then((result) => {
             res.render('index', {
-                user: testUser,
-                style:'index.css',
-                isAdmin: testUser.role === "admin", food: result //lp.lista
+                layout: 'home',
+               food: result //lp.lista
                
             });
         }).catch((error) => {

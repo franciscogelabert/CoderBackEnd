@@ -1,10 +1,7 @@
 
 <div>
-    <h1>
-        holaaaa Usuario {{ user.name }} {{ user.lastName }}
-    </h1>
-
-    <h2>Registro de Usuario</h2>
+   
+   <h2>Registro de Usuario</h2>
     <form method="POST" action="/users">
 
         <label for="title">title:</label>
@@ -37,15 +34,4 @@
         <button type="submit">Registrar</button>
     </form>
 </div>
-<div>
-    <h1> Bienvenido {{user.name}}</h1>
-    {{#if isAdmin}}
-    {{#each food}}
-    <div>
-        <p>{{this.title}} {{this.description}} {{this.price}} {{this.stock}} {{this.category}} </p>
-    </div>
-    {{/each}}
-    {{else}}
-    <p>No tienes permisos para ver el listado de alimentos</p>
-    {{/if}}
-</div>
+
