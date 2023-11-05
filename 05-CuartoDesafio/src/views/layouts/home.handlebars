@@ -2,7 +2,10 @@
     <h1> Lista de Productos en Stock</h1>
    {{#each food}}
     <div>
-        <p>{{this.title}} {{this.description}} {{this.price}} {{this.stock}} {{this.category}} </p>
+        <ul id="productList">
+        <li > {{this.title}} {{this.description}} {{this.price}} {{this.stock}} {{this.category}} </li>
+        </ul>
     </div>
     {{/each}}
 </div>
+
