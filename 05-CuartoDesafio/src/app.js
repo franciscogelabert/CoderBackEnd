@@ -13,13 +13,7 @@ const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: "
 
 export const socketServer = new Server(httpServer);
 
-socketServer.on('connection', socket => {
-    console.log('Nuevo Cliente Conectado (Server 1)')
-    socket.on('message', data => { console.log(data) });
-    socket.emit('individual', 'Individual');
-    socket.broadcast.emit('individualMenosYo', 'Individual Menos Yo');
-    socketServer.emit('todos','Todos')
-});
+
 
 app.engine('handlebars', handlebars.engine());
 app.set('views', `${__dirname}/views`);
@@ -34,5 +28,11 @@ app.use('/api/products', productsRouter);
 app.use('/users', viewsRouter);
 app.use('/realtimeproducts', viewsrealTimeProducts);
 
-
+socketServer.on('connection', socket => {
+    console.log('Nuevo Cliente Conectado (Server 1)')
+    socket.on('message', data => { console.log(data) });
+    socket.emit('individual', 'Individual');
+    socket.broadcast.emit('individualMenosYo', 'Individual Menos Yo');
+    socketServer.emit('todos','Todos')
+});
 

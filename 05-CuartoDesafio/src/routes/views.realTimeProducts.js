@@ -2,7 +2,7 @@ import express from 'express';
 import Product from '../../class/Product/Product.js';
 import ProductManager from '../../class/Product/ProductManager.js';
 import FileManager from '../../class/FileSystem/FileManager.js';
-import { socketServer } from '../app.js';
+
 
 
 //const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
@@ -33,14 +33,6 @@ viewsrealTimeProducts.post('/', (req, res) => {
     thumbnail.push(req.body.thumbnail2);
     const newProduct = new Product(req.body.title, req.body.description, req.body.code, req.body.price, req.body.stock, thumbnail, req.body.estado, req.body.category);
     lp.addProduct(newProduct);
-    socketServer.on('connection', socket => {
-        console.log('Nuevo Cliente Conectado (Server 1)')
-        socket.on('message', data => { console.log(data) });
-        socket.emit('individual', 'Individual');
-        socket.broadcast.emit('individualMenosYo', 'Individual Menos Yo');
-        socketServer.emit('addProduct', newProduct)
-    });
-    
     res.status(201).json('Producto agregado');
 });
 
