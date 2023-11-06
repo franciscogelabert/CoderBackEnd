@@ -1,3 +1,4 @@
+ <link rel="stylesheet" href="css/index.css">
 <div>
     <h1> Lista de Productos en Stock</h1>
     <ul id="pList">
@@ -7,6 +8,35 @@
         {{/each}}
     </ul>
 </div>
+
+<div>
+    <h1> Lista de Productos en Stock</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+            </tr>
+        </thead>
+        <tbody id="pList2">
+            {{#each food}}
+            <tr id="{{this.code}}">
+                <td>{{this.code}}</td>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.stock}}</td>
+                <td>{{this.category}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
 <div>
     <h2> Agregar nuevo Producto</h2>
 
@@ -55,7 +85,6 @@
 
     </form>
 </div>
-
 
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="module" src="/js/index.js"></script>
