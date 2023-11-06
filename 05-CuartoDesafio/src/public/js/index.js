@@ -44,13 +44,46 @@ btn_eliminar.addEventListener('click', (e) => {
   
 })
 
-
 socket.on("productAdded",(product)=>{
-    const acualList = document.getElementById('pList');
-    const addElement = document.createElement('li');
-    addElement.setAttribute('id',product.code);
-    addElement.textContent=`${product.title} ${product.description} ${product.price} ${product.stock} ${product.category}`;
-    acualList.appendChild(addElement);
+   
+    const tableBody = document.getElementById('pList');
+
+    // Crear un nuevo elemento <tr>
+    const newRow = document.createElement('tr');
+
+    // Crear celdas <td> para cada propiedad del producto
+    newRow.setAttribute('id',product.code);
+    
+    const codeCell = document.createElement('td');
+    codeCell.textContent = product.code;
+
+    const titleCell = document.createElement('td');
+    titleCell.textContent = product.title;
+
+    const descriptionCell = document.createElement('td');
+    descriptionCell.textContent = product.description;
+
+    const priceCell = document.createElement('td');
+    priceCell.textContent = product.price;
+
+    const stockCell = document.createElement('td');
+    stockCell.textContent = product.stock;
+
+    const categoryCell = document.createElement('td');
+    categoryCell.textContent = product.category;
+
+    // Agregar las celdas a la fila <tr>
+    newRow.appendChild(codeCell);
+    newRow.appendChild(titleCell);
+    newRow.appendChild(descriptionCell);
+    newRow.appendChild(priceCell);
+    newRow.appendChild(stockCell);
+    newRow.appendChild(categoryCell);
+
+    // Reemplazar el elemento <li> con la nueva fila <tr>
+    tableBody.appendChild(newRow);
+
+
 });
 
 socket.on("productDeleted",(productId)=>{

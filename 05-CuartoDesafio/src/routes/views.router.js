@@ -1,13 +1,10 @@
 import express from 'express';
-import { Server } from 'socket.io';
-import socketServer from '../app.js';
 
-import Product from '../../class/Product/Product.js';
 import ProductManager from '../../class/Product/ProductManager.js';
 import FileManager from '../../class/FileSystem/FileManager.js';
 
-const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
-//const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/05-CuartoDesafio/files');
+//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
+const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/05-CuartoDesafio/files');
 
  // creo el ProductManager
  const lp = new ProductManager(farchivo);
@@ -30,7 +27,7 @@ viewsRouter.get('/', (req, res) => {
 
 });
 
-viewsRouter.get('/realTimeProducts', (req, res) => {
+viewsRouter.get('/realTimeProducts/', (req, res) => {
 
     lp.getProducts()
         .then((result) => {

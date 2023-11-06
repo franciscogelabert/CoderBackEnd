@@ -1,13 +1,4 @@
  <link rel="stylesheet" href="css/index.css">
-<div>
-    <h1> Lista de Productos en Stock</h1>
-    <ul id="pList">
-        {{#each food}}
-        <li id="{{this.code}}"> {{this.code}} {{this.title}} {{this.description}} {{this.price}} {{this.stock}} {{this.category}}
-        </li>
-        {{/each}}
-    </ul>
-</div>
 
 <div>
     <h1> Lista de Productos en Stock</h1>
@@ -22,7 +13,7 @@
                 <th>Categoría</th>
             </tr>
         </thead>
-        <tbody id="pList2">
+        <tbody id="pList">
             {{#each food}}
             <tr id="{{this.code}}">
                 <td>{{this.code}}</td>
