@@ -34,12 +34,28 @@ btn_registrar.addEventListener('click', (e) => {
   
 })
 
+
+let btn_eliminar = document.getElementById('btn_eliminar');
+console.log(btn_eliminar);
+btn_eliminar.addEventListener('click', (e) => {
+    e.preventDefault();
+    let cProd = document.getElementById('pEliminar').value
+    socket.emit('eliminar_producto', cProd);
+  
+})
+
+
 socket.on("productAdded",(product)=>{
     const acualList = document.getElementById('pList');
     const addElement = document.createElement('li');
     addElement.setAttribute('id',product.code);
     addElement.textContent=`${product.title} ${product.description} ${product.price} ${product.stock} ${product.category}`;
     acualList.appendChild(addElement);
+});
+
+socket.on("productDeleted",(productId)=>{
+    const deleteElement = document.getElementById(String(productId));
+    deleteElement.remove();
 });
 
 

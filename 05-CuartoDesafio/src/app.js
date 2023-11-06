@@ -45,8 +45,7 @@ socketServer.on('connection', socket => {
     console.log('Nuevo Cliente Conectado (Server 1)')
 
     socket.on('agregar_producto', (data) => {
-       
-        console.log("entra");
+        console.log("Proceso de Agregado");
         const thumbnail = [];
         thumbnail.push(data.thumbnail1);
         thumbnail.push(data.thumbnail2);
@@ -54,6 +53,15 @@ socketServer.on('connection', socket => {
         lp.addProduct(newProduct);
         socketServer.emit("productAdded", newProduct)
     });
+
+    socket.on('eliminar_producto', (data) => {
+        const cProd=data;
+        lp.deleteProductByCode(cProd);
+        console.log("Proceso de Eliminado");
+        socketServer.emit("productDeleted", cProd)
+    });
+
+
 });
 
 
