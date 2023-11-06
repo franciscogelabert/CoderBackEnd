@@ -1,6 +1,6 @@
 <div>
     <h1> Lista de Productos en Stock</h1>
-    <ul id="pList"></ul>
+    <ul id="pList">
     {{#each food}}
     <li id="{{this.code}}"> {{this.title}} {{this.description}} {{this.price}} {{this.stock}} {{this.category}} </li>
     {{/each}}
@@ -8,7 +8,8 @@
 </div>
 <div>
     <h2> Agregar nuevo Producto</h2>
-    <form method="POST" action="/realtimeproducts">
+    
+    <form id="formProduct">
 
         <label for="title">title:</label>
         <input type="text" id="title" name="title" required><br>
@@ -26,7 +27,7 @@
         <input type="number" id="stock" name="stock" required><br>
 
         <label for="thumbnail1">thumbnail 1:</label>
-        <input type="text" id="thumbnail" name="thumbnail1" required><br>
+        <input type="text" id="thumbnail1" name="thumbnail1" required><br>
 
         <label for="thumbnail2">thumbnail 2:</label>
         <input type="text" id="thumbnail2" name="thumbnail2" required><br>
@@ -37,8 +38,9 @@
         <label for="category">category:</label>
         <input type="text" id="category" name="category" required><br>
 
-        <button type="submit">Registrar</button>
+        <button type="submit" id="btn_registrar" >Registrar</button>
+
     </form>
-
-
 </div>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/index.js"></script>
