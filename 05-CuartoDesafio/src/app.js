@@ -48,20 +48,28 @@ socketServer.on('connection', socket => {
 
     socket.on('agregar_producto', (data) => {
 
-        if (lp.seEncuentra(data.code)) {
-            console.log("Proceso de Agregado");
-            const thumbnail = [];
-            thumbnail.push(data.thumbnail1);
-            thumbnail.push(data.thumbnail2);
-            const intCode = parseInt(data.code, 10);
-            const intPrice = parseInt(data.price, 10);
-            const intStock = parseInt(data.stock, 10);
-            const newProduct = new Product(data.title, data.description, intCode, intPrice, intStock, thumbnail, data.estado, data.category);
-            lp.addProduct(newProduct);
-            socketServer.emit("productAdded", newProduct)
-        } else {
-            socket.emit("productNotAdded", cProd);
-        }
+        lp.seEncuentra(data.code)
+            .then((result) => {
+                console.log("Proceso de Agregado", result);
+                if (result === false) {
+                    const thumbnail = [];
+                    thumbnail.push(data.thumbnail1);
+                    thumbnail.push(data.thumbnail2);
+                    const intCode = parseInt(data.code, 10);
+                    const intPrice = parseInt(data.price, 10);
+                    const intStock = parseInt(data.stock, 10);
+                    const newProduct = new Product(data.title, data.description, intCode, intPrice, intStock, thumbnail, data.estado, data.category);
+                    lp.addProduct(newProduct);
+                    socketServer.emit("productAdded", newProduct)
+                } else {
+                    socket.emit("productNotAdded", data.code);
+                }
+            })
+            .catch((error) => {
+                console.error("Error al insertar:", error);
+                // Manejo de errores, si la eliminación del producto falla
+                // socketServer.emit("productDeletionError", error);
+            });
     });
 
     socket.on('eliminar_producto', (data) => {

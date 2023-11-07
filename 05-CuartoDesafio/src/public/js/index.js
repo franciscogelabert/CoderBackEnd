@@ -137,7 +137,7 @@ socket.on("productNotAdded", (productId) => {
     Swal.fire({
         icon: "warning",
         title: "No se pudo cargar el Producto",
-        text: " Revise los ca,pos ingresados!",
+        text: " Revise los campos ingresados!",
     });
 
 });
