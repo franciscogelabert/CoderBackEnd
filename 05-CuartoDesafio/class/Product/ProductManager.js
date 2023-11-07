@@ -56,16 +56,22 @@ class ProductManager {
                     this.id = this.id + 1;
                     this.lista.push(producto);
                     this.fs.setArchivo(this.lista);
-                } else if (encontrado) {
+                     } else if (encontrado) {
                     console.log(`El producto ${producto.title} ya fue ingresado`);
+                    
                 } else {
                     console.log(`El producto ${producto.title} no es válido`);
+                   
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
+                resolve(false);
             });
     }
+ 
+
+
     addProduct = function (producto) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -88,9 +94,6 @@ class ProductManager {
             }
         });
     };
-
-
-
 
 
     updateProductById = function (id, producto) {
@@ -201,22 +204,25 @@ class ProductManager {
     deleteProductByCode = function (code) {
         return new Promise(async (resolve, reject) => {
             try {
+                const codeNum = parseInt(code, 10)
+                console.log("LLega -----> this.fs.archivo", this.fs.archivo);
+                console.log("LLega -----> validar ", this.fs.validarExistenciaArchivo(this.fs.archivo))
                 if (this.fs.archivo && this.fs.validarExistenciaArchivo(this.fs.archivo)) {
                     const result = await this.fs.getItemsArchivo();
                     this.lista = result; // actualizo lista con archivo
-                    const productoIndex = this.lista.findIndex(producto => producto.code === code);
+                    const productoIndex = this.lista.findIndex(producto => producto.code === codeNum);
                     if (productoIndex !== -1) {
                         const productoEliminado = this.lista.splice(productoIndex, 1)[0];
                         this.fs.setArchivo(this.lista);
-                        console.log(`Producto con código "${code}" eliminado:`, productoEliminado);
+                        console.log(`Producto con código "${codeNum}" eliminado:`, productoEliminado);
                         resolve(true);
                     } else {
-                        console.log(`Producto con código "${code}" no encontrado en la lista.`);
+                        console.log(`Producto con código "${codeNum}" no encontrado en la lista.`);
                         resolve(false);
                     }
                 }
                 else {
-                    console.log('El archivo no existe');
+                    console.log('El archivo no existee');
                     resolve(false);
                 }
             } catch (error) {
