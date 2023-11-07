@@ -134,7 +134,9 @@ nodemon src/app.js
 
 ### Clase Product: 
 
-La misma se utiliza para la gestión de productos/articulos a guardar.
+La misma se utiliza para la gestión de productos/articulos a guardar. 
+
+Es importante aclarar, que tal cual se solicitó en la consigna, cada producto se registra con un único ID autoincrementable, por otro lado tambien se utiliza un código para el manejo comercial de los mismos. 
 
 | Función | Descripción | 
 | --- | --- | 

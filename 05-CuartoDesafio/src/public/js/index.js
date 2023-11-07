@@ -105,12 +105,6 @@ socket.on("productAdded", (product) => {
     // Reemplazar el elemento <li> con la nueva fila <tr>
     tableBody.appendChild(newRow);
 
-    Swal.fire({
-        icon: "success",
-        title: "Producto Agregado. "
-    });
-
-
     document.getElementById('code').value = '';
     document.getElementById('title').value = '';
     document.getElementById('description').value = '';
