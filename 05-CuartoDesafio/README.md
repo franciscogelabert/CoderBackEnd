@@ -9,7 +9,7 @@ Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si apl
 ## Descripción Técnica Cliente
 Utilizando handlebars, se implementan dos layouts un con una vista estática (home) de los productos almacenados y otra que implementa websockets  (realTimeProducts) donde se visualizan los datos en tiempo real. Estos interactúan in un index.js que gestiona el comprortamiento de la tabla de productos y de los botones de la página. De esta manera se interactúa visualizando, cargando y eliminando productos en tiempo real, y actualizando las vistas de todos los clientes que se encuentren conectados. 
 
-### Debajo se detallan las funciones utilizadas con web Socket en el Cliente (index.js):
+### Debajo se detallan las funciones utilizadas con WebSockets en el Cliente (index.js):
 
 | Función | Descripción | 
 | --- | --- | 
@@ -26,7 +26,7 @@ Utilizando handlebars, se implementan dos layouts un con una vista estática (ho
 Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Router para Vistas (view.router.js), Productos (products.Router.js) como para Cart (cart.Router.js). En dichas clases se accede a los diferentes métodos (GET, PUT, DELETE y POST) para acceder a los Manager de las diferentes clases. Mediante funciones tanto del ProductManager como del CartManager, se accede a un FileManager para todo lo relacionado al acceso a la Info persistida en archivos. (carrito.json y productos.json).
 Respecto al tema vistas, tanto para consultar o persistir info, utiliza los managers antes mencionados.
 
-### Debajo se detallan las funciones utilizadas con web Socket en el Servidor:
+### Debajo se detallan las funciones utilizadas con WebSockets en el Servidor:
 
 | Función | Descripción | 
 | --- | --- | 
@@ -80,7 +80,7 @@ npm init -y
 
 ```
 
-Instalar Nodemon
+Instalar *Nodemon*
 
 ```bash
 
@@ -88,7 +88,7 @@ npm install -g nodemon
 
 ```
 
-Modificar Packaje.json
+Modificar *Packaje.json*
 
 ```bash
 
@@ -96,7 +96,7 @@ Agregar → "type": "module",
 
 ```
 
-Instalar Express
+Instalar *Express*
 
 ```bash
 
@@ -104,7 +104,7 @@ npm install express
 
 ```
 
-Instalar Handle Bars
+Instalar *Handle Bars*
 
 ```bash
 
@@ -112,7 +112,7 @@ npm install express-handlebars
 
 ```
 
-Instalar WebSockets
+Instalar *WebSockets*
 
 ```bash
 
