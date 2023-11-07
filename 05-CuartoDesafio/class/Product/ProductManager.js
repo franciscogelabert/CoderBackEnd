@@ -133,7 +133,6 @@ class ProductManager {
         });
     };
 
-
     updateProductByCode = function (code, producto) {
         return new Promise(async (resolve, reject) => {
             try {

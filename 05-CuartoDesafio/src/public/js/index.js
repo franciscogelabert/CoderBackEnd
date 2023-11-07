@@ -111,6 +111,16 @@ socket.on("productAdded", (product) => {
     });
 
 
+    document.getElementById('code').value = '';
+    document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('price').value = '';
+    document.getElementById('stock').value = '';
+    document.getElementById('category').value = '';
+    document.getElementById('estado').value = '';
+    document.getElementById('thumbnail1').value = '';
+    document.getElementById('thumbnail2').value = '';
+
 });
 
 socket.on("productDeleted", (productId) => {
@@ -122,6 +132,7 @@ socket.on("productDeleted", (productId) => {
             icon: "success",
             title: "Producto Eliminado"
         });
+        document.getElementById('pEliminar').value = '';
 
     } else {
         Swal.fire({
