@@ -29,7 +29,6 @@ viewsRouter.get('/', (req, res) => {
 });
 
 viewsRouter.get('/realTimeProducts', (req, res) => {
-
     lp.getProducts()
         .then((result) => {
             res.render('index', {
