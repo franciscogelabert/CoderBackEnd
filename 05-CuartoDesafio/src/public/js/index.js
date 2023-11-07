@@ -128,10 +128,6 @@ socket.on("productDeleted", (productId) => {
     if (productId !== null && productId !== '') {
         const deleteElement = document.getElementById(String(productId));
         deleteElement.remove();
-        Swal.fire({
-            icon: "success",
-            title: "Producto Eliminado"
-        });
         document.getElementById('pEliminar').value = '';
 
     } else {

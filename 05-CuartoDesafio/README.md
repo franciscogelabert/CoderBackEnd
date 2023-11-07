@@ -1,14 +1,54 @@
 ## Programación Backend -  Comisión 55595 
 
-*Primera Entrega - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
+*Cuarto Desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
 
 ## Descripción Funcional
-
-Se disponibilzan diferentes API's para consumir servicios relacionados a Gestión de Productos (Products) y de Carritos (Carts) de un e-commerce.
+Se disponibilzan diferentes API's para consumir servicios relacionados a Vistas, Gestión de Productos (Products) y de Carritos (Carts) de un e-commerce.
 Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si aplica y Body si aplica; mas una breve descripción.
 
-## Descripción Técnica
-Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Router tanto para Product (productsRouter) como para Cart (cartRouter). En dichas clases se accede a los diferentes métodos (GET, PUT, DELETE y POST) para acceder a los Manager de las diferentes clases. Mediante funciones tanto del ProductManager como del CartManager, se accede a un FileManager para todo lo relacionado al acceso de la Info persistida en archivos. (carrito.json y productos.json) 
+## Descripción Técnica Cliente
+Utilizando handlebars, se implementan dos layouts un con una vista estática (home) de los productos almacenados y otra que implementa websockets  (realTimeProducts) donde se visualizan los datos en tiempo real. Estos interactúan in un index.js que gestiona el comprortamiento de la tabla de productos y de los botones de la página. De esta manera se interactúa visualizando, cargando y eliminando productos en tiempo real, y actualizando las vistas de todos los clientes que se encuentren conectados. 
+
+### Debajo se detallan las funciones utilizadas con web Socket en el Cliente (index.js):
+
+| Función | Descripción | 
+| --- | --- | 
+| socket.emit('agregar_producto', new_product) | Envía mensaje al Servidor indicando se proceda con el alta de un Nuevo Producto|
+| socket.emit('eliminar_producto', cProd); | Envía mensaje al servidor, indicándole el código del producto que debe eliminar.|
+| socket.on("productAdded", (product) | Mensaje recibido desde el Servidor una vez que el Poducto se persiste |
+| socket.on("productDeleted", (productId) | Mensaje recibido desde el Servidor una vez que el Poducto se elimina.|
+| socket.on("productNotAdded", (productId)  | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser cargado.|
+| socket.on("productNotDeleted", (productId)  | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser eliminado.|
+
+
+## Descripción Técnica Servidor (app.js)
+
+Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Router para Vistas (view.router.js), Productos (products.Router.js) como para Cart (cart.Router.js). En dichas clases se accede a los diferentes métodos (GET, PUT, DELETE y POST) para acceder a los Manager de las diferentes clases. Mediante funciones tanto del ProductManager como del CartManager, se accede a un FileManager para todo lo relacionado al acceso a la Info persistida en archivos. (carrito.json y productos.json).
+Respecto al tema vistas, tanto para consultar o persistir info, utiliza los managers antes mencionados.
+
+### Debajo se detallan las funciones utilizadas con web Socket en el Servidor:
+
+| Función | Descripción | 
+| --- | --- | 
+| socketServer.on('connection', socket) | Para establecer la conexión|
+| socket.on('agregar_producto', (data)) | Escucha pedido desde el Cliente para agregar un productos|
+| socketServer.emit("productAdded", newProduct) | Mensaje enviado al Cliente indicándole que el producto se pudo persistir |
+| socket.emit("productNotAdded", data.code); | Mensaje enviado al Cliente indicándole que el producto no se pudo persistir .|
+| socket.on('eliminar_producto', (data)   | Escucha pedido desde el Cliente para eliminar un productos..|
+| socket.emit("productDeleted", cProd)  | Mensaje enviado al Cliente indicándole que el producto se pudo eliminar.|
+| socket.emit("productNotDeleted", cProd) | Mensaje enviado al Cliente indicándole que el producto no se pudo eliminar.|
+
+
+## APIs 
+
+### Descripción API Views
+
+| Función | Descripción | 
+| --- | --- | 
+| get('/', (req, res) | Renderiza el listado de productos en el layout home. El mismo se presenta de forma estática, al menos que sea actualizado desde realTimeProducts.|
+| get('/realTimeProducts', (req, res)  | Renderiza el listado de productos en el layout realTimeProducts. El mismo se presenta en tiempo real, permite actualizar y recibir actualizaciones de los diferentes clientes en tiempo real. Desde el layout se brinda la funcionalidad de agregar y eliminar productos.|
+| post('/realTimeProducts', (req, res)| Recibe un nuevo producto en el Body y lo persiste, actualiza la info presentada en los diferentes layouts  |
+
 
 ### Descripción API Products
 
@@ -22,6 +62,7 @@ Las Apis's se consumen a travéz de una apps.js la cual instancia un Express Rou
 | delete('/:id', (req, res)  | Borra un producto cuya referencia se recibe por parámetro id.|
 
 ### Descripción API Carts
+
 | Función | Descripción | 
 | --- | --- | 
 | get('/', (req, res) | Devuelve el listado completo de carritos|
@@ -63,17 +104,22 @@ npm install express
 
 ```
 
-Verificar ruta de archivo en src/routes: 
+Instalar Handle Bars
 
 ```bash
-carts.router.js -->
 
-const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
+npm install express-handlebars 
 
-products.router.js -->
-
-const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
 ```
+
+Instalar WebSockets
+
+```bash
+
+npm install  socket.io
+
+```
+
 
 Para correr la app
 
