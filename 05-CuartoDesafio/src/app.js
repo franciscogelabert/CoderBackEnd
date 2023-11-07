@@ -1,16 +1,16 @@
 import { viewsRouter } from './routes/views.router.js';
+import { productsRouter } from './routes/products.router.js';
+import { cartsRouter } from './routes/carts.router.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
-
 import Product from '../class/Product/Product.js';
 import ProductManager from '../class/Product/ProductManager.js';
 import FileManager from '../class/FileSystem/FileManager.js';
 
 
-//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
-const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/05-CuartoDesafio/files');
+const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 
 
 // creo el ProductManager
@@ -34,34 +34,64 @@ app.use(express.json())
 
 // Conectar los routers a las rutas principales
 app.use('/', viewsRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
 
 
-///////////////////////Añadir unelemento///////////////
+// Accesos al Servidor Alta y eliminación de Productos
 
 socketServer.on('connection', socket => {
     console.log('Nuevo Cliente Conectado (Server 1)')
 
     socket.on('agregar_producto', (data) => {
-        console.log("Proceso de Agregado");
-        const thumbnail = [];
-        thumbnail.push(data.thumbnail1);
-        thumbnail.push(data.thumbnail2);
-        const newProduct = new Product(data.title, data.description, data.code, data.price, data.stock, thumbnail, data.estado, data.category);
-        lp.addProduct(newProduct);
-        socketServer.emit("productAdded", newProduct)
+
+        lp.seEncuentra(data.code)
+            .then((result) => {
+                console.log("Proceso de Agregado", result);
+                if (result === false) {
+                    const thumbnail = [];
+                    thumbnail.push(data.thumbnail1);
+                    thumbnail.push(data.thumbnail2);
+                    const intCode = parseInt(data.code, 10);
+                    const intPrice = parseInt(data.price, 10);
+                    const intStock = parseInt(data.stock, 10);
+                    const newProduct = new Product(data.title, data.description, intCode, intPrice, intStock, thumbnail, data.estado, data.category);
+                    lp.addProduct(newProduct);
+                    socketServer.emit("productAdded", newProduct)
+                } else {
+                    socket.emit("productNotAdded", data.code);
+                }
+            })
+            .catch((error) => {
+                console.error("Error al insertar:", error);
+                // Manejo de errores, si la eliminación del producto falla
+                // socketServer.emit("productDeletionError", error);
+            });
     });
 
     socket.on('eliminar_producto', (data) => {
-        const cProd=data;
-        lp.deleteProductByCode(cProd);
-        console.log("Proceso de Eliminado");
-        socketServer.emit("productDeleted", cProd)
-    });
+        const cProd = data;
+        lp.deleteProductByCode(cProd)
+            .then((result) => {
+                console.log("Proceso de Eliminado");
+                if (result === true) {
+                    // Si result es true, el producto se eliminó
+                    socket.emit("productDeleted", cProd);
+                } else {
+                    socket.emit("productNotDeleted", cProd);
+                }
+            })
+            .catch((error) => {
+                console.error("Error al eliminar producto:", error);
+                // Manejo de errores, si la eliminación del producto falla
+                // socketServer.emit("productDeletionError", error);
+            });
 
+    });
 
 });
 
