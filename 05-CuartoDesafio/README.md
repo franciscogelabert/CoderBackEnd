@@ -70,6 +70,56 @@ Respecto al tema vistas, tanto para consultar o persistir info, utiliza los mana
 | post('/', (req, res) | Recibe un nuevo cart en el Body y lo persiste.|
 | post('/:cid/product/:pid', (req, res)  | recibe como parámetro un id de carrito y un id de producto, si el carrito tiene dicho producto incrementa su cantidad en 1 y si no lo tiene lo ahgrega.|
 
+## Carpeta Class
+
+### Clase Product: 
+
+La misma se utiliza para la gestión de productos/articulos a guardar. 
+
+Es importante aclarar, que tal cual se solicitó en la consigna, cada producto se registra con un único ID autoincrementable, por otro lado tambien se utiliza un código para el manejo comercial de los mismos. 
+
+| Función | Descripción | 
+| --- | --- | 
+| constructor | Crea una instancia de un Objeto *Producto* con Título, Descripción, Precio, imágen Preliminar, Código y Stock|
+| esValido | Valida que se hayan ingresado todos los datos.|
+
+### Clase ProductManager: 
+Se utiliza para gestionar un listado de instancias de la Clase Product y de administrar la persistencia de los objetos utilizando una instancia de FileManager.
+Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. 
+
+| Función | Descripción | 
+| --- | --- | 
+| constructor | Crea instancia instancia del Objeto *ProductManager*, con un id autoincremtable por cada producto, una lista que almacena instancias de Objetos Product y una instancia del FileManager que se utilizará para todo lo asociado a la persistencia de la Lista de Objetos. 
+| addProduct | Agrega un Producto a la ista y lo persiste |
+| updateProduct | Actualiza un Producto en la Lista y lo persiste|
+| eliminarProductoPorCodigo | Elimina un Producto de la Lista y del archivo|
+| getProductById | Obtiene un producto de la lista por su ID, la lista previamente se actualiza con los datos del archivo. |
+| getProducts | Obtiene lista de Productos , la lista previamente se actualiza con los datos del archivo. |
+| getProductByCode |Obtiene un producto de la lista por su Código, la lista previamente se actualiza con los datos del archivo.  |
+
+### Clase CartManager: 
+Se utiliza para gestionar un listado de instancias de la Clase Cart y de administrar la persistencia de los objetos utilizando una instancia de FileManager.
+Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. 
+
+| Función | Descripción | 
+| --- | --- | 
+| constructor | Crea instancia instancia del Objeto *CartManager*, una lista que almacena instancias de Objetos Cart y una instancia del FileManager que se utilizará para todo lo asociado a la persistencia de la Lista de Objetos. 
+| addCart | Agrega un Cart a la ista y lo persiste |
+| addProductCart | Dado un Cart si el mismo posee el producto lo incrementa en una unidad, sino lo tiene lo agrega al Cart.|
+| getProductById | Obtiene un Cart de la lista por su ID, la lista previamente se actualiza con los datos del archivo. |
+| getCarts | Obtiene lista de todos los Carts, la lista previamente se actualiza con los datos del archivo. |
+
+### Clase FileManager: 
+Se crea esta clase para desacoplar el manejo de archivos en las otras clases, de esta manera se pueden crear otros FileSystem para que guarden otras instancias de otros objetos en diferentes archivos.
+
+| Función | Descripción | 
+| --- | --- | 
+| constructor | Crea instancia instancia del Objeto *FileManager* con el nombre del archivo. la ruta de almacenado y la metodología con la que se va a gestionar la persistencia  |
+| setArchivo | Persiste los datos en el archivo, en este caso persiste una lista de productos en formato Json |
+| getItemsArchivo | Consulta el total de items almacenados en el archivo, en este caso actualiza la lista de Productos con todos los Productos que se encuentran almacenados en el archivo.|
+| eliminarArchivo | Elimina un archivo.|
+| validarExistenciaArchivo | verifica la existencia de un archivo.|
+
 ### Info para Pruebas: 
 
 Recordar correr: 
@@ -128,57 +178,6 @@ Para correr la app
 nodemon src/app.js
 
 ```
-
-
-## Carpeta Class
-
-### Clase Product: 
-
-La misma se utiliza para la gestión de productos/articulos a guardar. 
-
-Es importante aclarar, que tal cual se solicitó en la consigna, cada producto se registra con un único ID autoincrementable, por otro lado tambien se utiliza un código para el manejo comercial de los mismos. 
-
-| Función | Descripción | 
-| --- | --- | 
-| constructor | Crea una instancia de un Objeto *Producto* con Título, Descripción, Precio, imágen Preliminar, Código y Stock|
-| esValido | Valida que se hayan ingresado todos los datos.|
-
-### Clase ProductManager: 
-Se utiliza para gestionar un listado de instancias de la Clase Product y de administrar la persistencia de los objetos utilizando una instancia de FileManager.
-Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. 
-
-| Función | Descripción | 
-| --- | --- | 
-| constructor | Crea instancia instancia del Objeto *ProductManager*, con un id autoincremtable por cada producto, una lista que almacena instancias de Objetos Product y una instancia del FileManager que se utilizará para todo lo asociado a la persistencia de la Lista de Objetos. 
-| addProduct | Agrega un Producto a la ista y lo persiste |
-| updateProduct | Actualiza un Producto en la Lista y lo persiste|
-| eliminarProductoPorCodigo | Elimina un Producto de la Lista y del archivo|
-| getProductById | Obtiene un producto de la lista por su ID, la lista previamente se actualiza con los datos del archivo. |
-| getProducts | Obtiene lista de Productos , la lista previamente se actualiza con los datos del archivo. |
-| getProductByCode |Obtiene un producto de la lista por su Código, la lista previamente se actualiza con los datos del archivo.  |
-
-### Clase CartManager: 
-Se utiliza para gestionar un listado de instancias de la Clase Cart y de administrar la persistencia de los objetos utilizando una instancia de FileManager.
-Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. 
-
-| Función | Descripción | 
-| --- | --- | 
-| constructor | Crea instancia instancia del Objeto *CartManager*, una lista que almacena instancias de Objetos Cart y una instancia del FileManager que se utilizará para todo lo asociado a la persistencia de la Lista de Objetos. 
-| addCart | Agrega un Cart a la ista y lo persiste |
-| addProductCart | Dado un Cart si el mismo posee el producto lo incrementa en una unidad, sino lo tiene lo agrega al Cart.|
-| getProductById | Obtiene un Cart de la lista por su ID, la lista previamente se actualiza con los datos del archivo. |
-| getCarts | Obtiene lista de todos los Carts, la lista previamente se actualiza con los datos del archivo. |
-
-### Clase FileManager: 
-Se crea esta clase para desacoplar el manejo de archivos en las otras clases, de esta manera se pueden crear otros FileSystem para que guarden otras instancias de otros objetos en diferentes archivos.
-
-| Función | Descripción | 
-| --- | --- | 
-| constructor | Crea instancia instancia del Objeto *FileManager* con el nombre del archivo. la ruta de almacenado y la metodología con la que se va a gestionar la persistencia  |
-| setArchivo | Persiste los datos en el archivo, en este caso persiste una lista de productos en formato Json |
-| getItemsArchivo | Consulta el total de items almacenados en el archivo, en este caso actualiza la lista de Productos con todos los Productos que se encuentran almacenados en el archivo.|
-| eliminarArchivo | Elimina un archivo.|
-| validarExistenciaArchivo | verifica la existencia de un archivo.|
 
 
 ### Info Escenario de los archivos Archivo: 
