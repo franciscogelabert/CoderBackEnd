@@ -1,4 +1,6 @@
 import { viewsRouter } from './routes/views.router.js';
+import { productsRouter } from './routes/products.router.js';
+import { cartsRouter } from './routes/carts.router.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
@@ -9,8 +11,11 @@ import ProductManager from '../class/Product/ProductManager.js';
 import FileManager from '../class/FileSystem/FileManager.js';
 
 
-//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/05-CuartoDesafio/files');
-const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/05-CuartoDesafio/files');
+import path from 'path';
+
+
+const filePath = path.join(__dirname, 'files', 'productos.json');
+const farchivo = new FileManager('productos.json', filePath);
 
 
 // creo el ProductManager
@@ -32,14 +37,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 // Conectar los routers a las rutas principales
-app.use('/', viewsRouter);
+app.use('/', viewsRouter); 
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
 
 
-///////////////////////Añadir unelemento///////////////
+// Accesos al Servidor Alta y eliminación de Productos
 
 socketServer.on('connection', socket => {
     console.log('Nuevo Cliente Conectado (Server 1)')
