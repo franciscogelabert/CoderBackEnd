@@ -16,6 +16,9 @@ dist-ssr
 package.json
 package-lock.json
 
+# docker
+*.yml
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -26,3 +29,5 @@ package-lock.json
 *.njsproj
 *.sln
 *.sw?
+
+
