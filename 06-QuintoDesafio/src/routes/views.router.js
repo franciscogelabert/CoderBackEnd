@@ -4,9 +4,11 @@ import Product from '../../class/Product/Product.js';
 import ProductManager from '../../class/Product/ProductManager.js';
 import FileManager from '../../class/FileSystem/FileManager.js';
 import __dirname from '../utils.js';
+import connect  from '../db/connect.js';
 
 const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 
+//connect();
 
  // creo el ProductManager
  const lp = new ProductManager(farchivo);
@@ -14,20 +16,32 @@ const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 const viewsRouter = express.Router();
 
 // Ruta para manejar la solicitud de la página de inicio
+viewsRouter.get('/db', (req, res) => {
+
+    connect();
+    res.render('index', {
+        layout: 'home',
+        Saludo: 'Hola' //lp.lista
+       
+    })
+        })
+
+
+// Ruta para manejar la solicitud de la página de inicio
 viewsRouter.get('/', (req, res) => {
 
-  lp.getProducts()
-        .then((result) => {
-            res.render('index', {
-                layout: 'home',
-                food: result //lp.lista
-               
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-
-});
+    lp.getProducts()
+          .then((result) => {
+              res.render('index', {
+                  layout: 'home',
+                  food: result //lp.lista
+                 
+              });
+          }).catch((error) => {
+              console.error('Error:', error);
+          });
+  
+  });
 
 viewsRouter.get('/realTimeProducts', (req, res) => {
     lp.getProducts()
