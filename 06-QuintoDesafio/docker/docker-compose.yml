@@ -8,9 +8,12 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ~/Coderhouse/Backend/06-QuintoDesafio/docker/data:/data/db
+      - ~/Proyectos/Coder/06-QuintoDesafio/docker/data:/data/db
     networks:
       - mongo-network
+    environment:
+      - HTTP_PROXY=http://10.10.254.218:3128
+      - HTTPS_PROXY=http://10.10.254.218:3128
 
   mongo-express:
     image: mongo-express
@@ -20,6 +23,8 @@ services:
     depends_on:
       - mongo
     environment:
+      - HTTP_PROXY=http://10.10.254.218:3128
+      - HTTPS_PROXY=http://10.10.254.218:3128
       - ME_CONFIG_BASICAUTH_USERNAME=root
       - ME_CONFIG_BASICAUTH_PASSWORD=root
       - ME_CONFIG_MONGODB_PORT=27017

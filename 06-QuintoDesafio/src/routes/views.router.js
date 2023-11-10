@@ -18,13 +18,22 @@ const viewsRouter = express.Router();
 // Ruta para manejar la solicitud de la página de inicio
 viewsRouter.get('/db', (req, res) => {
 
-    connect();
-    res.render('index', {
-        layout: 'home',
-        Saludo: 'Hola' //lp.lista
-       
-    })
-        })
+    lp.getProducts()
+          .then((result) => {
+            connect();
+            res.render('index', {
+                layout: 'home',
+                Saludo: 'Base de datos lista para usarse', //lp.lista
+                food: result //lp.lista
+                 
+              });
+          }).catch((error) => {
+              console.error('Error:', error);
+          });
+  
+  });
+    
+    
 
 
 // Ruta para manejar la solicitud de la página de inicio
