@@ -1,9 +1,10 @@
 import express from 'express';
 import ProductManager from '../../class/Product/ProductManager.js';
 import Product from '../../class/Product/Product.js';
-import FileManager from '../../class/FileSystem/FileManager.js';
+import FileManager from '../../class/dao/FileSystem/FileManager.js';
 const productsRouter = express.Router();
 import __dirname from '../utils.js';
+
 
 
 const farchivo = new FileManager('productos.json', `${__dirname}/files`);

@@ -7,23 +7,43 @@ import __dirname from './utils.js';
 import { Server } from 'socket.io';
 import Product from '../class/Product/Product.js';
 import ProductManager from '../class/Product/ProductManager.js';
-import FileManager from '../class/FileSystem/FileManager.js';
+import FileManager from '../class/dao/FileSystem/FileManager.js';
+
+import {connect} from '../src/db/connect.js';
 
 
+// Usando Base de datos en Mongo
+
+
+
+
+// Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
+const hbs = handlebars.create({
+   runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true,
+  },
+});
+
+
+
+// Usando File Manager
 const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 
 
 // creo el ProductManager
 const lp = new ProductManager(farchivo);
+// hacer un lpDB = new ProductManager();
+
 console.log('Paso 1 - Se crea el Product Manager');
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
-
 const app = express();
 const port = 8080;
 
-app.engine('handlebars', handlebars.engine());
+
+app.engine('handlebars', hbs.engine);
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
@@ -60,7 +80,13 @@ socketServer.on('connection', socket => {
                     const intPrice = parseInt(data.price, 10);
                     const intStock = parseInt(data.stock, 10);
                     const newProduct = new Product(data.title, data.description, intCode, intPrice, intStock, thumbnail, data.estado, data.category);
+                    
+                    /*  TODO !!!*/
+
                     lp.addProduct(newProduct);
+
+
+
                     socketServer.emit("productAdded", newProduct)
                 } else {
                     socket.emit("productNotAdded", data.code);
@@ -75,6 +101,9 @@ socketServer.on('connection', socket => {
 
     socket.on('eliminar_producto', (data) => {
         const cProd = data;
+
+        /*  TODO  */
+
         lp.deleteProductByCode(cProd)
             .then((result) => {
                 console.log("Proceso de Eliminado");
@@ -94,7 +123,5 @@ socketServer.on('connection', socket => {
     });
 
 });
-
-
 
 export default socketServer;

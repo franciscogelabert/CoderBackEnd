@@ -1,5 +1,5 @@
 import Product from './Product.js';
-import FileManager from '../FileSystem/FileManager.js'
+import FileManager from '../dao/FileSystem/FileManager.js'
 
 
 class ProductManager {
