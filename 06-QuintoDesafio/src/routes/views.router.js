@@ -13,6 +13,24 @@ const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 const viewsRouter = express.Router();
 
 // Ruta para probar la conexión
+viewsRouter.get('/db/realTimeProducts', async (req, res) => {
+    try {
+        let result = await productModel.find();
+        console.log(result);
+        //res.send({ result: 'success', payload: result });
+        res.render('index', {
+            layout: 'realTimeProductsDB',
+            food: result //lp.lista
+
+        });
+    }
+    catch (error) {
+        console.log("Error:  ", error);
+    }
+})
+
+
+// Ruta para probar la conexión
 viewsRouter.get('/db', async (req, res) => {
     try {
         let result = await productModel.find();
@@ -28,10 +46,6 @@ viewsRouter.get('/db', async (req, res) => {
         console.log("Error:  ", error);
     }
 })
-
-
-
-
 
 // Ruta para realizar un POst desde Postman 
 viewsRouter.post('/db', async (req, res) => {
@@ -59,6 +73,7 @@ viewsRouter.post('/db', async (req, res) => {
 
 // creo el ProductManager
 const lp = new ProductManager(farchivo);
+
 
 // Ruta para manejar la solicitud de la página de inicio
 viewsRouter.get('/', (req, res) => {

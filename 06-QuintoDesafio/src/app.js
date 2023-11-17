@@ -8,12 +8,22 @@ import { Server } from 'socket.io';
 import Product from '../class/Product/Product.js';
 import ProductManager from '../class/Product/ProductManager.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
-
-import {connect} from '../src/db/connect.js';
+import mongoose from 'mongoose';
 
 
 // Usando Base de datos en Mongo
 
+const URI =`mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/ecommerce?retryWrites=true&w=majority`;
+
+mongoose.connect(URI)
+.then(
+    ()=>{
+        console.log('Base de datos lista para usarse');
+        },
+    (err)=>{
+        console.log('Ha ocurrido un error --> ',err);
+    }
+)
 
 
 
@@ -56,6 +66,9 @@ app.use(express.json())
 app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+
+
+
 
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });

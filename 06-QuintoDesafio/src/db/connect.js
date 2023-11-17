@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 function connect(){
 
-const URI =`mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/?retryWrites=true&w=majority`;
+const URI =`mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net//ecommerce?retryWrites=true&w=majority`;
 
 mongoose.connect(URI)
 .then(
