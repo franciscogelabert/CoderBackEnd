@@ -7,6 +7,7 @@ import __dirname from './utils.js';
 import { Server } from 'socket.io';
 import Product from '../class/Product/Product.js';
 import ProductManager from '../class/Product/ProductManager.js';
+import ProductManagerDB from '../class/Product/ProductManagerDB.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
 import mongoose from 'mongoose';
 
@@ -82,6 +83,8 @@ socketServer.on('connection', socket => {
 
     socket.on('agregar_producto', (data) => {
 
+       /* TODO !!!!! */
+       
         lp.seEncuentra(data.code)
             .then((result) => {
                 console.log("Proceso de Agregado", result);
@@ -94,7 +97,7 @@ socketServer.on('connection', socket => {
                     const intStock = parseInt(data.stock, 10);
                     const newProduct = new Product(data.title, data.description, intCode, intPrice, intStock, thumbnail, data.estado, data.category);
                     
-                    /*  TODO !!!*/
+                    /* TODO !!!!! */
 
                     lp.addProduct(newProduct);
 
@@ -115,7 +118,7 @@ socketServer.on('connection', socket => {
     socket.on('eliminar_producto', (data) => {
         const cProd = data;
 
-        /*  TODO  */
+         /* TODO !!!!! */
 
         lp.deleteProductByCode(cProd)
             .then((result) => {
@@ -137,4 +140,7 @@ socketServer.on('connection', socket => {
 
 });
 
+
 export default socketServer;
+
+
