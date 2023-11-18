@@ -56,8 +56,6 @@ cartsRouter.post('/:cid/product/:pid', (req, res) => {
 
 });
 
-
-
 cartsRouter.put('/', (req, res) => {
     if (req.query.id ?? req.query.codProd) {
         const id = parseInt(req.query.id, 10);

@@ -27,7 +27,6 @@ mongoose.connect(URI)
 )
 
 
-
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
 const hbs = handlebars.create({
    runtimeOptions: {
@@ -42,9 +41,11 @@ const hbs = handlebars.create({
 const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 
 
-// creo el ProductManager
-const lp = new ProductManager(farchivo);
-// hacer un lpDB = new ProductManager();
+// creo el ProductManager para FileSystem
+//const lp = new ProductManager(farchivo);
+
+// creo el ProductManager para Base de datos
+const lp = new ProductManagerDB();
 
 console.log('Paso 1 - Se crea el Product Manager');
 
@@ -70,8 +71,6 @@ app.use('/api/carts', cartsRouter);
 
 
 
-
-
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
 
@@ -82,9 +81,7 @@ socketServer.on('connection', socket => {
     console.log('Nuevo Cliente Conectado (Server 1)')
 
     socket.on('agregar_producto', (data) => {
-
-       /* TODO !!!!! */
-       
+           
         lp.seEncuentra(data.code)
             .then((result) => {
                 console.log("Proceso de Agregado", result);
@@ -97,12 +94,8 @@ socketServer.on('connection', socket => {
                     const intStock = parseInt(data.stock, 10);
                     const newProduct = new Product(data.title, data.description, intCode, intPrice, intStock, thumbnail, data.estado, data.category);
                     
-                    /* TODO !!!!! */
-
                     lp.addProduct(newProduct);
-
-
-
+                    
                     socketServer.emit("productAdded", newProduct)
                 } else {
                     socket.emit("productNotAdded", data.code);
@@ -117,9 +110,6 @@ socketServer.on('connection', socket => {
 
     socket.on('eliminar_producto', (data) => {
         const cProd = data;
-
-         /* TODO !!!!! */
-
         lp.deleteProductByCode(cProd)
             .then((result) => {
                 console.log("Proceso de Eliminado");

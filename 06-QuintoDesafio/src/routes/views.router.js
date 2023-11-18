@@ -19,7 +19,7 @@ viewsRouter.get('/db/realTimeProducts', async (req, res) => {
         console.log(result);
         //res.send({ result: 'success', payload: result });
         res.render('index', {
-            layout: 'realTimeProductsDB',
+            layout: 'realTimeProducts',
             food: result //lp.lista
 
         });
@@ -37,7 +37,7 @@ viewsRouter.get('/db', async (req, res) => {
         console.log(result);
         //res.send({ result: 'success', payload: result });
         res.render('index', {
-            layout: 'homeDB',
+            layout: 'home',
             food: result //lp.lista
 
         });

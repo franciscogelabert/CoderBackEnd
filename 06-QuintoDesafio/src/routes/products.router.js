@@ -1,5 +1,6 @@
 import express from 'express';
 import ProductManager from '../../class/Product/ProductManager.js';
+import ProductManagerDB from '../../class/Product/ProductManagerDB.js';
 import Product from '../../class/Product/Product.js';
 import FileManager from '../../class/dao/FileSystem/FileManager.js';
 const productsRouter = express.Router();
@@ -7,11 +8,15 @@ import __dirname from '../utils.js';
 
 
 
+
 const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 
-// creo el ProductManager
-const lp = new ProductManager(farchivo);
-console.log('Paso 1 - Se crea el Product Manager');
+// creo el ProductManager para FileSystem
+//const lp = new ProductManager(farchivo);
+
+// creo el ProductManager para Base de datos
+const lp = new ProductManagerDB();
+
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
@@ -38,8 +43,7 @@ productsRouter.get('/', (req, res) => {
 productsRouter.get('/:id', (req, res) => {
 
     const id = req.params.id;
-
-    lp.getProductById(id)
+     lp.getProductById(id)
         .then((result) => {
             res.send(result);
         }).catch((error) => {
