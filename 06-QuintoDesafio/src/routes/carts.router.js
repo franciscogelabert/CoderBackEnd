@@ -1,16 +1,21 @@
 import express from 'express';
 import Cart from '../../class/Cart/Cart.js';
 import CartManager from '../../class/Cart/CartManager.js';
+import CartManagerDB from '../../class/Cart/CartManagerDB.js';
 import FileManager from '../../class/dao/FileSystem/FileManager.js';
 import __dirname from '../utils.js';
+
 const cartsRouter = express.Router();
 
 
 const farchivo = new FileManager('carrito.json', `${__dirname}/files`);
 
 // crea Instancia del Cart Manager y setea el nombre del Archivo, el Origen de datos y la ruta
-const lc = new CartManager(farchivo);
-console.log('02 - Se crea el Cart Manager');
+//const lc = new CartManager(farchivo);
+//console.log('02 - Se crea el Cart Manager');
+
+// creo el ProductManager para Base de datos
+const lc = new CartManagerDB();
 
 
 cartsRouter.get('/', (req, res) => {
@@ -37,8 +42,9 @@ cartsRouter.get('/:id', (req, res) => {
 
 cartsRouter.post('/', (req, res) => {
     const newCart = new Cart(req.body);
+    console.log(newCart);
     lc.addCart(newCart);
-    res.status(201).json('Producto agregadoooo');
+    res.status(200).json({ message: 'Cart agregadoooo', data: newCart });
 });
 
 cartsRouter.post('/:cid/product/:pid', (req, res) => {
@@ -58,7 +64,7 @@ cartsRouter.post('/:cid/product/:pid', (req, res) => {
 
 cartsRouter.put('/', (req, res) => {
     if (req.query.id ?? req.query.codProd) {
-        const id = parseInt(req.query.id, 10);
+        const id = req.query.id;
         const codProd = parseInt(req.query.codProd, 10);
         lc.addProductCart(codProd, id);
         res.status(201).json('Producto actualizado');

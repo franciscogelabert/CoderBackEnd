@@ -4,7 +4,7 @@ import Product from '../../class/Product/Product.js';
 import ProductManager from '../../class/Product/ProductManager.js';
 import FileManager from '../../class/dao/FileSystem/FileManager.js';
 import __dirname from '../utils.js';
-import { productModel } from '../../class/Dao/MongoDB/models/user.model.js';
+import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
 
 
 

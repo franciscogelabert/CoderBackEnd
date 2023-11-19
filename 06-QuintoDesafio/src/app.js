@@ -46,8 +46,7 @@ const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 
 // creo el ProductManager para Base de datos
 const lp = new ProductManagerDB();
-
-console.log('Paso 1 - Se crea el Product Manager');
+console.log('Paso 1 - Se crea el Product Manager en app.js');
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
