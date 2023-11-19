@@ -57,8 +57,11 @@ class CartManagerDB {
                 }
     
                 // Actualiza el carrito en la base de datos
-                const resultUpdate = await cartModel.updateOne({ _id: idCart }, { $set: result });;
-                resolve(resultUpdate);
+          
+                await this.updateCartById(idCart,result);
+      
+                
+                resolve(result);
     
             } catch (error) {
                 console.error('Error:', error);
@@ -101,8 +104,8 @@ class CartManagerDB {
 }
 
 export default CartManagerDB;
-
 /*
+
 // Usando Base de datos en Mongo
 
 const URI =`mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/ecommerce?retryWrites=true&w=majority`;
@@ -128,13 +131,11 @@ console.log('00- Se crean los 3 carritos');
 
 */
 /*
-// creo el ProductManager
+// creo el Cart Manager
 const lc = new CartManagerDB();
 console.log('02 - Se crea el Cart Manager');
 const idCart = '655a54dcf04594bdbf5a26ea';
-const isProducto = 118;
-
-
+const isProducto = 152;
 
 lc.addProductCart(isProducto,idCart)
     .then((productoInsertado) => {
@@ -143,8 +144,8 @@ lc.addProductCart(isProducto,idCart)
     .catch((error) => {
         // Manejar el error, si es necesario
     });
-*/
 
+*/
 /*
 
 lc.addCart(cart1)

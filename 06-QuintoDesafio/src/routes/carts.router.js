@@ -50,7 +50,7 @@ cartsRouter.post('/', (req, res) => {
 cartsRouter.post('/:cid/product/:pid', (req, res) => {
 
     if (req.params.cid ?? req.params.pid) {
-        const id = parseInt(req.params.cid, 10);
+        const id = req.params.cid;
         const codProd = parseInt(req.params.pid, 10);
         lc.addProductCart(codProd, id);
         res.status(201).json({ message: `Carrito con ID ${id} Modificado. Se modificó la cantidad del Producto con Código ${codProd}` });
