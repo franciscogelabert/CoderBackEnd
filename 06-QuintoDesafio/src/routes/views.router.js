@@ -7,11 +7,9 @@ import __dirname from '../utils.js';
 import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
 
 
-
-const farchivo = new FileManager('productos.json', `${__dirname}/files`);
-
 const viewsRouter = express.Router();
 
+// Para trabajar con la Base Mongo - ProductModel
 // Ruta para probar la conexión
 viewsRouter.get('/api/realTimeProducts', async (req, res) => {
     try {
@@ -44,7 +42,7 @@ viewsRouter.get('/api', async (req, res) => {
 })
 
 // Ruta para probar la conexión
-viewsRouter.get('/chat', async (req, res) => {
+viewsRouter.get('/api/chat', async (req, res) => {
     try {
         let result = await productModel.find();
         res.render('index', {
@@ -58,8 +56,8 @@ viewsRouter.get('/chat', async (req, res) => {
     }
 })
 
-// Ruta para realizar un POst desde Postman 
-viewsRouter.post('/db', async (req, res) => {
+// Ruta para realizar un Post desde Postman 
+viewsRouter.post('/api', async (req, res) => {
     try {
 
         const newProduct = new productModel({
@@ -82,7 +80,10 @@ viewsRouter.post('/db', async (req, res) => {
     }
 });
 
-// creo el ProductManager
+// Para trabajar con el FileSystem - ProductManager
+
+const farchivo = new FileManager('productos.json', `${__dirname}/files`);
+
 const lp = new ProductManager(farchivo);
 
 

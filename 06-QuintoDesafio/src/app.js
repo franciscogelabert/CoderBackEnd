@@ -11,21 +11,16 @@ import ProductManagerDB from '../class/Product/ProductManagerDB.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
 import mongoose from 'mongoose';
 
-
-// Usando Base de datos en Mongo
-
-const URI =`mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/ecommerce?retryWrites=true&w=majority`;
-
-mongoose.connect(URI)
-.then(
-    ()=>{
-        console.log('Base de datos lista para usarse');
-        },
-    (err)=>{
-        console.log('Ha ocurrido un error --> ',err);
-    }
-)
-
+  // Configuración de la conexión a MongoDB
+  const URI = 'mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/ecommerce?retryWrites=true&w=majority';
+  
+  mongoose.connect(URI)
+  .then(() => {
+    console.log('Base de datos lista para usarse');
+  })
+  .catch((err) => {
+    console.log('Ha ocurrido un error --> ', err);
+  });
 
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
 const hbs = handlebars.create({
@@ -35,10 +30,8 @@ const hbs = handlebars.create({
   },
 });
 
-
-
 // Usando File Manager
-const farchivo = new FileManager('productos.json', `${__dirname}/files`);
+//const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 
 
 // creo el ProductManager para FileSystem
