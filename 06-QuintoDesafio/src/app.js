@@ -70,14 +70,29 @@ app.use('/api/carts', cartsRouter);
 
 
 
+
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
+
+
+// inFO PARA chat
+
+let messages= [{
+    id:1,
+    text:"Hola Mundo",
+    author:"Francisco"
+}]
+
+
 
 
 // Accesos al Servidor Alta y eliminación de Productos
 
 socketServer.on('connection', socket => {
-    console.log('Nuevo Cliente Conectado (Server 1)')
+
+    console.log('Nuevo Cliente Conectado (Server 1)');
+    
+    socket.emit("messages",messages);
 
     socket.on('agregar_producto', (data) => {
            
@@ -127,6 +142,8 @@ socketServer.on('connection', socket => {
 
     });
 
+  
+    
 });
 
 

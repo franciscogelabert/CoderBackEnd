@@ -4,11 +4,13 @@ const cartCollection = 'carts';
 
   
   const listaSchema = new mongoose.Schema({
-    IdProd: { type: Number, required: true },
+    IdProd: { type: String, required: true },
     CantProd: { type: Number, required: true }
   });
   
   const cartSchema = new mongoose.Schema({
+    
+    IdUser: { type: String, required: true },
     lista: [listaSchema]
   });
   

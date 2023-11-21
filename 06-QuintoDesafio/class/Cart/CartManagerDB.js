@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 
 class CartManagerDB {
     constructor() {
+        this.idUser;
         this.lista = [];
     }
 
@@ -14,7 +15,7 @@ class CartManagerDB {
             try {
                 console.log(cart);
                 const nuevoCart = await cartModel.create(cart);
-                console.log('Cart insertado:', cart);
+                console.log('Cart insertado:', nuevoCart);
 
             } catch (error) {
                 console.error('Error:', error);

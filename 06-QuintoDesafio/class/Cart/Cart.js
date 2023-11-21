@@ -1,6 +1,7 @@
 class Cart {
-    constructor(lista) {
-        this.lista = lista;
+    constructor(body) {
+        this.IdUser=body.IdUser;
+        this.lista = body.lista;
     }
 }
 

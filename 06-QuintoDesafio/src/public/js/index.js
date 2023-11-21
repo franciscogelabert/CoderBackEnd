@@ -1,4 +1,5 @@
-// crea sicket
+// crea socket en Cliente 
+
 const socket = io();
 console.log("connected");
 
@@ -148,10 +149,14 @@ socket.on("productNotDeleted", (productId) => {
     Swal.fire({
         icon: "warning",
         title: "No se pudo eliminar el Producto",
-        text: " No se encontró el Código Ingresado!",
+        text: "No se encontró el Código Ingresado!",
     });
 
 });
 
+
+socket.on("messages", (data) => {
+   console.log(data);
+});
 
 

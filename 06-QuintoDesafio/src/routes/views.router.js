@@ -13,12 +13,10 @@ const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 const viewsRouter = express.Router();
 
 // Ruta para probar la conexión
-viewsRouter.get('/db/realTimeProducts', async (req, res) => {
+viewsRouter.get('/api/realTimeProducts', async (req, res) => {
     try {
         let result = await productModel.find();
-        console.log(result);
-        //res.send({ result: 'success', payload: result });
-        res.render('index', {
+         res.render('index', {
             layout: 'realTimeProducts',
             food: result //lp.lista
 
@@ -31,13 +29,26 @@ viewsRouter.get('/db/realTimeProducts', async (req, res) => {
 
 
 // Ruta para probar la conexión
-viewsRouter.get('/db', async (req, res) => {
+viewsRouter.get('/api', async (req, res) => {
     try {
         let result = await productModel.find();
-        console.log(result);
-        //res.send({ result: 'success', payload: result });
         res.render('index', {
             layout: 'home',
+            food: result //lp.lista
+
+        });
+    }
+    catch (error) {
+        console.log("Error:  ", error);
+    }
+})
+
+// Ruta para probar la conexión
+viewsRouter.get('/chat', async (req, res) => {
+    try {
+        let result = await productModel.find();
+        res.render('index', {
+            layout: 'chat',
             food: result //lp.lista
 
         });
@@ -64,7 +75,7 @@ viewsRouter.post('/db', async (req, res) => {
         // Guarda el nuevo producto en la base de datos
         const result = await newProduct.save();
         res.send({ result: 'success', payload: result });
-         console.log("Post -> DB");
+        console.log("Post -> DB");
     } catch (error) {
         console.log("Error: ", error);
         res.status(500).send({ result: 'error', message: 'Error al insertar el producto en la base de datos' });
@@ -79,8 +90,7 @@ const lp = new ProductManager(farchivo);
 viewsRouter.get('/', (req, res) => {
     lp.getProducts()
         .then((result) => {
-            console.log(result);
-            res.render('index', {
+                res.render('index', {
                 layout: 'home',
                 food: result //lp.lista
             });

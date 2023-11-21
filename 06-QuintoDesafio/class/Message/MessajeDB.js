@@ -1,11 +1,11 @@
 import Product from './Product.js';
-import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
+import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
 
 
-class ProductManagerDB {
+class MessageManagerDB {
     constructor() {
-        this.id = 0;
-        this.lista = [];
+        this.author = "";
+        this.message ="";
     }
 
     seEncuentra = function (codigo) {
@@ -167,7 +167,7 @@ class ProductManagerDB {
 
 
 
-export default ProductManagerDB;
+export default MessageManagerDB;
 
 /*
 
