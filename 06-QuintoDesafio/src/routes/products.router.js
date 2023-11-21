@@ -9,7 +9,7 @@ import __dirname from '../utils.js';
 
 
 
-const farchivo = new FileManager('productos.json', `${__dirname}/files`);
+//const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 
 // creo el ProductManager para FileSystem
 //const lp = new ProductManager(farchivo);

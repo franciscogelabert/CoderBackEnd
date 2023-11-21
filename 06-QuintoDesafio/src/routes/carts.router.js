@@ -8,7 +8,7 @@ import __dirname from '../utils.js';
 const cartsRouter = express.Router();
 
 
-const farchivo = new FileManager('carrito.json', `${__dirname}/files`);
+//const farchivo = new FileManager('carrito.json', `${__dirname}/files`);
 
 // crea Instancia del Cart Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 //const lc = new CartManager(farchivo);
