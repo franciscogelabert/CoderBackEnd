@@ -15,10 +15,10 @@ Utilizando handlebars, se implementan dos layouts un con una vista estática (ho
 | --- | --- | 
 | socket.emit('agregar_producto', new_product) | Envía mensaje al Servidor indicando se proceda con el alta de un Nuevo Producto|
 | socket.emit('eliminar_producto', cProd); | Envía mensaje al servidor, indicándole el código del producto que debe eliminar.|
-| socket.on("productAdded", (product) | Mensaje recibido desde el Servidor una vez que el Poducto se persiste |
-| socket.on("productDeleted", (productId) | Mensaje recibido desde el Servidor una vez que el Poducto se elimina.|
-| socket.on("productNotAdded", (productId)  | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser cargado.|
-| socket.on("productNotDeleted", (productId)  | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser eliminado.|
+| socket.on("productAdded", (product)) | Mensaje recibido desde el Servidor una vez que el Poducto se persiste |
+| socket.on("productDeleted", (productId)) | Mensaje recibido desde el Servidor una vez que el Poducto se elimina.|
+| socket.on("productNotAdded", (productId))  | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser cargado.|
+| socket.on("productNotDeleted", (productId))  | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser eliminado.|
 
 
 ## Descripción Técnica Servidor (app.js)
@@ -33,9 +33,9 @@ Respecto al tema vistas, tanto para consultar o persistir info, utiliza los mana
 | socketServer.on('connection', socket) | Para establecer la conexión|
 | socket.on('agregar_producto', (data)) | Escucha pedido desde el Cliente para agregar un productos|
 | socketServer.emit("productAdded", newProduct) | Mensaje enviado al Cliente indicándole que el producto se pudo persistir |
-| socket.emit("productNotAdded", data.code); | Mensaje enviado al Cliente indicándole que el producto no se pudo persistir .|
-| socket.on('eliminar_producto', (data)   | Escucha pedido desde el Cliente para eliminar un productos..|
-| socket.emit("productDeleted", cProd)  | Mensaje enviado al Cliente indicándole que el producto se pudo eliminar.|
+| socket.emit('productNotAdded', data.code); | Mensaje enviado al Cliente indicándole que el producto no se pudo persistir |
+| socket.on ('eliminar_producto', data)   | Escucha pedido desde el Cliente para eliminar un productos..|
+| socket.emit('productDeleted', cProd)  | Mensaje enviado al Cliente indicándole que el producto se pudo eliminar.|
 | socket.emit("productNotDeleted", cProd) | Mensaje enviado al Cliente indicándole que el producto no se pudo eliminar.|
 
 
@@ -45,30 +45,30 @@ Respecto al tema vistas, tanto para consultar o persistir info, utiliza los mana
 
 | Función | Descripción | 
 | --- | --- | 
-| get('/', (req, res) | Renderiza el listado de productos en el layout home. El mismo se presenta de forma estática, al menos que sea actualizado desde realTimeProducts.|
-| get('/realTimeProducts', (req, res)  | Renderiza el listado de productos en el layout realTimeProducts. El mismo se presenta en tiempo real, permite actualizar y recibir actualizaciones de los diferentes clientes en tiempo real. Desde el layout se brinda la funcionalidad de agregar y eliminar productos.|
-| post('/realTimeProducts', (req, res)| Recibe un nuevo producto en el Body y lo persiste, actualiza la info presentada en los diferentes layouts  |
+| get('/', (req, res) )| Renderiza el listado de productos en el layout home. El mismo se presenta de forma estática, al menos que sea actualizado desde realTimeProducts.|
+| get('/realTimeProducts', (req, res))  | Renderiza el listado de productos en el layout realTimeProducts. El mismo se presenta en tiempo real, permite actualizar y recibir actualizaciones de los diferentes clientes en tiempo real. Desde el layout se brinda la funcionalidad de agregar y eliminar productos.|
+| post('/realTimeProducts', (req, res))| Recibe un nuevo producto en el Body y lo persiste, actualiza la info presentada en los diferentes layouts  |
 
 
 ### Descripción API Products
 
 | Función | Descripción | 
 | --- | --- | 
-| get('/', (req, res) | Devuelve el listado completo de productos, si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
-| get('/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
-| get('/code/:cod', (req, res) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
-| post('/', (req, res) | Recibe un nuevo producto en el Body y lo persiste.|
-| put('/:id', (req, res)  | Actualiza un producto cuya referencia se recibe por parámetro id y la nueva información se recibe en el Body.|
-| delete('/:id', (req, res)  | Borra un producto cuya referencia se recibe por parámetro id.|
+| get('/', (req, res) )| Devuelve el listado completo de productos, si se accede con /products?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('/:id', (req, res)) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
+| get('/code/:cod', (req, res)) | Devuelve el ítem con el Código especificado en la URL o error si no lo encuentra.|
+| post('/', (req, res)) | Recibe un nuevo producto en el Body y lo persiste.|
+| put('/:id', (req, res))  | Actualiza un producto cuya referencia se recibe por parámetro id y la nueva información se recibe en el Body.|
+| delete('/:id', (req, res))  | Borra un producto cuya referencia se recibe por parámetro id.|
 
 ### Descripción API Carts
 
 | Función | Descripción | 
 | --- | --- | 
-| get('/', (req, res) | Devuelve el listado completo de carritos|
-| get('/:id', (req, res) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
-| post('/', (req, res) | Recibe un nuevo cart en el Body y lo persiste.|
-| post('/:cid/product/:pid', (req, res)  | recibe como parámetro un id de carrito y un id de producto, si el carrito tiene dicho producto incrementa su cantidad en 1 y si no lo tiene lo ahgrega.|
+| get('/', (req, res)) | Devuelve el listado completo de carritos|
+| get('/:id', (req, res)) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
+| post('/', (req, res))| Recibe un nuevo cart en el Body y lo persiste.|
+| post('/:cid/product/:pid', (req, res) ) | recibe como parámetro un id de carrito y un id de producto, si el carrito tiene dicho producto incrementa su cantidad en 1 y si no lo tiene lo ahgrega.|
 
 ## Carpeta Class
 
