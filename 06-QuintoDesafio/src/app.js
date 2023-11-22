@@ -71,21 +71,13 @@ const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: "
 const socketServer = new Server(httpServer);
 
 
-// inFO PARA chat
 
-let messages = [{
-    id: 1,
-    text: "Hola Mundo",
-    author: "Francisco"
-}]
 
 // Accesos al Servidor Alta y eliminación de Productos
 
 socketServer.on('connection', socket => {
 
     console.log('Nuevo Cliente Conectado (Server 1)');
-
-    socket.emit("messages", messages);
 
     socket.on('agregar_producto', (data) => {
 
@@ -112,9 +104,9 @@ socketServer.on('connection', socket => {
                 console.error("Error al insertar:", error);
                 // Manejo de errores, si la eliminación del producto falla
                 // socketServer.emit("productDeletionError", error);
-            }); 
-        });
-   
+            });
+    });
+
 
     socket.on('eliminar_producto', (data) => {
         const cProd = data;
@@ -133,19 +125,21 @@ socketServer.on('connection', socket => {
                 // Manejo de errores, si la eliminación del producto falla
                 // socketServer.emit("productDeletionError", error);
             });
-        });
+    });
 
-        socket.on('agregar_mensaje', (data) => {
-            const mensaje = data;
-            lm.addMessage(mensaje)
-                .then(() => {
-                    socketServer.emit("actualizarChat", mensaje);
-                })
-                .catch((error) => {
-                    console.error("Error al agregar Mensajes:", error);
-                    socket.emit("errorChat", mensaje);
-                });
-        });
- });
-       
-    export default socketServer;
+    /////////   Chat Socket ///////////////
+
+    socket.on('agregar_mensaje', (data) => {
+        const mensaje = data;
+        lm.addMessage(mensaje)
+            .then(() => {
+                socketServer.emit("actualizarChat", mensaje);
+            })
+            .catch((error) => {
+                console.error("Error al agregar Mensajes:", error);
+                socket.emit("errorChat", mensaje);
+            });
+    });
+});
+
+export default socketServer;

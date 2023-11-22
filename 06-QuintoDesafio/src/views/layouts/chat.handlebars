@@ -15,8 +15,8 @@
 <div>
     <h2> Chat</h2>
     <form id="chat">
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author"><br>
+        <label for="author">Usuario Registrado:</label>
+        <input type="text" id="author" name="author" readonly class="gray-background"><br>
 
         <label for="message">Description:</label>
         <input type="text" id="message" name="message"><br>
@@ -28,7 +28,7 @@
     {{#each message}}
     <div id="{{this._id}}">
         <strong>{{this.author}}</strong>
-        <em>{{this.message}}</em>
+        <em style="margin-left: 10px;">{{this.message}}</em>
     </div>
     {{/each}}
 </div>

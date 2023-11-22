@@ -3,9 +3,29 @@
 const socket = io();
 console.log("connected");
 
+
+Swal.fire({
+    title: "Ingrese su Usuario: ",
+    input: "email",
+    inputLabel: "su dirección de correo electrónico",
+    inputPlaceholder: "Ingrese su dirección de correo electrónico"
+}).then((result) => {
+    if (result.isConfirmed) {
+        const email = result.value;
+        console.log('email', email);
+        if (email) {
+            document.getElementById('author').value = email;
+            Swal.fire(`Usuario Ingresado: ${email}`);
+        }
+    }
+});
+
+
 // agrega listener para escuchar el click del botnon registar
 
 let btn_publicar = document.getElementById('btn_publicar');
+
+
 
 
 btn_publicar.addEventListener('click', (e) => {
@@ -56,17 +76,16 @@ socket.on("actualizarChat", (message) => {
 
     const txt = document.createElement('em');
     txt.textContent = message.message;
+    txt.style.marginLeft = "10px";
 
     // Agregar las celdas a la fila <tr>
     newChat.appendChild(author);
     newChat.appendChild(txt);
 
-    console.log('newChat ---->',newChat)
-    
+   
     // Reemplazar el elemento <li> con la nueva fila <tr>
     div.appendChild(newChat);
 
-    document.getElementById('author').value = '';
     document.getElementById('message').value = '';
    
 });
