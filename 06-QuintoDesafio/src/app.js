@@ -8,26 +8,27 @@ import { Server } from 'socket.io';
 import Product from '../class/Product/Product.js';
 import ProductManager from '../class/Product/ProductManager.js';
 import ProductManagerDB from '../class/Product/ProductManagerDB.js';
+import MessageManagerDB from '../class/Message/MessageManagerDB.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
 import mongoose from 'mongoose';
 
-  // Configuración de la conexión a MongoDB
-  const URI = 'mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/ecommerce?retryWrites=true&w=majority';
-  
-  mongoose.connect(URI)
-  .then(() => {
-    console.log('Base de datos lista para usarse');
-  })
-  .catch((err) => {
-    console.log('Ha ocurrido un error --> ', err);
-  });
+// Configuración de la conexión a MongoDB
+const URI = 'mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/ecommerce?retryWrites=true&w=majority';
+
+mongoose.connect(URI)
+    .then(() => {
+        console.log('Base de datos lista para usarse');
+    })
+    .catch((err) => {
+        console.log('Ha ocurrido un error --> ', err);
+    });
 
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
 const hbs = handlebars.create({
-   runtimeOptions: {
-    allowProtoPropertiesByDefault: true,
-    allowProtoMethodsByDefault: true,
-  },
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true,
+    },
 });
 
 // Usando File Manager
@@ -40,6 +41,10 @@ const hbs = handlebars.create({
 // creo el ProductManager para Base de datos
 const lp = new ProductManagerDB();
 console.log('Paso 1 - Se crea el Product Manager en app.js');
+
+// creo el ProductManager para Base de datos
+const lm = new MessageManagerDB();
+console.log('Paso 2 - Se crea el Message Manager en app.js');
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
@@ -62,33 +67,28 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
 
-
-
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
 
 
 // inFO PARA chat
 
-let messages= [{
-    id:1,
-    text:"Hola Mundo",
-    author:"Francisco"
+let messages = [{
+    id: 1,
+    text: "Hola Mundo",
+    author: "Francisco"
 }]
-
-
-
 
 // Accesos al Servidor Alta y eliminación de Productos
 
 socketServer.on('connection', socket => {
 
     console.log('Nuevo Cliente Conectado (Server 1)');
-    
-    socket.emit("messages",messages);
+
+    socket.emit("messages", messages);
 
     socket.on('agregar_producto', (data) => {
-           
+
         lp.seEncuentra(data.code)
             .then((result) => {
                 console.log("Proceso de Agregado", result);
@@ -100,9 +100,9 @@ socketServer.on('connection', socket => {
                     const intPrice = parseInt(data.price, 10);
                     const intStock = parseInt(data.stock, 10);
                     const newProduct = new Product(data.title, data.description, intCode, intPrice, intStock, thumbnail, data.estado, data.category);
-                    
+
                     lp.addProduct(newProduct);
-                    
+
                     socketServer.emit("productAdded", newProduct)
                 } else {
                     socket.emit("productNotAdded", data.code);
@@ -112,8 +112,9 @@ socketServer.on('connection', socket => {
                 console.error("Error al insertar:", error);
                 // Manejo de errores, si la eliminación del producto falla
                 // socketServer.emit("productDeletionError", error);
-            });
-    });
+            }); 
+        });
+   
 
     socket.on('eliminar_producto', (data) => {
         const cProd = data;
@@ -132,14 +133,19 @@ socketServer.on('connection', socket => {
                 // Manejo de errores, si la eliminación del producto falla
                 // socketServer.emit("productDeletionError", error);
             });
+        });
 
-    });
-
-  
-    
-});
-
-
-export default socketServer;
-
-
+        socket.on('agregar_mensaje', (data) => {
+            const mensaje = data;
+            lm.addMessage(mensaje)
+                .then(() => {
+                    socketServer.emit("actualizarChat", mensaje);
+                })
+                .catch((error) => {
+                    console.error("Error al agregar Mensajes:", error);
+                    socket.emit("errorChat", mensaje);
+                });
+        });
+ });
+       
+    export default socketServer;

@@ -5,6 +5,7 @@ import ProductManager from '../../class/Product/ProductManager.js';
 import FileManager from '../../class/dao/FileSystem/FileManager.js';
 import __dirname from '../utils.js';
 import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
+import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
 
 
 const viewsRouter = express.Router();
@@ -41,21 +42,6 @@ viewsRouter.get('/api', async (req, res) => {
     }
 })
 
-// Ruta para probar la conexión
-viewsRouter.get('/api/chat', async (req, res) => {
-    try {
-        let result = await productModel.find();
-        res.render('index', {
-            layout: 'chat',
-            food: result //lp.lista
-
-        });
-    }
-    catch (error) {
-        console.log("Error:  ", error);
-    }
-})
-
 // Ruta para realizar un Post desde Postman 
 viewsRouter.post('/api', async (req, res) => {
     try {
@@ -79,6 +65,24 @@ viewsRouter.post('/api', async (req, res) => {
         res.status(500).send({ result: 'error', message: 'Error al insertar el producto en la base de datos' });
     }
 });
+
+
+// API Chat
+viewsRouter.get('/api/chat', async (req, res) => {
+    try {
+        let result = await messageModel.find();
+        console.log(result);
+        res.render('index', {
+            layout: 'chat',
+            message: result 
+        });
+    }
+    catch (error) {
+        console.log("Error:  ", error);
+    }
+})
+
+
 
 // Para trabajar con el FileSystem - ProductManager
 

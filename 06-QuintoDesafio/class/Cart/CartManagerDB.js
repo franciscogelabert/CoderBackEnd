@@ -46,9 +46,10 @@ class CartManagerDB {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await cartModel.findById(idCart);
-                  
+
+                            
                 const findProdIndex = result.lista.findIndex(c => c.IdProd === idProduct);
-    
+                   
                 if (findProdIndex !== -1) {
                     // El producto ya existe en el carrito, incrementa la cantidad
                     result.lista[findProdIndex].CantProd++;
@@ -71,6 +72,10 @@ class CartManagerDB {
         });
     };
 
+
+
+    
+
      
     getCarts = function () {
         return new Promise(async (resolve, reject) => {
@@ -89,7 +94,7 @@ class CartManagerDB {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await cartModel.findById(id);
-                if (result) {
+                  if (result) {
                     resolve(result);
                 } else {
                     resolve(false);

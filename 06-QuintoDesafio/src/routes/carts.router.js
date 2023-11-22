@@ -51,10 +51,10 @@ cartsRouter.post('/:cid/product/:pid', (req, res) => {
 
     if (req.params.cid ?? req.params.pid) {
         //const id = parseInt(req.params.cid, 10); // paresar cid si se utiliza con File System
-        const id = req.params.cid; 
-        const codProd = parseInt(req.params.pid, 10);
-        lc.addProductCart(codProd, id);
-        res.status(201).json({ message: `Carrito con ID ${id} Modificado. Se modificó la cantidad del Producto con Código ${codProd}` });
+        const cid = req.params.cid; 
+        const pid = req.params.pid;
+        lc.addProductCart(pid, cid);
+        res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
 
     } else {
 
