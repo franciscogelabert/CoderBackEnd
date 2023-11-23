@@ -1,18 +1,20 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-function connect(){
+// Configura dotenv para cargar las variables de entorno desde el archivo .env
+dotenv.config();
 
-const URI =`mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net//ecommerce?retryWrites=true&w=majority`;
+// Obtiene la cadena de conexión de MongoDB desde la variable de entorno
+const URI = process.env.MONGODB_URI;
 
-mongoose.connect(URI)
-.then(
-    ()=>{
-        console.log('Base de datos lista para usarse');
-        },
-    (err)=>{
-        console.log('Ha ocurrido un error --> ',err);
-    }
-)
-}
 
-export default connect;
+mongoose.connect(URI, {});
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'Error de conexión a la base de datos:'));
+db.once('open', () => {
+  console.log('Conectado a la base de datos');
+});
+
+export { mongoose, db };

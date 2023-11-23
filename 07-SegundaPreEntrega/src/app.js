@@ -5,27 +5,13 @@ import express from 'express';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
+import { db } from './db/connect.js';
 import Product from '../class/Product/Product.js';
 import ProductManager from '../class/Product/ProductManager.js';
 import ProductManagerDB from '../class/Product/ProductManagerDB.js';
 import MessageManagerDB from '../class/Message/MessageManagerDB.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 
-// Configura dotenv para cargar las variables de entorno desde el archivo .env
-dotenv.config();
-
-// Obtiene la cadena de conexión de MongoDB desde la variable de entorno
-const URI = process.env.MONGODB_URI;
-
-mongoose.connect(URI)
-    .then(() => {
-        console.log('Base de datos lista para usarse');
-    })
-    .catch((err) => {
-        console.log('Ha ocurrido un error --> ', err);
-    });
 
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
 const hbs = handlebars.create({
