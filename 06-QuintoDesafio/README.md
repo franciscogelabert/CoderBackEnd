@@ -6,7 +6,7 @@
 Se disponibilzan diferentes API's para consumir servicios relacionados a Vistas, Gestión de Productos (Products) y de Carritos (Carts) de un e-commerce.
 Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si aplica y Body si aplica; mas una breve descripción. En esta entrega se persisten y se consultan los datos en una Base de datos Mongo Atlas. En el caso que desee acceder al FileSystem, debe comnentar el código relacionado a la conexión con la base de datos y descomentar las dos líneas de código que se encuentra debajo de "Para usar con File Manager", en el archivo app.js.
 
-# IMPORTANTE: en esta entrega se agregan variables de entorno, para utilizarlas cambiar el nombre del archivo ".env.example" a ".env" y completar las variables con los valores entregados.
+### IMPORTANTE: en esta entrega se agregan variables de entorno, para utilizarlas cambiar el nombre del archivo ".env.example" a ".env" y completar las variables con los valores entregados.
 
 
 ## Descripción Técnica Cliente
