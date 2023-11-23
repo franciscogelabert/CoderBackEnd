@@ -1,24 +1,37 @@
 ## Programación Backend -  Comisión 55595 
 
-*Cuarto Desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
+*Quinto Desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
 
 ## Descripción Funcional
 Se disponibilzan diferentes API's para consumir servicios relacionados a Vistas, Gestión de Productos (Products) y de Carritos (Carts) de un e-commerce.
-Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si aplica y Body si aplica; mas una breve descripción.
+Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si aplica y Body si aplica; mas una breve descripción. En esta entrega se persisten y se consultan los datos en una Base de datos Mongo Atlas. En el caso que desee acceder al FileSystem, debe comnentar el código relacionado a la conexión con la base de datos y descomentar las dos líneas de código que se encuentra debajo de "Para usar con File Manager", en el archivo app.js.
+
+# IMPORTANTE: en esta entrega se agregan variables de entorno, para utilizarlas cambiar el nombre del archivo ".env.example" a ".env" y completar las variables con los valores entregados.
+
 
 ## Descripción Técnica Cliente
-Utilizando handlebars, se implementan dos layouts un con una vista estática (home) de los productos almacenados y otra que implementa websockets  (realTimeProducts) donde se visualizan los datos en tiempo real. Estos interactúan in un index.js que gestiona el comprortamiento de la tabla de productos y de los botones de la página. De esta manera se interactúa visualizando, cargando y eliminando productos en tiempo real, y actualizando las vistas de todos los clientes que se encuentren conectados. 
+Utilizando handlebars, se implementan tres layouts un con una vista estática (home) de los productos almacenados y otra que implementa websockets  (realTimeProducts) donde se visualizan los datos en tiempo real. Estos interactúan in un index.js que gestiona el comportamiento de la tabla de productos y de los botones de la página. De esta manera se interactúa visualizando, cargando y eliminando productos en tiempo real, y actualizando las vistas de todos los clientes que se encuentren conectados. De igual forma se crea un tercer layout con un chat en tiempo real, es importante aclarar que se jenera un nuevo JS para gestionar todo los reñacionado al chat (chat.js).
 
-### Debajo se detallan las funciones utilizadas con WebSockets en el Cliente (index.js):
-
-| Función | Descripción | 
+| Layout | Acceso | 
 | --- | --- | 
-| socket.emit('agregar_producto', new_product) | Envía mensaje al Servidor indicando se proceda con el alta de un Nuevo Producto|
-| socket.emit('eliminar_producto', cProd); | Envía mensaje al servidor, indicándole el código del producto que debe eliminar.|
-| socket.on("productAdded", (product)) | Mensaje recibido desde el Servidor una vez que el Poducto se persiste |
-| socket.on("productDeleted", (productId)) | Mensaje recibido desde el Servidor una vez que el Poducto se elimina.|
-| socket.on("productNotAdded", (productId))  | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser cargado.|
-| socket.on("productNotDeleted", (productId))  | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser eliminado.|
+| Home - listado de productos | http://localhost:8080/api|
+| RealTimeProducts - gestión de Productos | http://localhost:8080/api/realtimeProducts|
+| Chat | http://localhost:8080/api/chat |
+
+
+### Debajo se detallan las funciones utilizadas con WebSockets en el Cliente:
+
+| Función | Archivo | Descripción | 
+| --- | --- | --- | 
+| socket.emit('agregar_producto', new_product) | index.js | Envía mensaje al Servidor indicando se proceda con el alta de un Nuevo Producto|
+| socket.emit('eliminar_producto', cProd); | index.js | Envía mensaje al servidor, indicándole el código del producto que debe eliminar.|
+| socket.on("productAdded", (product)) | index.js | Mensaje recibido desde el Servidor una vez que el Poducto se persiste |
+| socket.on("productDeleted", (productId)) | index.js | Mensaje recibido desde el Servidor una vez que el Poducto se elimina.|
+| socket.on("productNotAdded", (productId))  | index.js | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser cargado.|
+| socket.on("productNotDeleted", (productId))  | index.js | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser eliminado.|
+| socket.emit('agregar_mensaje', new_message)  | chat.js | Envía mensaje al Servidor indicando se proceda con el alta de un Nuevo Mensaje|
+| socket.on("actualizarChat", (message)) | chat.js | Mensaje recibido desde el Servidor una vez que el Mensaje se persiste |
+
 
 
 ## Descripción Técnica Servidor (app.js)
@@ -36,8 +49,8 @@ Respecto al tema vistas, tanto para consultar o persistir info, utiliza los mana
 | socket.emit('productNotAdded', data.code); | Mensaje enviado al Cliente indicándole que el producto no se pudo persistir |
 | socket.on ('eliminar_producto', data)   | Escucha pedido desde el Cliente para eliminar un productos..|
 | socket.emit('productDeleted', cProd)  | Mensaje enviado al Cliente indicándole que el producto se pudo eliminar.|
-| socket.emit("productNotDeleted", cProd) | Mensaje enviado al Cliente indicándole que el producto no se pudo eliminar.|
-
+| socket.on('agregar_mensaje', (data)) | Escucha pedido desde el Cliente para agregar un mensajes.|
+| socketServer.emit("actualizarChat", mensaje) | Mensaje enviado al Cliente indicándole que el mensaje se pudo persistir.|
 
 ## APIs 
 
@@ -49,8 +62,32 @@ Respecto al tema vistas, tanto para consultar o persistir info, utiliza los mana
 | get('/realTimeProducts', (req, res))  | Renderiza el listado de productos en el layout realTimeProducts. El mismo se presenta en tiempo real, permite actualizar y recibir actualizaciones de los diferentes clientes en tiempo real. Desde el layout se brinda la funcionalidad de agregar y eliminar productos.|
 | post('/realTimeProducts', (req, res))| Recibe un nuevo producto en el Body y lo persiste, actualiza la info presentada en los diferentes layouts  |
 
+## APIS Mongo DB
 
-### Descripción API Products
+### Descripción API Products DB
+
+| Función | Descripción | 
+| --- | --- | 
+| get('/api', (req, res) )| Devuelve el listado completo de productos, si se accede con ?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('/api/realtimeproducts', (req, res) )| Devuelve el listado completo de productos en tiempo real, si se accede con ?limit=valor  toma como cantidad de elementos a devolver el valor cargado en el limit|
+| get('api/products/:id', (req, res)) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
+| post('api/products/', (req, res)) | Recibe un nuevo producto en el Body y lo persiste.|
+| put('/:id', (req, res))  | Actualiza un producto cuya referencia se recibe por parámetro id y la nueva información se recibe en el Body.|
+| delete('/:id', (req, res))  | Borra un producto cuya referencia se recibe por parámetro id.|
+
+### Descripción API Carts DB
+
+| Función | Descripción | 
+| --- | --- | 
+| get('api/carts/', (req, res)) | Devuelve el listado completo de carritos|
+| get('api/carts/:id', (req, res)) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
+| post('/', (req, res))| Recibe un nuevo cart en el Body y lo persiste.|
+| post('/:cid/product/:pid', (req, res) ) | recibe como parámetro un id de carrito y un id de producto, si el carrito tiene dicho producto incrementa su cantidad en 1 y si no lo tiene lo ahgrega.|
+
+
+## Apis FileSystem. 
+
+### Descripción API FileSystem Products (router -> /api/products)
 
 | Función | Descripción | 
 | --- | --- | 
@@ -61,7 +98,7 @@ Respecto al tema vistas, tanto para consultar o persistir info, utiliza los mana
 | put('/:id', (req, res))  | Actualiza un producto cuya referencia se recibe por parámetro id y la nueva información se recibe en el Body.|
 | delete('/:id', (req, res))  | Borra un producto cuya referencia se recibe por parámetro id.|
 
-### Descripción API Carts
+### Descripción API FileSystem Carts (router -> /api/carts)
 
 | Función | Descripción | 
 | --- | --- | 
@@ -69,6 +106,7 @@ Respecto al tema vistas, tanto para consultar o persistir info, utiliza los mana
 | get('/:id', (req, res)) | Devuelve el ítem con el Id especificado en la URL o error si no lo encuentra.|
 | post('/', (req, res))| Recibe un nuevo cart en el Body y lo persiste.|
 | post('/:cid/product/:pid', (req, res) ) | recibe como parámetro un id de carrito y un id de producto, si el carrito tiene dicho producto incrementa su cantidad en 1 y si no lo tiene lo ahgrega.|
+
 
 ## Carpeta Class
 
@@ -85,7 +123,7 @@ Es importante aclarar, que tal cual se solicitó en la consigna, cada producto s
 
 ### Clase ProductManager: 
 Se utiliza para gestionar un listado de instancias de la Clase Product y de administrar la persistencia de los objetos utilizando una instancia de FileManager.
-Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. 
+Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. Se crea el ProductManagerDB para gestionar los productos de la Base de datos y no borrar la clase ProductManager. 
 
 | Función | Descripción | 
 | --- | --- | 
@@ -99,7 +137,7 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 
 ### Clase CartManager: 
 Se utiliza para gestionar un listado de instancias de la Clase Cart y de administrar la persistencia de los objetos utilizando una instancia de FileManager.
-Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. 
+Para garantizar la integridad de la información, es importante aclarar, que tanto para las operaciones de consulta o guardado de datos en la lista; se actualiza la misma con los datos almacenados en el archivo. Se crea el CartManagerDB para gestionar los carritos de la Base de datos y no borrar la clase CartManager.
 
 | Función | Descripción | 
 | --- | --- | 
@@ -108,6 +146,17 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 | addProductCart | Dado un Cart si el mismo posee el producto lo incrementa en una unidad, sino lo tiene lo agrega al Cart.|
 | getProductById | Obtiene un Cart de la lista por su ID, la lista previamente se actualiza con los datos del archivo. |
 | getCarts | Obtiene lista de todos los Carts, la lista previamente se actualiza con los datos del archivo. |
+
+
+## DAO
+
+###  Mongo DB Modelos
+
+| Modelo | Descripción | 
+| --- | --- | 
+| cart |  Crea el modelo de datos para gestionar los carritos|
+| message | Crea el modelo de datos para gestionar los los mensajes en el chat |
+| product | Crea el modelo de datos para gestionar los productos|
 
 ### Clase FileManager: 
 Se crea esta clase para desacoplar el manejo de archivos en las otras clases, de esta manera se pueden crear otros FileSystem para que guarden otras instancias de otros objetos en diferentes archivos.
@@ -170,6 +219,25 @@ npm install  socket.io
 
 ```
 
+Instalar *MongoDB*
+
+```bash
+
+npm install mongodb
+
+```
+
+Instalar *DOTeNV*
+
+Para las variables de entorno instalar dotenv, cambiar el nombre del archivo ".env.example"  a ".env" y completar las variables con los valores entregados.
+
+```bash
+
+npm install dotenv
+
+```
+
+
 
 Para correr la app
 
@@ -179,96 +247,3 @@ nodemon src/app.js
 
 ```
 
-
-### Info Escenario de los archivos Archivo: 
-
-#### Para la prueba ya se encuentran registrados 10 productos en el archivo.json, igualmente en el caso que desee crearlos debajo se carga el código a corre en el ProductManage.
-
-```bash
-
-// Creo 10 productos
-
-const p1 = new Product('Manzana', 'Fruta Manzana', 1, 500, 20, ['url Manzana1', 'url Manzana2'], true, 'Fruta');
-const p2 = new Product('Pera', 'Fruta Pera', 2, 600, 21, ['url Pera1', 'url Pera2'], true, 'Fruta');
-const p3 = new Product('Uva', 'Fruta Uva', 3, 700, 30, ['url Uva1'], true, 'Fruta');
-const p4 = new Product('Banana', 'Fruta Banana', 4, 300, 31, ['url Banana1', 'url Banana2'], true, 'Fruta');
-const p5 = new Product('Kiwi', 'Fruta Kiwi', 5, 700, 40, ['url Kiwi1', 'url Kiwi2', 'url Kiwi3'], true, 'Fruta');
-const p6 = new Product('Naranja', 'Fruta Naranja', 6, 800, 41, [], true, 'Fruta');
-const p7 = new Product('Lechuga', 'Verdura Lechuga', 7, 300, 12, ['url Lechuga1'], true, 'Verdura');
-const p8 = new Product('Acelga', 'Verdura Acelga', 8, 100, 13, ['url Acelga1', 'url Acelga2'], true, 'Verdura');
-const p9 = new Product('Rúcula', 'Verdura Rúcula', 9, 700, 15, [], true, 'Verdura');
-const p10 = new Product('Rabanito', 'Verdura Rabanito', 10, 900, 8, ['url Rabanito1', 'url Rabanito2', 'url Rabanito3'], true, 'Verdura');
-
-console.log('00 - Se crean los 10 productos');
-
-
-
-// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
-//const farchivo = new FileManager('productos.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
-const farchivo = new FileManager('productos.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
-console.log('01- el archivo es', farchivo.archivo);
-
-// creo el ProductManager
-const lp = new ProductManager(farchivo);
-console.log('Paso 2 - Se crea el Product Manager');
-
-// le agrego los productos al ProductManager
-
-lp.addProductByCode(p1);
-lp.addProductByCode(p2);
-lp.addProductByCode(p3);
-lp.addProductByCode(p4);
-lp.addProductByCode(p5);
-lp.addProductByCode(p6);
-lp.addProductByCode(p7);
-lp.addProductByCode(p8);
-lp.addProductByCode(p9);
-lp.addProductByCode(p10);
-
-console.log('Paso 3 - Se cargan los 12 productos en el Product Manager');
-
-
-```
-
-
-#### Para la prueba ya se encuentran registrados 4 carritos en el carrito.json, igualmente en el caso que desee crearlos debajo se carga el código a corre en el CartManager.
-
-```bash
-const cart1 = new Cart([{ IdProd: 101, CantProd: 5 }, { IdProd: 102, CantProd: 2 }]);
-const cart2 = new Cart([{ IdProd: 103, CantProd: 4 }]);
-const cart3 = new Cart([{ IdProd: 104, CantProd: 5 }]);
-const cart4 = new Cart([{ IdProd: 104, CantProd: 5 }]);
-
-console.log('00- Se crean los 3 carritos');
-
-
-// crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de fatos y la ruta
-//const farchivo = new FileManager('carrito.json', 'C:/Proyectos/Coder/04-PrimeraEntrega/files');
-const farchivo = new FileManager('carrito.json', 'C:/Coderhouse/Backend/04-PrimeraEntrega/files');
-console.log('01- el archivo es', farchivo.archivo);
-
-// creo el ProductManager
-const lc = new CartManager(farchivo);
-console.log('02 - Se crea el Cart Manager');
-
-
-// le agrego los productos al ProductManager
-
-lc.addCart(cart1);
-lc.addCart(cart2);
-lc.addCart(cart3);
-lc.addCart(cart4);
-
-console.log('03 - Se cargan los 4 carritos en el Cart Manager');
-
-lc.addProductCart(101, 0);
-lc.addProductCart(101, 0);
-lc.addProductCart(101, 0);
-lc.addProductCart(104, 0);
-lc.addProductCart(105, 0);
-
-
-console.log('04 - Se Actualizan productos de carritos');
-
-
-```

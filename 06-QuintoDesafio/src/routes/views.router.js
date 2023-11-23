@@ -14,12 +14,25 @@ const viewsRouter = express.Router();
 // Ruta para probar la conexión
 viewsRouter.get('/api/realTimeProducts', async (req, res) => {
     try {
-        let result = await productModel.find();
-         res.render('index', {
-            layout: 'realTimeProducts',
-            food: result //lp.lista
 
-        });
+        const limitQuery = parseInt(req.query.limit)
+
+        if (limitQuery) {
+            let result = await productModel.find().limit(limitQuery);
+            res.render('index', {
+                layout: 'realTimeProducts',
+                food: result 
+             });
+
+        } else {
+            let result = await productModel.find();
+            res.render('index', {
+                layout: 'realTimeProducts',
+                food: result 
+    
+            });
+        }
+     
     }
     catch (error) {
         console.log("Error:  ", error);
@@ -30,12 +43,25 @@ viewsRouter.get('/api/realTimeProducts', async (req, res) => {
 // Ruta para probar la conexión
 viewsRouter.get('/api', async (req, res) => {
     try {
-        let result = await productModel.find();
-        res.render('index', {
-            layout: 'home',
-            food: result //lp.lista
 
-        });
+        const limitQuery = parseInt(req.query.limit)
+
+        if (limitQuery) {
+            let result = await productModel.find().limit(limitQuery);
+            res.render('index', {
+                layout: 'home',
+                food: result 
+             });
+
+        } else {
+            let result = await productModel.find();
+            res.render('index', {
+                layout: 'home',
+                food: result 
+    
+            });
+        }
+     
     }
     catch (error) {
         console.log("Error:  ", error);
@@ -74,7 +100,7 @@ viewsRouter.get('/api/chat', async (req, res) => {
         console.log(result);
         res.render('index', {
             layout: 'chat',
-            message: result 
+            message: result
         });
     }
     catch (error) {
@@ -95,7 +121,7 @@ const lp = new ProductManager(farchivo);
 viewsRouter.get('/', (req, res) => {
     lp.getProducts()
         .then((result) => {
-                res.render('index', {
+            res.render('index', {
                 layout: 'home',
                 food: result //lp.lista
             });

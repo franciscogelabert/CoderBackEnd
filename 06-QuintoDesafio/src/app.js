@@ -11,9 +11,13 @@ import ProductManagerDB from '../class/Product/ProductManagerDB.js';
 import MessageManagerDB from '../class/Message/MessageManagerDB.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-// Configuración de la conexión a MongoDB
-const URI = 'mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/ecommerce?retryWrites=true&w=majority';
+// Configura dotenv para cargar las variables de entorno desde el archivo .env
+dotenv.config();
+
+// Obtiene la cadena de conexión de MongoDB desde la variable de entorno
+const URI = process.env.MONGODB_URI;
 
 mongoose.connect(URI)
     .then(() => {
@@ -31,14 +35,12 @@ const hbs = handlebars.create({
     },
 });
 
-// Usando File Manager
+// Para usar con File Manager
 //const farchivo = new FileManager('productos.json', `${__dirname}/files`);
-
-
-// creo el ProductManager para FileSystem
 //const lp = new ProductManager(farchivo);
 
-// creo el ProductManager para Base de datos
+
+// creo el ProductManagerDB para Base de datos
 const lp = new ProductManagerDB();
 console.log('Paso 1 - Se crea el Product Manager en app.js');
 

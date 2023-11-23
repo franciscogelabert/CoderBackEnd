@@ -91,7 +91,3 @@ socket.on("actualizarChat", (message) => {
 });
 
 
-socket.on("messages", (data) => {
-   console.log(data);
-});
-
