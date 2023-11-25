@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 const cartCollection = 'carts';
 
   
   const listaSchema = new mongoose.Schema({
-    IdProd: { type: String, required: true },
+    IdProd: { type: Schema.Types.ObjectId , ref: "products" },
     CantProd: { type: Number, required: true }
   });
   
