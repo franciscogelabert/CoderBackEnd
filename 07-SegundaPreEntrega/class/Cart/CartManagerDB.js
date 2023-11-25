@@ -41,43 +41,6 @@ class CartManagerDB {
             throw error; // Puedes manejar el error aquí o lanzarlo para que sea manejado en otro lugar
         }
     }
-/*
-
-    addProductCart = function (idProduct, idCart) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const result = await cartModel.findById(idCart);
-
-                       
-                const findProdIndex = result.lista.findIndex(c => c.IdProd === idProduct);
-
-                console.log("rresultado de la Búsqueda ---->", result); 
-                console.log("findProdIndex ---->", findProdIndex); 
-                   
-                if (findProdIndex !== -1) {
-                    // El producto ya existe en el carrito, incrementa la cantidad
-                    result.lista[findProdIndex].CantProd++;
-                } else {
-                    // El producto no existe en el carrito, agrégalo
-                    result.lista.push({ IdProd: idProduct, CantProd: 1 });
-                }
-    
-                // Actualiza el carrito en la base de datos
-          
-                await this.updateCartById(idCart,result);
-      
-                
-                resolve(result);
-    
-            } catch (error) {
-                console.error('Error:', error);
-                reject(error);
-            }
-        });
-    };
-
-*/
-
 addProductCart = function (idProduct, idCart) {
     return new Promise(async (resolve, reject) => {
         try {
@@ -88,10 +51,7 @@ addProductCart = function (idProduct, idCart) {
 
             const findProdIndex = result.lista.findIndex(c => c.IdProd.equals(idProductObj));
 
-            console.log("Resultado de la búsqueda ---->", result);
-            console.log("findProdIndex ---->", findProdIndex);
-
-            if (findProdIndex !== -1) {
+           if (findProdIndex !== -1) {
                 // El producto ya existe en el carrito, incrementa la cantidad
                 result.lista[findProdIndex].CantProd++;
             } else {

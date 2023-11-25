@@ -6,6 +6,8 @@ console.log("Connected Carrito");
 
 let carrito = "";
 let usuario = "";
+let cantidadCarrito=0;
+let montoTotal=0;
 
 
 Swal.fire({
@@ -21,6 +23,9 @@ Swal.fire({
             const userElement = document.getElementById('usuario');
             userElement.innerText = `Usuario:  ${usuario}`;
             Swal.fire(`Usuario Ingresado: ${usuario}`);
+
+           
+           
         }
     }
 });
@@ -49,16 +54,25 @@ document.addEventListener("DOMContentLoaded", function () {
             // Obtener el código del producto desde el atributo 'data-code' del botón
 
             var codigoProducto = button.closest('tr').id;
+            var precioProducto = parseFloat(button.closest('tr').querySelector('td:nth-child(4)').innerText);
 
             if (carrito == "") {
                 console.log("no existe carrito se procede a crearlo")
-                console.log("codigoProducto en el cart", codigoProducto);
-                console.log("usuario en el cart", usuario);
                 socket.emit('crear_carrito', codigoProducto, usuario);
+                cantidadCarrito++;
+                montoTotal=montoTotal+precioProducto;
             } else {
                 console.log("agregar producto al carrito");
                 socket.emit('agregar_producto_carrito', codigoProducto, carrito);
+                cantidadCarrito++;
+                montoTotal=montoTotal+precioProducto;
             }
+
+            const carritoElement = document.getElementById('carritoCantidad');
+            carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
+
+            const carritoMonto = document.getElementById('montoTotal');
+            carritoMonto.innerText = `Monto Total: ${montoTotal} Pesos  `;
 
             // Lógica para agregar el producto con el código especificado al carrito
             console.log("Agregar al carrito producto con código:", codigoProducto);
