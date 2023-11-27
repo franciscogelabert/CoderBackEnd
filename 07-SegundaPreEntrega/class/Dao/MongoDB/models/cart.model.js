@@ -9,8 +9,7 @@ const cartCollection = 'carts';
   });
   
   const cartSchema = new mongoose.Schema({
-    
-    IdUser: { type: String, required: true },
+     IdUser: { type: String, required: true },
     lista: [listaSchema]
   });
   
