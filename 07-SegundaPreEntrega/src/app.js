@@ -183,7 +183,7 @@ socketServer.on('connection', socket => {
     });
 
 
-    socket.on('agregar_producto_carrito', (codigoProducto, carrito) => {
+    socket.on('agregar_producto_carrito_code', (codigoProducto, carrito) => {
 
         // Obtener el ID en Base del Producto seleccionado por codigo
         lp.getProductByCode(codigoProducto)
@@ -201,6 +201,27 @@ socketServer.on('connection', socket => {
                 socket.emit("Error al Crear el Carrito");
             });
     });
+
+
+    socket.on('agregar_producto_carrito', (idProducto, carrito) => {
+
+        // Obtener el ID en Base del Producto seleccionado por codigo
+        lp.getProductById(idProducto)
+            .then((result) => {
+
+                lc.addProductCart(result[0]._id, carrito)
+                    .then((cartId) => {
+                        console.log("carritoActualizado --->", carrito);
+                        socket.emit("carritoActualizado", carrito);
+
+                    });
+            })
+            .catch((error) => {
+                console.error("Error al Crear el Carrito: ", error);
+                socket.emit("Error al Crear el Carrito");
+            });
+    });
+
 
 
     socket.on('eliminar_producto_carrito', (idProducto, idCarrito) => {
