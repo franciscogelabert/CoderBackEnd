@@ -11,7 +11,7 @@ import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
 const viewsRouter = express.Router();
 
 // Para trabajar con la Base Mongo - ProductModel
-// Ruta para probar la conexión
+
 viewsRouter.get('/api/realTimeProducts', async (req, res) => {
     try {
 
@@ -40,7 +40,7 @@ viewsRouter.get('/api/realTimeProducts', async (req, res) => {
 })
 
 
-// Ruta para probar la conexión
+// Ruta para ver todos los datos de todos los productos sin paginar
 viewsRouter.get('/api', async (req, res) => {
     try {
 
@@ -57,6 +57,34 @@ viewsRouter.get('/api', async (req, res) => {
             let result = await productModel.find();
             res.render('index', {
                 layout: 'home',
+                food: result 
+    
+            });
+        }
+     
+    }
+    catch (error) {
+        console.log("Error:  ", error);
+    }
+})
+
+// Ruta para ver datos de los productos para agregar al carrito
+viewsRouter.get('/products', async (req, res) => {
+    try {
+
+        const limitQuery = parseInt(req.query.limit)
+
+        if (limitQuery) {
+            let result = await productModel.find().limit(limitQuery);
+            res.render('index', {
+                layout: 'products',
+                food: result 
+             });
+
+        } else {
+            let result = await productModel.find();
+            res.render('index', {
+                layout: 'products',
                 food: result 
     
             });

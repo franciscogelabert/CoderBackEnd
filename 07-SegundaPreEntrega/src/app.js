@@ -11,6 +11,8 @@ import ProductManager from '../class/Product/ProductManager.js';
 import ProductManagerDB from '../class/Product/ProductManagerDB.js';
 import MessageManagerDB from '../class/Message/MessageManagerDB.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
+import CartManagerDB from '../class/Cart/CartManagerDB.js';
+import Cart from '../class/Cart/Cart.js';
 
 
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
@@ -30,9 +32,14 @@ const hbs = handlebars.create({
 const lp = new ProductManagerDB();
 console.log('Paso 1 - Se crea el Product Manager en app.js');
 
+
+// creo el ProductManagerDB para Base de datos
+const lc = new CartManagerDB();
+console.log('Paso 2 - Se crea el Product Manager en app.js');
+
 // creo el ProductManager para Base de datos
 const lm = new MessageManagerDB();
-console.log('Paso 2 - Se crea el Message Manager en app.js');
+console.log('Paso 3 - Se crea el Message Manager en app.js');
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
@@ -128,6 +135,63 @@ socketServer.on('connection', socket => {
                 socket.emit("errorChat", mensaje);
             });
     });
+
+    ///////// Cart Sockets ////////////////////
+
+    socket.on('crear_carrito', (codigoProducto, usuario) => {
+
+        // Obtener el ID en Base del Producto seleccionado por codigo
+        lp.getProductByCode(codigoProducto)
+            .then((result) => {
+                const info = {
+                    "IdUser": usuario,
+                    "lista": [
+                        {
+                            "IdProd": result[0]._id,
+                            "CantProd": 1
+                        }
+                    ]
+                };
+
+                //const productId = data;
+                const newCart = new Cart(info);
+
+                // Devolver la promesa para poder encadenarla
+                lc.addCart(newCart)
+                    .then((cartId) => {  // <-- Cambio aquí
+                        socket.emit("carritoCreado", cartId); // <-- Cambio aquí
+                    })
+                    .catch((error) => {
+                        console.error("Error al agregar Mensajes:", error);
+                        socket.emit("errorChat", mensaje);
+                    });
+            })
+            .catch((error) => {
+                console.error("Error al Crear el Carrito: ", error);
+                socket.emit("Error al Crear el Carrito");
+            });
+    });
+
+
+    socket.on('agregar_producto_carrito', (codigoProducto, carrito) => {
+
+        // Obtener el ID en Base del Producto seleccionado por codigo
+        lp.getProductByCode(codigoProducto)
+            .then((result) => {
+
+                lc.addProductCart(result[0]._id, carrito)
+                    .then((cartId) => {
+                        console.log("carritoActualizado --->", carrito);
+                        socket.emit("carritoActualizado", carrito);
+
+                    });
+            })
+            .catch((error) => {
+                console.error("Error al Crear el Carrito: ", error);
+                socket.emit("Error al Crear el Carrito");
+            });
+    });
+
 });
 
 export default socketServer;

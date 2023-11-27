@@ -13,9 +13,10 @@ class CartManagerDB {
     addCart = function (cart) {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(cart);
                 const nuevoCart = await cartModel.create(cart);
-                console.log('Cart insertado:', nuevoCart);
+                const cartId = nuevoCart._id;
+                console.log('Cart insertado:', cartId);
+                resolve(cartId);
 
             } catch (error) {
                 console.error('Error:', error);
@@ -40,39 +41,35 @@ class CartManagerDB {
             throw error; // Puedes manejar el error aquí o lanzarlo para que sea manejado en otro lugar
         }
     }
+addProductCart = function (idProduct, idCart) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const result = await cartModel.findById(idCart);
 
+            // Convertir el idProduct a ObjectId si es un string
+            const idProductObj = typeof idProduct === 'string' ? mongoose.Types.ObjectId(idProduct) : idProduct;
 
-    addProductCart = function (idProduct, idCart) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const result = await cartModel.findById(idCart);
+            const findProdIndex = result.lista.findIndex(c => c.IdProd.equals(idProductObj));
 
-                            
-                const findProdIndex = result.lista.findIndex(c => c.IdProd === idProduct);
-                   
-                if (findProdIndex !== -1) {
-                    // El producto ya existe en el carrito, incrementa la cantidad
-                    result.lista[findProdIndex].CantProd++;
-                } else {
-                    // El producto no existe en el carrito, agrégalo
-                    result.lista.push({ IdProd: idProduct, CantProd: 1 });
-                }
-    
-                // Actualiza el carrito en la base de datos
-          
-                await this.updateCartById(idCart,result);
-      
-                
-                resolve(result);
-    
-            } catch (error) {
-                console.error('Error:', error);
-                reject(error);
+           if (findProdIndex !== -1) {
+                // El producto ya existe en el carrito, incrementa la cantidad
+                result.lista[findProdIndex].CantProd++;
+            } else {
+                // El producto no existe en el carrito, agrégalo
+                result.lista.push({ IdProd: idProductObj, CantProd: 1 });
             }
-        });
-    };
 
+            // Actualiza el carrito en la base de datos
+            await this.updateCartById(idCart, result);
 
+            resolve(result);
+
+        } catch (error) {
+            console.error('Error:', error);
+            reject(error);
+        }
+    });
+};
 
     
 

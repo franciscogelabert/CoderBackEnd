@@ -41,7 +41,10 @@ cartsRouter.get('/:id', (req, res) => {
 })
 
 cartsRouter.post('/', (req, res) => {
+    console.log(req.body);
+   
     const newCart = new Cart(req.body);
+
     console.log(newCart);
     lc.addCart(newCart);
     res.status(200).json({ message: 'Cart agregadoooo', data: newCart });

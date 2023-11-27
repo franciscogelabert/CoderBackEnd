@@ -148,7 +148,7 @@ class ProductManagerDB {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await productModel.find({ code: code });
-                if (result) {
+                 if (result) {
                     resolve(result);
                 } else {
                     resolve(false);
