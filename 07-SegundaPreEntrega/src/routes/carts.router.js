@@ -34,6 +34,29 @@ cartsRouter.get('/:id', (req, res) => {
 
     lc.getCartsById(id).then((result) => {
         res.send(result);
+
+    })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+})
+
+cartsRouter.get('/customer/:id', (req, res) => {
+
+    const id = req.params.id;
+    lc.getCartById(id).then((result) => 
+    {
+        res.render('index', {
+            layout: 'carts',
+            itemCart: result.lista,
+            IdUser: result.IdUser,
+            IdCart: id,
+            cantProd: result.cantProd,
+            precioTotal:result.precioTotal
+        }); 
+
+        //res.send(result);
+
     })
         .catch(error => {
             console.error('Error:', error);
@@ -42,7 +65,7 @@ cartsRouter.get('/:id', (req, res) => {
 
 cartsRouter.post('/', (req, res) => {
     console.log(req.body);
-   
+
     const newCart = new Cart(req.body);
 
     console.log(newCart);
@@ -54,7 +77,7 @@ cartsRouter.post('/:cid/product/:pid', (req, res) => {
 
     if (req.params.cid ?? req.params.pid) {
         //const id = parseInt(req.params.cid, 10); // paresar cid si se utiliza con File System
-        const cid = req.params.cid; 
+        const cid = req.params.cid;
         const pid = req.params.pid;
         lc.addProductCart(pid, cid);
         res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });

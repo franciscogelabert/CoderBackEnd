@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Segunda Preentrega</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+    <div>
+        <h1>Segunda Preentrega - Gelabert Francisco - Programación Backend - Comisión 55595 </h1>
+        <h2> Lista de Productos en el Carrito</h2>
+        <h3 id="idUser"> Usuario registrado: {{IdUser}}</h3>
+        <h3 id="idCarrito"> {{IdCart}}</h3>
+        <h3 id="idCantProd"> Cantidad Productos: {{cantProd}}</h3>
+         <h3 id="idPriceTotal"> Precio Total: {{precioTotal}}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total $</th>
+                    <th>Acciones</th> <!-- Nueva columna para los botones -->
+                </tr>
+            </thead>
+            <tbody id="cartList">
+                {{#each itemCart}}
+                <tr id={{this.IdProd._id}}>
+                    <td>{{this.IdProd.code}}</td>
+                    <td>{{this.IdProd.title}}</td>
+                    <td>{{this.IdProd.description}}</td>
+                    <td>{{this.CantProd}}</td>
+                    <td>{{this.IdProd.price}}</td>
+                    <td>{{multiply this.IdProd.price this.CantProd}}</td>
+                    <td>
+                        <button class="del-btn">Eliminar</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/cartCustomer.js"></script>
+</body>
+
+</html>

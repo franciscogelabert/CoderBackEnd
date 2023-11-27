@@ -5,6 +5,7 @@ import ProductManager from '../../class/Product/ProductManager.js';
 import FileManager from '../../class/dao/FileSystem/FileManager.js';
 import __dirname from '../utils.js';
 import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
+import { cartModel } from '../../class/Dao/MongoDB/models/cart.model.js';
 import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
 
 
@@ -96,6 +97,7 @@ viewsRouter.get('/products', async (req, res) => {
     }
 })
 
+
 // Ruta para realizar un Post desde Postman 
 viewsRouter.post('/api', async (req, res) => {
     try {
@@ -138,7 +140,7 @@ viewsRouter.get('/api/chat', async (req, res) => {
 
 
 
-// Para trabajar con el FileSystem - ProductManager
+// Para trabajar con el ****FileSystem - ProductManager ****
 
 const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 

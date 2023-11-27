@@ -2,33 +2,38 @@
 // crea socket en Cliente 
 
 const socket = io();
-console.log("Connected Carrito");
+console.log("Connected Carrito desde el cart");
 
+let nuevoUsuario="";
 let carrito = "";
-let usuario = "";
-let cantidadCarrito=0;
-let montoTotal=0;
+let cantidadCarrito = 0;
+let montoTotal = 0;
+
+// Comprueba si el idusuario ya está almacenado en sessionStorage
+const usuario = sessionStorage.getItem('idusuario');
 
 
-Swal.fire({
-    title: "Ingrese su Usuario: ",
-    input: "email",
-    inputLabel: "su dirección de correo electrónico",
-    inputPlaceholder: "Ingrese su dirección de correo electrónico"
-}).then((result) => {
-    if (result.isConfirmed) {
-        usuario = result.value;
-        console.log('Usuario', usuario);
-        if (usuario) {
-            const userElement = document.getElementById('usuario');
-            userElement.innerText = `Usuario:  ${usuario}`;
-            Swal.fire(`Usuario Ingresado: ${usuario}`);
-
+if (!usuario) {
+    Swal.fire({
+        title: "Ingrese su Usuario: ",
+        input: "email",
+        inputLabel: "su dirección de correo electrónico",
+        inputPlaceholder: "Ingrese su dirección de correo electrónico"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            nuevoUsuario = result.value;
            
-           
+            if (nuevoUsuario) {
+                sessionStorage.setItem('idusuario', nuevoUsuario);
+                const userElement = document.getElementById('usuario');
+                userElement.innerText = `Usuario:  ${nuevoUsuario}`;
+                Swal.fire(`Usuario Ingresado: ${nuevoUsuario}`);
+
+            }
         }
-    }
-});
+    });
+
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     // Obtener todos los botones "Ver"
@@ -58,14 +63,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (carrito == "") {
                 console.log("no existe carrito se procede a crearlo")
-                socket.emit('crear_carrito', codigoProducto, usuario);
+                socket.emit('crear_carrito', codigoProducto, nuevoUsuario);
                 cantidadCarrito++;
-                montoTotal=montoTotal+precioProducto;
+                montoTotal = montoTotal + precioProducto;
             } else {
                 console.log("agregar producto al carrito");
                 socket.emit('agregar_producto_carrito', codigoProducto, carrito);
                 cantidadCarrito++;
-                montoTotal=montoTotal+precioProducto;
+                montoTotal = montoTotal + precioProducto;
             }
 
             const carritoElement = document.getElementById('carritoCantidad');
@@ -78,16 +83,32 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Agregar al carrito producto con código:", codigoProducto);
         });
     });
-});
 
+
+    // Obtén el botón por su clase
+    var verCartButton = document.querySelector('.ver-cart');
+
+    verCartButton.addEventListener('click', function () {
+        // Obtén el valor del ID del carrito
+        var carritoId = document.getElementById('carrito').textContent;
+
+        // Construye la URL con el ID del carrito
+        var url = 'http://localhost:8080/api/carts/customer/' + carritoId;
+
+        // Abre la URL en la misma ventana/pestaña
+        window.location.href = url;
+    });
+   
+
+});
 
 socket.on("carritoCreado", (carritoId) => {
-
-    console.log("Carrito creado con ID:", carritoId);
+    console.log(carritoId);
     carrito = carritoId;
-
     const campoElement = document.getElementById('carrito');
-    campoElement.innerText = `Carrito creado con ID: ${carritoId}`;
+    campoElement.innerText = `${carritoId}`;
 
 });
+
+
 

@@ -19,8 +19,8 @@ const productSchema= new mongoose.Schema({
     },
     thumbnail: [String],  
     estado: Boolean,
-    category: String, 
-    isVisible: Boolean
+    category: String
+
 });
 
 export const  productModel = mongoose.model(productCollection,productSchema);

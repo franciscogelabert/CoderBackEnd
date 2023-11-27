@@ -23,6 +23,12 @@ const hbs = handlebars.create({
     },
 });
 
+
+// Registrar un ayudante personalizado para la multiplicación
+hbs.handlebars.registerHelper('multiply', function (a, b) {
+    return a * b;
+});
+
 // Para usar con File Manager
 //const farchivo = new FileManager('productos.json', `${__dirname}/files`);
 //const lp = new ProductManager(farchivo);
@@ -51,6 +57,9 @@ app.engine('handlebars', hbs.engine);
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
+
+
+
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -141,6 +150,7 @@ socketServer.on('connection', socket => {
     socket.on('crear_carrito', (codigoProducto, usuario) => {
 
         // Obtener el ID en Base del Producto seleccionado por codigo
+       
         lp.getProductByCode(codigoProducto)
             .then((result) => {
                 const info = {
@@ -162,8 +172,8 @@ socketServer.on('connection', socket => {
                         socket.emit("carritoCreado", cartId); // <-- Cambio aquí
                     })
                     .catch((error) => {
-                        console.error("Error al agregar Mensajes:", error);
-                        socket.emit("errorChat", mensaje);
+                        console.error("Error al agregar carrito:", error);
+                        socket.emit("Error Carrito", mensaje);
                     });
             })
             .catch((error) => {
@@ -185,6 +195,21 @@ socketServer.on('connection', socket => {
                         socket.emit("carritoActualizado", carrito);
 
                     });
+            })
+            .catch((error) => {
+                console.error("Error al Crear el Carrito: ", error);
+                socket.emit("Error al Crear el Carrito");
+            });
+    });
+
+
+    socket.on('eliminar_producto_carrito', (idProducto, idCarrito) => {
+
+        // Obtener el ID en Base del Producto seleccionado por codigo
+        lc.removeProductCart(idProducto, idCarrito)
+            .then((result) => {
+                        console.log("carritoActualizado --->", idCarrito);
+                        socket.emit("carritoActualizado", idCarrito);
             })
             .catch((error) => {
                 console.error("Error al Crear el Carrito: ", error);
