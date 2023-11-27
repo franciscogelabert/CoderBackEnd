@@ -4,7 +4,7 @@
 const socket = io();
 console.log("Connected Carrito desde el cart");
 
-let nuevoUsuario="";
+let nuevoUsuario = "";
 let carrito = "";
 let cantidadCarrito = 0;
 let montoTotal = 0;
@@ -22,7 +22,7 @@ if (!usuario) {
     }).then((result) => {
         if (result.isConfirmed) {
             nuevoUsuario = result.value;
-           
+
             if (nuevoUsuario) {
                 sessionStorage.setItem('idusuario', nuevoUsuario);
                 const userElement = document.getElementById('usuario');
@@ -38,15 +38,17 @@ if (!usuario) {
 document.addEventListener("DOMContentLoaded", function () {
     // Obtener todos los botones "Ver"
     var verButtons = document.querySelectorAll('.ver-btn');
-
     // Añadir event listener a cada botón "Ver"
     verButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             // Obtener el código del producto desde el atributo 'data-code' del botón
             var codigoProducto = button.closest('tr').id;
+            console.log("codigoProducto", codigoProducto)
+            // Construye la URL con el ID del carrito
+            var url = 'http://localhost:8080/api/products/customer/' + codigoProducto;
 
-            // Lógica para ver detalles del producto con el código especificado
-            console.log("Ver producto con código:", codigoProducto);
+            // Abre la URL en la misma ventana/pestaña
+            window.location.href = url;
         });
     });
 
@@ -95,10 +97,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Construye la URL con el ID del carrito
         var url = 'http://localhost:8080/api/carts/customer/' + carritoId;
 
-        // Abre la URL en la misma ventana/pestaña
-        window.location.href = url;
+        window.open(url, '_blank');
     });
-   
+
 
 });
 

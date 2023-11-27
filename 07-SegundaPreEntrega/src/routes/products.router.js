@@ -51,6 +51,20 @@ productsRouter.get('/:id', (req, res) => {
         });
 })
 
+productsRouter.get('/customer/:id', (req, res) => {
+    const id = req.params.id;
+     lp.getProductById(id)
+        .then((result) => {
+            res.render('index', {
+                layout: 'product',
+                prod: result
+               }); 
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+})
+
+
 productsRouter.post('/', (req, res) => {
 
     const newProduct = new Product(req.body.title, req.body.description, req.body.code, req.body.price, req.body.stock, req.body.thumbnail, req.body.estado, req.body.category);

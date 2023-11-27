@@ -55,8 +55,6 @@ cartsRouter.get('/customer/:id', (req, res) => {
             precioTotal:result.precioTotal
         }); 
 
-        //res.send(result);
-
     })
         .catch(error => {
             console.error('Error:', error);

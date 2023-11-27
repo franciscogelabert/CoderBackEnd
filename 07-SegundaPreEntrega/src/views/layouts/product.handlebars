@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Segunda Preentrega</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+    <div>
+        <h1>Segunda Preentrega - Gelabert Francisco - Programación Backend - Comisión 55595 </h1>
+        <h2> Información de Producto</h2>
+        <h3 id="idUser"> Usuario registrado: {{IdUser}}</h3>
+         <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>stock</th>
+                 </tr>
+            </thead>
+            <tbody id="cartList">
+                 <tr id={{prod._id}}>
+                    <td>{{prod.code}}</td>
+                    <td>{{prod.title}}</td>
+                    <td>{{prod.description}}</td>
+                    <td>{{prod.price}}</td>
+                    <td>{{prod.stock}}</td>
+                 </tr>
+             </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/cartCustomer.js"></script>
+</body>
+
+</html>
