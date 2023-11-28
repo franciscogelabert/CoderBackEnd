@@ -43,12 +43,13 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener('click', function () {
             // Obtener el código del producto desde el atributo 'data-code' del botón
             var codigoProducto = button.closest('tr').id;
-            console.log("codigoProducto", codigoProducto)
+            console.log("codigoProducto--------------->", codigoProducto)
             // Construye la URL con el ID del carrito
-            var url = 'http://localhost:8080/api/products/customer/' + codigoProducto;
+            var url = 'http://localhost:8080/api/products/customer/code/' + codigoProducto;
 
             // Abre la URL en la misma ventana/pestaña
-            window.location.href = url;
+            //window.location.href = url;
+            window.open(url, '_blank');
         });
     });
 

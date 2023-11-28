@@ -183,7 +183,7 @@ socketServer.on('connection', socket => {
     });
 
 
-    socket.on('agregar_producto_carrito_code', (codigoProducto, carrito) => {
+    socket.on('agregar_producto_carrito', (codigoProducto, carrito) => {
 
         // Obtener el ID en Base del Producto seleccionado por codigo
         lp.getProductByCode(codigoProducto)
@@ -202,7 +202,7 @@ socketServer.on('connection', socket => {
             });
     });
 
-
+/*
     socket.on('agregar_producto_carrito', (idProducto, carrito) => {
 
         // Obtener el ID en Base del Producto seleccionado por codigo
@@ -222,7 +222,7 @@ socketServer.on('connection', socket => {
             });
     });
 
-
+*/
 
     socket.on('eliminar_producto_carrito', (idProducto, idCarrito) => {
 

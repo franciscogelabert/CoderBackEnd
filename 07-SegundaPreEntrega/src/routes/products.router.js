@@ -96,5 +96,21 @@ productsRouter.get('/code/:cod', (req, res) => {
         });
 })
 
+productsRouter.get('/customer/code/:cod', (req, res) => {
+    const cod = req.params.cod;
+    lp.getProductByCode(cod)
+    .then((result) => 
+    {       res.render('index', {
+            layout: 'product',
+            prod: result[0]          
+        }); 
+
+    })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+})
+
+
 
 export { productsRouter };
