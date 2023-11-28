@@ -14,24 +14,18 @@
     <table>
         <thead>
             <tr>
-                <th>Código</th>
-                <th>Título</th>
                 <th>Descripción</th>
-                <th>Precio</th>
-                <th>Stock</th>
                 <th>Categoría</th>
-            </tr>
+               <th>Total $ (PU * Stock)</th>
+              </tr>
         </thead>
         <tbody id="productList">
             {{#each food}}
-            <tr id="{{this.code}}">
-                <td>{{this.code}}</td>
+            <tr id="{{this._id}}">
                 <td>{{this.title}}</td>
-                <td>{{this.description}}</td>
-                <td>{{this.price}}</td>
-                <td>{{this.stock}}</td>
                 <td>{{this.category}}</td>
-            </tr>
+                <td>{{this.totalQuantity}}</td>
+              </tr>
             {{/each}}
         </tbody>
     </table>

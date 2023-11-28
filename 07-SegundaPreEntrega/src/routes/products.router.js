@@ -24,9 +24,8 @@ productsRouter.get('/', (req, res) => {
     lp.getProducts()
         .then(() => {
             const limitQuery = req.query.limit;
-
+ 
             if (limitQuery) {
-
                 const limitItems = lp.lista.slice(0, limitQuery);
                 res.status(201).json(limitItems);
 

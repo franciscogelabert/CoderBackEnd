@@ -164,8 +164,7 @@ class CartManagerDB {
                     precioTotal: precioTotal
                 };
 
-                console.log('carritoConIdUser-------------->', carritoConIdUser);
-                resolve(carritoConIdUser);
+               resolve(carritoConIdUser);
 
             } catch (error) {
                 console.error('Error:', error);

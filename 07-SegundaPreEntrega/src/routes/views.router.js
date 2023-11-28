@@ -22,18 +22,18 @@ viewsRouter.get('/api/realTimeProducts', async (req, res) => {
             let result = await productModel.find().limit(limitQuery);
             res.render('index', {
                 layout: 'realTimeProducts',
-                food: result 
-             });
+                food: result
+            });
 
         } else {
             let result = await productModel.find();
             res.render('index', {
                 layout: 'realTimeProducts',
-                food: result 
-    
+                food: result
+
             });
         }
-     
+
     }
     catch (error) {
         console.log("Error:  ", error);
@@ -45,24 +45,78 @@ viewsRouter.get('/api/realTimeProducts', async (req, res) => {
 viewsRouter.get('/api', async (req, res) => {
     try {
 
-        const limitQuery = parseInt(req.query.limit)
+        const limitQuery = req.query.limit === undefined ? 10 : parseInt(req.query.limit);
+        const sort = req.query.sort === 'ASC' ? 1 : -1;
+        let state = false;
+        let estado = "";
+        const page = req.query.page;
+        const category = req.query.category;
 
-        if (limitQuery) {
-            let result = await productModel.find().limit(limitQuery);
-            res.render('index', {
-                layout: 'home',
-                food: result 
-             });
 
+        console.log("limitQuery", limitQuery);
+        console.log("category", category);
+        console.log("sort", sort);
+
+        //http://localhost:8080/api?limit=2&category=Fruta&sort=Desc
+
+
+        let result = await productModel.aggregate([
+            {
+                $match: {
+                    category: category
+                }
+            },
+            {
+                $group: {
+                    _id: "$title",
+                    totalQuantity: {
+                        $sum: {
+                            $multiply: ["$price", "$stock"]
+                        }
+                    },
+                    doc: {
+                        $first: "$$ROOT"
+                    }
+                }
+            },
+            {
+                $sort: {
+                    totalQuantity: sort,
+                }
+            },
+            {
+                $replaceRoot: {
+                    newRoot: {
+                        $mergeObjects: ["$doc", { totalQuantity: "$totalQuantity" }]
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    totalQuantity: 1,
+                    title: "$title",
+                    category: "$category"
+                    // Agrega otros campos que deseas incluir
+                }
+            }
+        ]).limit(limitQuery);
+        console.log("result ----> ", result);
+
+        state = await productModel.find().limit(limitQuery).explain("executionStats");
+
+        if (state.executionStats.executionSuccess) {
+            estado = "success";
         } else {
-            let result = await productModel.find();
-            res.render('index', {
-                layout: 'home',
-                food: result 
-    
-            });
+            estado = "error";
         }
-     
+
+        res.render('index', {
+            layout: 'home',
+            food: result,
+            status: estado
+        });
+
     }
     catch (error) {
         console.log("Error:  ", error);
@@ -79,18 +133,18 @@ viewsRouter.get('/products', async (req, res) => {
             let result = await productModel.find().limit(limitQuery);
             res.render('index', {
                 layout: 'products',
-                food: result 
-             });
+                food: result
+            });
 
         } else {
             let result = await productModel.find();
             res.render('index', {
                 layout: 'products',
-                food: result 
-    
+                food: result
+
             });
         }
-     
+
     }
     catch (error) {
         console.log("Error:  ", error);

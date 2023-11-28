@@ -97,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Construye la URL con el ID del carrito
         var url = 'http://localhost:8080/api/carts/customer/' + carritoId;
-
         window.open(url, '_blank');
     });
 

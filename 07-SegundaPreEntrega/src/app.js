@@ -59,9 +59,6 @@ app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
 
 
-
-
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
@@ -73,8 +70,6 @@ app.use('/api/carts', cartsRouter);
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
-
-
 
 
 // Accesos al Servidor Alta y eliminación de Productos
@@ -168,8 +163,8 @@ socketServer.on('connection', socket => {
 
                 // Devolver la promesa para poder encadenarla
                 lc.addCart(newCart)
-                    .then((cartId) => {  // <-- Cambio aquí
-                        socket.emit("carritoCreado", cartId); // <-- Cambio aquí
+                    .then((cartId) => {  
+                        socket.emit("carritoCreado", cartId); 
                     })
                     .catch((error) => {
                         console.error("Error al agregar carrito:", error);
@@ -202,27 +197,6 @@ socketServer.on('connection', socket => {
             });
     });
 
-/*
-    socket.on('agregar_producto_carrito', (idProducto, carrito) => {
-
-        // Obtener el ID en Base del Producto seleccionado por codigo
-        lp.getProductById(idProducto)
-            .then((result) => {
-
-                lc.addProductCart(result[0]._id, carrito)
-                    .then((cartId) => {
-                        console.log("carritoActualizado --->", carrito);
-                        socket.emit("carritoActualizado", carrito);
-
-                    });
-            })
-            .catch((error) => {
-                console.error("Error al Crear el Carrito: ", error);
-                socket.emit("Error al Crear el Carrito");
-            });
-    });
-
-*/
 
     socket.on('eliminar_producto_carrito', (idProducto, idCarrito) => {
 

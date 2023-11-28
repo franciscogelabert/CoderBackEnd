@@ -13,30 +13,20 @@
     <div>
         <h1>Segunda Preentrega - Gelabert Francisco - Programación Backend - Comisión 55595 </h1>
         <h2> Información de Producto</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Título</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>stock</th>
-                 </tr>
-            </thead>
-            <tbody id="cartList">
-                 <tr id={{prod._id}}>
-                    <td>{{prod.code}}</td>
-                    <td>{{prod.title}}</td>
-                    <td>{{prod.description}}</td>
-                    <td>{{prod.price}}</td>
-                    <td>{{prod.stock}}</td>
-                 </tr>
-             </tbody>
-        </table>
-    </div>
+
+        <!-- Utilizamos divs en lugar de una tabla -->
+        <div class="product">
+            <strong>Código:</strong> {{prod.code}}<br>
+            <strong>Título:</strong> {{prod.title}}<br>
+            <strong>Descripción:</strong> {{prod.description}}<br>
+            <strong>Precio:</strong> {{prod.price}}<br>
+            <strong>Stock:</strong> {{prod.stock}}<br>
+        </div>
+        </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    
+    <script type="text/javascript" src="/js/cart.js"></script>
 </body>
 
 </html>
