@@ -97,8 +97,7 @@ viewsRouter.get('/api', async (req, res) => {
                     totalQuantity: 1,
                     title: "$title",
                     category: "$category"
-                    // Agrega otros campos que deseas incluir
-                }
+                    }
             }
         ]).limit(limitQuery);
         console.log("result ----> ", result);
