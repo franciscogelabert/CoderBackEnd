@@ -61,26 +61,6 @@ cartsRouter.get('/customer/:id', (req, res) => {
         });
 })
 
-cartsRouter.get('/customer/:id', (req, res) => {
-
-    const id = req.params.id;
-    lc.getCartById(id).then((result) => 
-    {
-        res.render('index', {
-            layout: 'carts',
-            itemCart: result.lista,
-            IdUser: result.IdUser,
-            IdCart: id,
-            cantProd: result.cantProd,
-            precioTotal:result.precioTotal
-        }); 
-
-    })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-})
-
 cartsRouter.post('/', (req, res) => {
     console.log(req.body);
 

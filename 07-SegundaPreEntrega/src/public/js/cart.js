@@ -17,6 +17,19 @@ let nuevoUsuario = sUsuario === null ? "" : sUsuario;
 let cantidadCarrito = sCantidad === null ? 0 : parseInt(sCantidad);
 let montoTotal = sMonto === null ? 0 : parseFloat(sMonto);
 
+
+const userElement = document.getElementById('usuario');
+userElement.innerText = `Usuario:  ${nuevoUsuario}`;
+
+const campoElement = document.getElementById('carrito');
+campoElement.innerText = `${carrito}`;
+
+const carritoElement = document.getElementById('carritoCantidad');
+carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
+
+const carritoMonto = document.getElementById('montoTotal');
+carritoMonto.innerText = `Monto Total: ${montoTotal} Pesos  `;
+
 if (!sUsuario) {
     Swal.fire({
         title: "Ingrese su Usuario: ",
@@ -85,12 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 sessionStorage.setItem('cantidad', cantidadCarrito);
                 sessionStorage.setItem('monto', montoTotal);
             }
-
-            const userElement = document.getElementById('usuario');
-            userElement.innerText = `Usuario:  ${nuevoUsuario}`;
-
-            const campoElement = document.getElementById('carrito');
-            campoElement.innerText = `${carrito}`;
 
             const carritoElement = document.getElementById('carritoCantidad');
             carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
