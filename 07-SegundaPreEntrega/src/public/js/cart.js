@@ -4,16 +4,20 @@
 const socket = io();
 console.log("Connected Carrito desde el cart");
 
-let nuevoUsuario = "";
-let carrito = "";
-let cantidadCarrito = 0;
-let montoTotal = 0;
+// Recupera el valor almacenado en sessionStorage
+let sCarrito = sessionStorage.getItem('carrito');
+let sUsuario = sessionStorage.getItem('usuario');
+let sCantidad= sessionStorage.getItem('cantidad');
+let sMonto = sessionStorage.getItem('monto');
 
-// Comprueba si el idusuario ya está almacenado en sessionStorage
-const usuario = sessionStorage.getItem('idusuario');
+// Si el valor no existe (es null), establece carrito en una cadena vacía
+let carrito = sCarrito === null ? "" : sCarrito;
+let nuevoUsuario = sUsuario === null ? "" : sUsuario;
 
+let cantidadCarrito = sCantidad === null ? 0 : parseInt(sCantidad);
+let montoTotal = sMonto === null ? 0 : parseFloat(sMonto);
 
-if (!usuario) {
+if (!sUsuario) {
     Swal.fire({
         title: "Ingrese su Usuario: ",
         input: "email",
@@ -22,9 +26,10 @@ if (!usuario) {
     }).then((result) => {
         if (result.isConfirmed) {
             nuevoUsuario = result.value;
+            sessionStorage.setItem('usuario', nuevoUsuario);
 
             if (nuevoUsuario) {
-                sessionStorage.setItem('idusuario', nuevoUsuario);
+                sessionStorage.setItem('usuario', nuevoUsuario);
                 const userElement = document.getElementById('usuario');
                 userElement.innerText = `Usuario:  ${nuevoUsuario}`;
                 Swal.fire(`Usuario Ingresado: ${nuevoUsuario}`);
@@ -36,6 +41,7 @@ if (!usuario) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+
     // Obtener todos los botones "Ver"
     var verButtons = document.querySelectorAll('.ver-btn');
     // Añadir event listener a cada botón "Ver"
@@ -69,12 +75,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 socket.emit('crear_carrito', codigoProducto, nuevoUsuario);
                 cantidadCarrito++;
                 montoTotal = montoTotal + precioProducto;
+                sessionStorage.setItem('cantidad', cantidadCarrito);
+                sessionStorage.setItem('monto', montoTotal);
             } else {
                 console.log("agregar producto al carrito");
                 socket.emit('agregar_producto_carrito', codigoProducto, carrito);
                 cantidadCarrito++;
                 montoTotal = montoTotal + precioProducto;
+                sessionStorage.setItem('cantidad', cantidadCarrito);
+                sessionStorage.setItem('monto', montoTotal);
             }
+
+            const userElement = document.getElementById('usuario');
+            userElement.innerText = `Usuario:  ${nuevoUsuario}`;
+
+            const campoElement = document.getElementById('carrito');
+            campoElement.innerText = `${carrito}`;
 
             const carritoElement = document.getElementById('carritoCantidad');
             carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
@@ -93,13 +109,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     verCartButton.addEventListener('click', function () {
         // Obtén el valor del ID del carrito
-        var carritoId = document.getElementById('carrito').textContent;
-
-        // Construye la URL con el ID del carrito
-        var url = 'http://localhost:8080/api/carts/customer/' + carritoId;
-        window.open(url, '_blank');
+        //var carritoId = document.getElementById('carrito').textContent;
+        if (!carrito) {
+            console.log("no existe carrito")
+        } else {
+            // Construye la URL con el ID del carrito
+            var url = 'http://localhost:8080/api/carts/customer/' + carrito;
+            window.open(url, '_blank');
+        }
     });
-
 
 });
 
@@ -108,6 +126,7 @@ socket.on("carritoCreado", (carritoId) => {
     carrito = carritoId;
     const campoElement = document.getElementById('carrito');
     campoElement.innerText = `${carritoId}`;
+    sessionStorage.setItem('carrito', carrito);
 
 });
 

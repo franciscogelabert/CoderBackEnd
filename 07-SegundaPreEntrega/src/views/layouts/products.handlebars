@@ -17,6 +17,21 @@
     <h3 id="carritoCantidad"></h3>
     <h3 id="montoTotal"></h3>
     <button class="ver-cart">Ver carrito</button>
+
+
+     <div class="detail">
+        <strong>Total de Páginas:</strong> {{totalPages}}<br>
+        <strong>prevPage:</strong> {{prevPage}}<br>
+        <strong>nextPage:</strong> {{nextPage}}<br>
+        <strong>hasPrevPage:</strong> {{hasPrevPage}}<br>
+        <strong>hasNextPage:</strong> {{hasNextPage}}<br>
+        {{#if prevLink}}
+        <strong>prevLink:</strong> <a href="{{prevLink}}">Anterior</a><br>
+        {{/if}}
+        {{#if nextLink}}
+        <strong>nextLink:</strong> <a href="{{nextLink}}">Siguiente</a><br>
+        {{/if}}
+    </div>
     <table>
         <thead>
             <tr>

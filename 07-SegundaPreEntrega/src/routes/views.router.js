@@ -7,6 +7,7 @@ import __dirname from '../utils.js';
 import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
 import { cartModel } from '../../class/Dao/MongoDB/models/cart.model.js';
 import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 
 const viewsRouter = express.Router();
@@ -42,7 +43,7 @@ viewsRouter.get('/api/realTimeProducts', async (req, res) => {
 
 
 // Ruta para ver todos los datos de todos los productos sin paginar
-viewsRouter.get('/api', async (req, res) => {
+viewsRouter.get('/api/aggregate', async (req, res) => {
     try {
 
         const limitQuery = req.query.limit === undefined ? 10 : parseInt(req.query.limit);
@@ -97,9 +98,10 @@ viewsRouter.get('/api', async (req, res) => {
                     totalQuantity: 1,
                     title: "$title",
                     category: "$category"
-                    }
+                }
             }
         ]).limit(limitQuery);
+
         console.log("result ----> ", result);
 
         state = await productModel.find().limit(limitQuery).explain("executionStats");
@@ -122,6 +124,67 @@ viewsRouter.get('/api', async (req, res) => {
     }
 })
 
+
+
+// Ruta para ver todos los datos de todos los productos sin paginar
+viewsRouter.get('/products', async (req, res) => {
+    try {
+
+        const page = req.query.page === undefined ? 1 : parseInt(req.query.page);
+        const limitQuery = req.query.limit === undefined ? 10 : parseInt(req.query.limit);
+        const sort = req.query.sort === 'ASC' ? 1 : -1;
+        const category = req.query.category;
+
+        const options = {
+            page: page, // Página actual
+            limit: limitQuery,
+            sort: { price: sort }, // Ordenar por totalQuantity
+            lean: true
+        };
+        const query = {}; // Inicializar la consulta vacía
+
+        // Agregar filtro por categoría si se proporciona
+        if (category) {
+            query.category = category;
+        }
+
+        console.log("page", page);
+        console.log("limitQuery", limitQuery);
+        console.log("category", category);
+        console.log("sort", sort);
+
+
+        //http://localhost:8080/products?page=1&limit=2&category=Fruta&sort=DESC
+
+        const result = await productModel.paginate(query, options);
+
+        console.log("result", result);
+        const prevLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
+        const nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
+
+        res.render('index', {
+            layout: 'products',
+            food: result.docs,
+            totalPages: result.totalPages,
+            prevPage: result.prevPage,
+            nextPage: result.nextPage,
+            page: page,
+            hasPrevPage: result.hasPrevPage,
+            hasNextPage: result.hasNextPage,
+            prevLink: prevLink,
+            nextLink: nextLink
+        });
+
+    }
+    catch (error) {
+        console.log("Error:  ", error);
+    }
+})
+
+
+
+
+/*
 // Ruta para ver datos de los productos para agregar al carrito
 viewsRouter.get('/products', async (req, res) => {
     try {
@@ -149,7 +212,7 @@ viewsRouter.get('/products', async (req, res) => {
         console.log("Error:  ", error);
     }
 })
-
+*/
 
 // Ruta para realizar un Post desde Postman 
 viewsRouter.post('/api', async (req, res) => {
