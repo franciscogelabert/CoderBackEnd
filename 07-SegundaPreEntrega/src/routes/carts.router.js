@@ -101,4 +101,57 @@ cartsRouter.put('/', (req, res) => {
 
 });
 
+
+cartsRouter.put('/:cid/product/:pid', (req, res) => {
+
+    if (req.params.cid ?? req.params.pid) {
+        //const id = parseInt(req.params.cid, 10); // paresar cid si se utiliza con File System
+        const cantidad = req.body.cantidad;
+        const cid = req.params.cid;
+        const pid = req.params.pid;
+        lc.addProductCartCantidad(pid, cid, cantidad);
+        res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
+
+    } else {
+
+        res.status(201).json('Parámetros inválidos');
+    }
+
+});
+
+
+cartsRouter.delete('/:cid/product/:pid', (req, res) => {
+
+    if (req.params.cid ?? req.params.pid) {
+        //const id = parseInt(req.params.cid, 10); // paresar cid si se utiliza con File System
+        const cantidad = req.body.cantidad;
+        const cid = req.params.cid;
+        const pid = req.params.pid;
+        lc.removeProductCart(pid, cid);
+        res.status(201).json({ message: `Se eliminó del carrito con ID ${cid} el Producto con Código ${pid}` });
+
+    } else {
+
+        res.status(201).json('Parámetros inválidos');
+    }
+
+});
+
+
+cartsRouter.delete('/:cid', (req, res) => {
+
+    if (req.params.cid) {
+        const cid = req.params.cid;
+        lc.removeProductCartAll(cid);
+        res.status(201).json({ message: `Se eliminaron todos los productos de carrito con ID ${cid}` });
+
+    } else {
+
+        res.status(201).json('Parámetros inválidos');
+    }
+
+});
+
+
+
 export { cartsRouter };

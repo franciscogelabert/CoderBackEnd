@@ -7,7 +7,7 @@ console.log("Connected Carrito desde el cart");
 // Recupera el valor almacenado en sessionStorage
 let sCarrito = sessionStorage.getItem('carrito');
 let sUsuario = sessionStorage.getItem('usuario');
-let sCantidad= sessionStorage.getItem('cantidad');
+let sCantidad = sessionStorage.getItem('cantidad');
 let sMonto = sessionStorage.getItem('monto');
 
 // Si el valor no existe (es null), establece carrito en una cadena vacía
@@ -86,24 +86,16 @@ document.addEventListener("DOMContentLoaded", function () {
             if (carrito == "") {
                 console.log("no existe carrito se procede a crearlo")
                 socket.emit('crear_carrito', codigoProducto, nuevoUsuario);
-                cantidadCarrito++;
-                montoTotal = montoTotal + precioProducto;
-                sessionStorage.setItem('cantidad', cantidadCarrito);
-                sessionStorage.setItem('monto', montoTotal);
+
             } else {
                 console.log("agregar producto al carrito");
                 socket.emit('agregar_producto_carrito', codigoProducto, carrito);
-                cantidadCarrito++;
-                montoTotal = montoTotal + precioProducto;
-                sessionStorage.setItem('cantidad', cantidadCarrito);
-                sessionStorage.setItem('monto', montoTotal);
+
+
+
             }
 
-            const carritoElement = document.getElementById('carritoCantidad');
-            carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
 
-            const carritoMonto = document.getElementById('montoTotal');
-            carritoMonto.innerText = `Monto Total: ${montoTotal} Pesos  `;
 
             // Lógica para agregar el producto con el código especificado al carrito
             console.log("Agregar al carrito producto con código:", codigoProducto);
@@ -128,12 +120,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-socket.on("carritoCreado", (carritoId) => {
+socket.on("carritoCreado", (carritoId, precioProducto) => {
     console.log(carritoId);
     carrito = carritoId;
+    cantidadCarrito++;
+    montoTotal = montoTotal + precioProducto;
+    
     const campoElement = document.getElementById('carrito');
     campoElement.innerText = `${carritoId}`;
+
+    const carritoElement = document.getElementById('carritoCantidad');
+    carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
+
+    const carritoMonto = document.getElementById('montoTotal');
+    carritoMonto.innerText = `Monto Total: ${montoTotal} Pesos  `;
     sessionStorage.setItem('carrito', carrito);
+    sessionStorage.setItem('cantidad', cantidadCarrito);
+    sessionStorage.setItem('monto', montoTotal);
+
+
+});
+
+socket.on("carritoActualizado", (precioProducto) => {
+    cantidadCarrito++;
+    montoTotal = montoTotal + precioProducto;
+
+    const carritoElement = document.getElementById('carritoCantidad');
+    carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
+
+    const carritoMonto = document.getElementById('montoTotal');
+    carritoMonto.innerText = `Monto Total: ${montoTotal} Pesos  `;
+
+    sessionStorage.setItem('cantidad', cantidadCarrito);
+    sessionStorage.setItem('monto', montoTotal);
 
 });
 

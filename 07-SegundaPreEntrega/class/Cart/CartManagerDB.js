@@ -71,21 +71,57 @@ class CartManagerDB {
         });
     };
 
+
+    addProductCartCantidad = function (idProduct, idCart, cantidad) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const result = await cartModel.findById(idCart);
+
+                console.log("idProduct ----> ", idProduct)
+                console.log("idCart ----> ", idCart)
+                console.log("Cantidad ----> ", cantidad)
+
+                // Convertir el idProduct a ObjectId si es un string
+                const idProductObj = typeof idProduct === 'string' ? new mongoose.Types.ObjectId(idProduct) : idProduct;
+
+                const findProdIndex = result.lista.findIndex(c => c.IdProd.equals(idProductObj));
+
+                if (findProdIndex !== -1) {
+                    // El producto ya existe en el carrito, incrementa la cantidad
+                    result.lista[findProdIndex].CantProd = result.lista[findProdIndex].CantProd + cantidad;
+
+                } else {
+                    // El producto no existe en el carrito, agrégalo
+                    result.lista.push({ IdProd: idProductObj, CantProd: 1 });
+                }
+
+                // Actualiza el carrito en la base de datos
+                await this.updateCartById(idCart, result);
+
+                resolve(result);
+
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
+
     removeProductCart = function (idProduct, idCart) {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await cartModel.findById(idCart);
                 const ObjectId = mongoose.Types.ObjectId;
-    
+
                 // Convertir el idProduct a ObjectId si es un string
                 const idProductObj = typeof idProduct === 'string' ? new ObjectId(idProduct) : idProduct;
-    
+
                 // Filtrar la lista para excluir el producto que deseamos eliminar
                 result.lista = result.lista.filter(c => !c.IdProd.equals(idProductObj));
-    
+
                 // Actualizar el carrito en la base de datos
                 await this.updateCartById(idCart, result);
-    
+
                 resolve(result);
             } catch (error) {
                 console.error('Error:', error);
@@ -94,6 +130,20 @@ class CartManagerDB {
         });
     };
 
+    removeProductCartAll = function (idCart) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const result = await cartModel.findById(idCart);
+                result.lista = [];
+                // Actualizar el carrito en la base de datos
+                await this.updateCartById(idCart, result);
+                resolve(result);
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
 
     getCarts = function () {
         return new Promise(async (resolve, reject) => {
@@ -164,7 +214,7 @@ class CartManagerDB {
                     precioTotal: precioTotal
                 };
 
-               resolve(carritoConIdUser);
+                resolve(carritoConIdUser);
 
             } catch (error) {
                 console.error('Error:', error);

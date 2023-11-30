@@ -184,9 +184,9 @@ viewsRouter.get('/products', async (req, res) => {
 
 
 
-/*
+
 // Ruta para ver datos de los productos para agregar al carrito
-viewsRouter.get('/products', async (req, res) => {
+viewsRouter.get('/api', async (req, res) => {
     try {
 
         const limitQuery = parseInt(req.query.limit)
@@ -194,14 +194,14 @@ viewsRouter.get('/products', async (req, res) => {
         if (limitQuery) {
             let result = await productModel.find().limit(limitQuery);
             res.render('index', {
-                layout: 'products',
+                layout: 'home',
                 food: result
             });
 
         } else {
             let result = await productModel.find();
             res.render('index', {
-                layout: 'products',
+                layout: 'home',
                 food: result
 
             });
@@ -212,7 +212,7 @@ viewsRouter.get('/products', async (req, res) => {
         console.log("Error:  ", error);
     }
 })
-*/
+
 
 // Ruta para realizar un Post desde Postman 
 viewsRouter.post('/api', async (req, res) => {

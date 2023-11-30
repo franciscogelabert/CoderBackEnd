@@ -164,7 +164,7 @@ socketServer.on('connection', socket => {
                 // Devolver la promesa para poder encadenarla
                 lc.addCart(newCart)
                     .then((cartId) => {  
-                        socket.emit("carritoCreado", cartId); 
+                        socket.emit("carritoCreado", cartId, result[0].price);
                     })
                     .catch((error) => {
                         console.error("Error al agregar carrito:", error);
@@ -187,7 +187,7 @@ socketServer.on('connection', socket => {
                 lc.addProductCart(result[0]._id, carrito)
                     .then((cartId) => {
                         console.log("carritoActualizado --->", carrito);
-                        socket.emit("carritoActualizado", carrito);
+                        socket.emit("carritoActualizado", result[0].price);
 
                     });
             })
@@ -204,7 +204,7 @@ socketServer.on('connection', socket => {
         lc.removeProductCart(idProducto, idCarrito)
             .then((result) => {
                         console.log("carritoActualizado --->", idCarrito);
-                        socket.emit("carritoActualizado", idCarrito);
+                        socket.emit("carritoActualizado", idCarrito)
             })
             .catch((error) => {
                 console.error("Error al Crear el Carrito: ", error);
