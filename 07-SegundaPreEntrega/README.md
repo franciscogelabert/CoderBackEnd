@@ -44,7 +44,6 @@ Utilizando handlebars, se implementan tres layouts un con una vista estática (h
 | socket.on("productNotDeleted", (productId))  | index.js | Mensaje recibido desde el Servidor, que indica que el producto no pudo ser eliminado.|
 | socket.emit('agregar_mensaje', new_message)  | chat.js | Envía mensaje al Servidor indicando se proceda con el alta de un Nuevo Mensaje|
 | socket.on("actualizarChat", (message)) | chat.js | Mensaje recibido desde el Servidor una vez que el Mensaje se persiste |
-
 | socket.emit('crear_carrito', codigoProducto, nuevoUsuario) | cart.js | Envía mensaje al Servidor indicando se proceda con la creación de un Carrito|
 | socket.emit('agregar_producto_carrito', codigoProducto, carrito) | carts.js | Envía mensaje al servidor, indicándole el código del producto que debe agregar al carrito.|
 | socket.on("carritoCreado", (carritoId) )| cart.js | Mensaje recibido desde el Servidor una vez que se crea el carrito |
@@ -70,7 +69,6 @@ Respecto al tema vistas, tanto para consultar o persistir info, utiliza los mana
 | socket.emit('productDeleted', cProd)  | Mensaje enviado al Cliente indicándole que el producto se pudo eliminar.|
 | socket.on('agregar_mensaje', (data)) | Escucha pedido desde el Cliente para agregar un mensajes.|
 | socketServer.emit("actualizarChat", mensaje) | Mensaje enviado al Cliente indicándole que el mensaje se pudo persistir.|
-
 | socket.on('crear_carrito', (codigoProducto, usuario)) | Escucha pedido desde el Cliente para agregar un carrito.|
 | socket.emit("carritoCreado", cartId, result[0].price); | Mensaje enviado al Cliente indicándole que el carrito se pudo persistir.|
 | socket.on('agregar_producto_carrito', (codigoProducto, carrito)) | Escucha pedido desde el Cliente para agregar un producto al carrito.|
