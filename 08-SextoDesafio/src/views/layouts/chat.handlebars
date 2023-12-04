@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Segunda Preentrega</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<div>
+    <h1>Segunda Preentrega - Gelabert Francisco - Programación Backend - Comisión 55595 </h1>
+    <h2> Chat - WebSocket</h2>
+</div>
+<div>
+    <h2> Chat</h2>
+    <form id="chat">
+        <label for="author">Usuario Registrado:</label>
+        <input type="text" id="author" name="author" readonly class="gray-background"><br>
+
+        <label for="message">Description:</label>
+        <input type="text" id="message" name="message"><br>
+
+        <button type="submit" id="btn_publicar">Enviar</button>
+    </form>
+</div>
+<div id="cList">
+    {{#each message}}
+    <div id="{{this._id}}">
+        <strong>{{this.author}}</strong>
+        <em style="margin-left: 10px;">{{this.message}}</em>
+    </div>
+    {{/each}}
+</div>
+</div>
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="/js/chat.js"></script>
+
+</html>
