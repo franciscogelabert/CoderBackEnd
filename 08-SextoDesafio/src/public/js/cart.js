@@ -31,6 +31,7 @@ carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
 const carritoMonto = document.getElementById('montoTotal');
 carritoMonto.innerText = `Monto Total: ${montoTotal} Pesos  `;
 
+/*
 if (!sUsuario) {
     Swal.fire({
         title: "Ingrese su Usuario: ",
@@ -52,6 +53,12 @@ if (!sUsuario) {
     });
 
 }
+
+*/
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -91,16 +98,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log("agregar producto al carrito");
                 socket.emit('agregar_producto_carrito', codigoProducto, carrito);
 
-
-
             }
-
-
 
             // Lógica para agregar el producto con el código especificado al carrito
             console.log("Agregar al carrito producto con código:", codigoProducto);
         });
     });
+
+
+    
+
+
 
 
     // Obtén el botón por su clase

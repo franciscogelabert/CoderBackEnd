@@ -4,6 +4,7 @@
 const socket = io();
 console.log("connected");
 
+
 // agrega listener para escuchar el click del botnon registar
 
 let btn_registrar = document.getElementById('btn_registrar');

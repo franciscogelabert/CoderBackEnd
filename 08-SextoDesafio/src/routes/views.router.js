@@ -178,6 +178,7 @@ viewsRouter.get('/products', async (req, res) => {
         });
 
         res.cookie("totalPages",result.totalPages,{maxAge:10000});
+        console.log("req.signedCookies", req.signedCookies);
 
     }
     catch (error) {
@@ -268,7 +269,7 @@ const lp = new ProductManager(farchivo);
 
 
 // Ruta para manejar la solicitud de la página de inicio
-viewsRouter.get('/', (req, res) => {
+viewsRouter.get('/listproduct', (req, res) => {
     lp.getProducts()
         .then((result) => {
             res.render('index', {
@@ -300,6 +301,39 @@ viewsRouter.post('/realTimeProducts', (req, res) => {
     socketServer.emit("productAdded", newProduct);
     res.status(201).json('Producto agregado');
 });
+
+
+
+
+
+
+
+// Ruta para manejar la solicitud de la página de inicio
+viewsRouter.get('/', (req, res) => {
+    res.render('index', {
+    layout: 'logIn'    
+})});
+
+
+// Ruta para manejar el botón submit
+viewsRouter.post('/submit', (req, res) => {
+const { name, email } = req.body;
+
+// Crear cookie con formato {user: correoDelInput}
+res.cookie('user', email, { maxAge: 10000 }); // 10 segundos
+res.cookie('name', name, { maxAge: 10000 }); // 10 segundos
+res.send('Cookie creada.');
+});
+
+
+// Ruta para manejar el botón getCookie
+viewsRouter.get('/getCookie', (req, res) => {
+// Obtener y mostrar la cookie por consola
+console.log('Cookie:', req.cookies.user);
+console.log('Cookie:', req.cookies.name);
+res.send('Cookie mostrada en la consola.');
+});
+
 
 
 export { viewsRouter };

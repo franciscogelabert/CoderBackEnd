@@ -13,7 +13,7 @@ import MessageManagerDB from '../class/Message/MessageManagerDB.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
 import CartManagerDB from '../class/Cart/CartManagerDB.js';
 import Cart from '../class/Cart/Cart.js';
-import cookieParser from 'cookie-parser'; 
+import cookieParser from 'cookie-parser';
 
 
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
@@ -71,7 +71,18 @@ app.use('/api/carts', cartsRouter);
 
 
 // Middleware CookieParser
-app.use(cookieParser());
+app.use(cookieParser("13872389a583b1219230e2e81733e88748d7ca8bcb20d3002525edcfb448005ff9f9ca9c4d83595e75b7fee973027828bf6925c8b97ab21febacc974e0e41fa7/123"));
+
+
+app.get("/cookieSign", (req, res) => {
+    res
+        .cookie("Nombre", "Valor Cookie", { signed: true })
+        .send("creada correctamente");
+});
+
+
+
+
 
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
@@ -151,7 +162,7 @@ socketServer.on('connection', socket => {
     socket.on('crear_carrito', (codigoProducto, usuario) => {
 
         // Obtener el ID en Base del Producto seleccionado por codigo
-       
+
         lp.getProductByCode(codigoProducto)
             .then((result) => {
                 const info = {
@@ -169,7 +180,7 @@ socketServer.on('connection', socket => {
 
                 // Devolver la promesa para poder encadenarla
                 lc.addCart(newCart)
-                    .then((cartId) => {  
+                    .then((cartId) => {
                         socket.emit("carritoCreado", cartId, result[0].price);
                     })
                     .catch((error) => {
@@ -209,8 +220,8 @@ socketServer.on('connection', socket => {
         // Obtener el ID en Base del Producto seleccionado por codigo
         lc.removeProductCart(idProducto, idCarrito)
             .then((result) => {
-                        console.log("carritoActualizado --->", idCarrito);
-                        socket.emit("carritoActualizado", idCarrito)
+                console.log("carritoActualizado --->", idCarrito);
+                socket.emit("carritoActualizado", idCarrito)
             })
             .catch((error) => {
                 console.error("Error al Crear el Carrito: ", error);
@@ -219,7 +230,7 @@ socketServer.on('connection', socket => {
     });
 
 
-   
+
 
 });
 
