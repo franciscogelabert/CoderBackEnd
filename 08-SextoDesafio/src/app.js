@@ -13,6 +13,7 @@ import MessageManagerDB from '../class/Message/MessageManagerDB.js';
 import FileManager from '../class/dao/FileSystem/FileManager.js';
 import CartManagerDB from '../class/Cart/CartManagerDB.js';
 import Cart from '../class/Cart/Cart.js';
+import cookieParser from 'cookie-parser'; 
 
 
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
@@ -47,6 +48,7 @@ console.log('Paso 2 - Se crea el Product Manager en app.js');
 const lm = new MessageManagerDB();
 console.log('Paso 3 - Se crea el Message Manager en app.js');
 
+
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
 
 const app = express();
@@ -68,11 +70,15 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
 
+// Middleware CookieParser
+app.use(cookieParser());
+
+
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
 
 
-// Accesos al Servidor Alta y eliminación de Productos
+// Accesos al Servidor
 
 socketServer.on('connection', socket => {
 

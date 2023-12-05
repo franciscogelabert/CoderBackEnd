@@ -41,8 +41,7 @@ if (!sUsuario) {
         if (result.isConfirmed) {
             nuevoUsuario = result.value;
             sessionStorage.setItem('usuario', nuevoUsuario);
-
-            if (nuevoUsuario) {
+              if (nuevoUsuario) {
                 sessionStorage.setItem('usuario', nuevoUsuario);
                 const userElement = document.getElementById('usuario');
                 userElement.innerText = `Usuario:  ${nuevoUsuario}`;
