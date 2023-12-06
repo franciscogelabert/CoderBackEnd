@@ -10,6 +10,8 @@ import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
 
+
+
 const viewsRouter = express.Router();
 
 // Para trabajar con la Base Mongo - ProductModel
@@ -303,37 +305,34 @@ viewsRouter.post('/realTimeProducts', (req, res) => {
 });
 
 
-
-
-
-
-
 // Ruta para manejar la solicitud de la página de inicio
 viewsRouter.get('/', (req, res) => {
     res.render('index', {
-    layout: 'logIn'    
+    layout: 'login'    
 })});
 
 
 // Ruta para manejar el botón submit
 viewsRouter.post('/submit', (req, res) => {
 const { name, email } = req.body;
-
 // Crear cookie con formato {user: correoDelInput}
-res.cookie('user', email, { maxAge: 10000 }); // 10 segundos
-res.cookie('name', name, { maxAge: 10000 }); // 10 segundos
+res.cookie('user', email, { maxAge: 30000 }); // 30 segundos
+res.cookie('name', name, { maxAge: 30000 }); // 30 segundos
+console.log('Cookies guardadas:', req.cookies);
 res.send('Cookie creada.');
 });
 
 
-// Ruta para manejar el botón getCookie
+// Ruta para obtener el valor de la cookie 'user'
 viewsRouter.get('/getCookie', (req, res) => {
-// Obtener y mostrar la cookie por consola
-console.log('Cookie:', req.cookies.user);
-console.log('Cookie:', req.cookies.name);
-res.send('Cookie mostrada en la consola.');
+    // Obtener y mostrar la cookie por consola
+    const userCookieValue = req.cookies.user;
+    console.log('Valor de la cookie "user":', userCookieValue);
+
+    const nameCookieValue = req.cookies.name;
+    console.log('Valor de la cookie "name":', nameCookieValue);
+
+    res.send('Cookies mostradas en la consola.');
 });
-
-
 
 export { viewsRouter };

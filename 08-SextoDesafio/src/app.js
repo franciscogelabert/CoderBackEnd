@@ -54,6 +54,8 @@ console.log('Paso 3 - Se crea el Message Manager en app.js');
 const app = express();
 const port = 8080;
 
+// Middleware CookieParser
+app.use(cookieParser());
 
 app.engine('handlebars', hbs.engine);
 app.set('views', `${__dirname}/views`);
@@ -64,14 +66,10 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
-// Conectar los routers a las rutas principales
-app.use('/', viewsRouter);
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
 
 
-// Middleware CookieParser
-app.use(cookieParser("13872389a583b1219230e2e81733e88748d7ca8bcb20d3002525edcfb448005ff9f9ca9c4d83595e75b7fee973027828bf6925c8b97ab21febacc974e0e41fa7/123"));
+
+
 
 
 app.get("/cookieSign", (req, res) => {
@@ -82,8 +80,10 @@ app.get("/cookieSign", (req, res) => {
 
 
 
-
-
+// Conectar los routers a las rutas principales
+app.use('/', viewsRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);

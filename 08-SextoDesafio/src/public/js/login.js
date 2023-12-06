@@ -62,6 +62,7 @@ btn_ver.addEventListener('click', function () {
 
 
 function getCookie() {
+
     fetch('/getCookie')
         .then(response => response.text())
         .then(data => console.log(data))
