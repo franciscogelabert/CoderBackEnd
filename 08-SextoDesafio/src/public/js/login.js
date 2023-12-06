@@ -1,9 +1,9 @@
 // cart.js
 // JS de Página en la que se permite crear y agregar productos a un carrito 
 // crea socket en Cliente 
-
+/*
 const socket = io();
-console.log("Connected Carrito desde el cart");
+console.log("Connected Carrito desde el cart");*/
 /*
 // Recupera el valor almacenado en sessionStorage
 let sCarrito = sessionStorage.getItem('carrito');
