@@ -1,6 +1,7 @@
 import { viewsRouter } from './routes/views.router.js';
 import { productsRouter } from './routes/products.router.js';
 import { cartsRouter } from './routes/carts.router.js';
+import { login } from './routes/login.router.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
@@ -15,7 +16,6 @@ import CartManagerDB from '../class/Cart/CartManagerDB.js';
 import Cart from '../class/Cart/Cart.js';
 import cookieParser from 'cookie-parser';
 
-
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
 const hbs = handlebars.create({
     runtimeOptions: {
@@ -23,7 +23,6 @@ const hbs = handlebars.create({
         allowProtoMethodsByDefault: true,
     },
 });
-
 
 // Registrar un ayudante personalizado para la multiplicación
 hbs.handlebars.registerHelper('multiply', function (a, b) {
@@ -67,23 +66,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 
-
-
-
-
-
-app.get("/cookieSign", (req, res) => {
-    res
-        .cookie("Nombre", "Valor Cookie", { signed: true })
-        .send("creada correctamente");
-});
-
-
-
 // Conectar los routers a las rutas principales
-app.use('/', viewsRouter);
+
+app.use('/', login);
+app.use('/api', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
@@ -92,11 +81,8 @@ const socketServer = new Server(httpServer);
 // Accesos al Servidor
 
 socketServer.on('connection', socket => {
-
     console.log('Nuevo Cliente Conectado (Server 1)');
-
     socket.on('agregar_producto', (data) => {
-
         lp.seEncuentra(data.code)
             .then((result) => {
                 console.log("Proceso de Agregado", result);
@@ -228,8 +214,6 @@ socketServer.on('connection', socket => {
                 socket.emit("Error al Crear el Carrito");
             });
     });
-
-
 
 
 });

@@ -305,22 +305,13 @@ viewsRouter.post('/realTimeProducts', (req, res) => {
 });
 
 
+///////  COOKIES
+
 // Ruta para manejar la solicitud de la página de inicio
 viewsRouter.get('/', (req, res) => {
     res.render('index', {
     layout: 'login'    
 })});
-
-
-// Ruta para manejar el botón submit
-viewsRouter.post('/submit', (req, res) => {
-const { name, email } = req.body;
-// Crear cookie con formato {user: correoDelInput}
-res.cookie('user', email, { maxAge: 30000 }); // 30 segundos
-res.cookie('name', name, { maxAge: 30000 }); // 30 segundos
-console.log('Cookies guardadas:', req.cookies);
-res.send('Cookie creada.');
-});
 
 
 // Ruta para obtener el valor de la cookie 'user'
@@ -334,5 +325,17 @@ viewsRouter.get('/getCookie', (req, res) => {
 
     res.send('Cookies mostradas en la consola.');
 });
+
+// Ruta para manejar el botón submit
+viewsRouter.post('/submit', (req, res) => {
+const { name, email } = req.body;
+// Crear cookie con formato {user: correoDelInput}
+res.cookie('user', email, { maxAge: 30000 }); // 30 segundos
+res.cookie('name', name, { maxAge: 30000 }); // 30 segundos
+console.log('Cookies guardadas:', req.cookies);
+res.send('Cookie creada.');
+});
+
+
 
 export { viewsRouter };
