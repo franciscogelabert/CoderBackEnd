@@ -3,12 +3,13 @@ import { userModel } from '../../class/Dao/MongoDB/models/user.model.js';
 // Registra a un nuevo usuario.
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    const user = new userModel({ name, email, password });
+    const { name, lastName, age, email, password } = req.body;
+    const user = new userModel({ name, lastName, age, email, password });
     await user.save();
     const userGuardado = await userModel.findOne({ email, password });
     console.log("Usuario Registrado",userGuardado);
     req.session.name = name;
+    req.session.lastName = lastName;
     req.session.email = email;
     res.redirect("/profile");
   } catch (error) {
