@@ -1,17 +1,19 @@
 ## Programación Backend -  Comisión 55595 
 
-*Segunda PreEntrega - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
+*Sexto desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
 
 ## Descripción Funcional
 Se disponibilzan diferentes API's para consumir servicios relacionados a Vistas, Gestión de Productos (Products) y de Carritos (Carts) de un e-commerce.
 Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si aplica y Body si aplica; mas una breve descripción. En esta entrega se persisten y se consultan los datos en una Base de datos Mongo Atlas. En el caso que desee acceder al FileSystem, debe comnentar el código relacionado a la conexión con la base de datos y descomentar las dos líneas de código que se encuentra debajo de "Para usar con File Manager", en el archivo app.js.
 
-Para probar la funcionalidad pincipal en la que se gestiona el carrito de compras se propone como ejemplo de URL de prueba:
+Para probar la funcionalidad pincipal en la que se gestiona el carrito de compras, inicialmente se debe Registrar/autenticar, para acceder al loguin debe utilizar :
 
-http://localhost:8080/products?page=1&limit=3&category=Fruta&sort=DESC
+http://localhost:8080/login
 
-al iniciar la misma se solicita un usuario, ingresar cualquier correo electrónico. 
-Con la URL anterior se muetra la Página Nro 1 de productos, solo 3 por página, cuya cateroría es "Fruta" y los muestra en orden descendente por precio.
+### IMPORTANTE: Tal cual se pidió en la consigna, el usuario adminCoder@coder.com (Pass: adminCod3r123) posee el rol de admin, a los efectos de la prueba se eliminó de la base de datos, lo que implica que debe Registrarlo antes de utilizar.
+
+
+una vez autenticado se presenta la Página Nro 1 de productos, solo 5 por página, cuya cateroría es "Verdura" y los muestra en orden descendente por precio.
 En dicho listado puede realizar dos actividades, ver le detalle del Producto y/o agregarlo al carrito. 
 En el caso que presione agregar al carrito, en el caso de ser el primero, lo crea sino lo agrega y actualiza los valores de precio y cantidad.
 Si presiona  el botón "ver carrito", y aún no ingresó ningún producto el sistema no realiza ninguna actividad. 
@@ -181,6 +183,7 @@ Para garantizar la integridad de la información, es importante aclarar, que tan
 | cart |  Crea el modelo de datos para gestionar los carritos|
 | message | Crea el modelo de datos para gestionar los los mensajes en el chat |
 | product | Crea el modelo de datos para gestionar los productos|
+| product | Crea el modelo de datos para gestionar los usuarios|
 
 ### Clase FileManager: 
 Se crea esta clase para desacoplar el manejo de archivos en las otras clases, de esta manera se pueden crear otros FileSystem para que guarden otras instancias de otros objetos en diferentes archivos.
@@ -272,8 +275,47 @@ npm install mongoose-paginate-v2
 ```
 
 
+Para las cookies
+
+```bash
+
+npm install cookie-parser
+
+```
 
 
+Para las sesiones 
+
+```bash
+
+npm install express-session
+
+```
+
+Para las sesiones 
+
+```bash
+
+npm install express-session
+
+```
+
+
+Para persistir las sesiones en archivo (solo se uso para las pruebas)
+
+```bash
+
+npm install session-file-store
+
+```
+
+Para persistir las sesiones en mongo
+
+```bash
+
+npm install connect-mongo
+
+```
 
 
 

@@ -221,9 +221,6 @@ viewsRouter.get('/products', async (req, res) => {
 })
 
 
-
-
-
 // Ruta para ver datos de los productos para agregar al carrito
 viewsRouter.get('/api', async (req, res) => {
     try {
