@@ -8,11 +8,33 @@ import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
 import { cartModel } from '../../class/Dao/MongoDB/models/cart.model.js';
 import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
 import mongoosePaginate from 'mongoose-paginate-v2';
+import cookieParser from "cookie-parser";
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import dotenv from 'dotenv';
 
+// Configura dotenv para cargar las variables de entorno desde el archivo .env
+dotenv.config();
 
+// Obtiene la cadena de conexión de MongoDB desde la variable de entorno
+const URI = process.env.MONGODB_URI;
 
 
 const viewsRouter = express.Router();
+
+
+viewsRouter.use(cookieParser());
+
+viewsRouter.use(
+    session({
+        secret: 'micAmbiArPoAlgoMasSeguro',
+        resave: false,
+        saveUninitialized: true,
+        store: MongoStore.create({
+            mongoUrl: URI,
+            ttl: 2 * 60, // Tiempo de vida de la sesión en segundos (2 minutos en este caso)
+        })
+    }));
 
 // Para trabajar con la Base Mongo - ProductModel
 
@@ -120,7 +142,7 @@ viewsRouter.get('/api/aggregate', async (req, res) => {
             status: estado
         });
 
-       
+
 
     }
     catch (error) {
@@ -138,6 +160,8 @@ viewsRouter.get('/products', async (req, res) => {
         const limitQuery = req.query.limit === undefined ? 10 : parseInt(req.query.limit);
         const sort = req.query.sort === 'ASC' ? 1 : -1;
         const category = req.query.category;
+        const name = req.session.name;
+        const lastName = req.session.name;
 
         const options = {
             page: page, // Página actual
@@ -158,16 +182,20 @@ viewsRouter.get('/products', async (req, res) => {
         console.log("sort", sort);
 
 
-        //http://localhost:8080/products?page=1&limit=2&category=Fruta&sort=DESC
+        //http://localhost:8080/api/products?page=1&limit=2&category=Fruta&sort=DESC
+
+
 
         const result = await productModel.paginate(query, options);
 
         console.log("result", result);
-        const prevLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
-        const nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
+        const prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
+        const nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
 
         res.render('index', {
             layout: 'products',
+            name: name,
+            lastName: lastName,
             food: result.docs,
             totalPages: result.totalPages,
             prevPage: result.prevPage,
@@ -179,8 +207,8 @@ viewsRouter.get('/products', async (req, res) => {
             nextLink: nextLink
         });
 
-        res.cookie("totalPages",result.totalPages,{maxAge:10000});
-        console.log("req.signedCookies", req.signedCookies);
+        //res.cookie("totalPages", result.totalPages, { maxAge: 10000 });
+       
 
     }
     catch (error) {
@@ -310,8 +338,9 @@ viewsRouter.post('/realTimeProducts', (req, res) => {
 // Ruta para manejar la solicitud de la página de inicio
 viewsRouter.get('/', (req, res) => {
     res.render('index', {
-    layout: 'login'    
-})});
+        layout: 'login'
+    })
+});
 
 
 // Ruta para obtener el valor de la cookie 'user'
@@ -328,12 +357,12 @@ viewsRouter.get('/getCookie', (req, res) => {
 
 // Ruta para manejar el botón submit
 viewsRouter.post('/submit', (req, res) => {
-const { name, email } = req.body;
-// Crear cookie con formato {user: correoDelInput}
-res.cookie('user', email, { maxAge: 30000 }); // 30 segundos
-res.cookie('name', name, { maxAge: 30000 }); // 30 segundos
-console.log('Cookies guardadas:', req.cookies);
-res.send('Cookie creada.');
+    const { name, email } = req.body;
+    // Crear cookie con formato {user: correoDelInput}
+    res.cookie('user', email, { maxAge: 30000 }); // 30 segundos
+    res.cookie('name', name, { maxAge: 30000 }); // 30 segundos
+    console.log('Cookies guardadas:', req.cookies);
+    res.send('Cookie creada.');
 });
 
 

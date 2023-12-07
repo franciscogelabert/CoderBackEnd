@@ -7,7 +7,7 @@ console.log("Connected Carrito desde el cart");
 
 // Recupera el valor almacenado en sessionStorage
 let sCarrito = sessionStorage.getItem('carrito');
-let sUsuario = sessionStorage.getItem('usuario');
+let sUsuario = sessionStorage.getItem('name');
 let sCantidad = sessionStorage.getItem('cantidad');
 let sMonto = sessionStorage.getItem('monto');
 
@@ -19,8 +19,8 @@ let cantidadCarrito = sCantidad === null ? 0 : parseInt(sCantidad);
 let montoTotal = sMonto === null ? 0 : parseFloat(sMonto);
 
 
-const userElement = document.getElementById('usuario');
-userElement.innerText = `Usuario:  ${nuevoUsuario}`;
+//const userElement = document.getElementById('usuario');
+//userElement.innerText = `Usuario:  ${nuevoUsuario}`;
 
 const campoElement = document.getElementById('carrito');
 campoElement.innerText = `${carrito}`;
@@ -30,29 +30,6 @@ carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
 
 const carritoMonto = document.getElementById('montoTotal');
 carritoMonto.innerText = `Monto Total: ${montoTotal} Pesos  `;
-
-
-if (!sUsuario) {
-    Swal.fire({
-        title: "Ingrese su Usuario: ",
-        input: "email",
-        inputLabel: "su dirección de correo electrónico",
-        inputPlaceholder: "Ingrese su dirección de correo electrónico"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            nuevoUsuario = result.value;
-            sessionStorage.setItem('usuario', nuevoUsuario);
-              if (nuevoUsuario) {
-                sessionStorage.setItem('usuario', nuevoUsuario);
-                const userElement = document.getElementById('usuario');
-                userElement.innerText = `Usuario:  ${nuevoUsuario}`;
-                Swal.fire(`Usuario Ingresado: ${nuevoUsuario}`);
-
-            }
-        }
-    });
-
-}
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -81,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     agregarButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             // Obtener el código del producto desde el atributo 'data-code' del botón
+            console.log("botón agregar");
 
             var codigoProducto = button.closest('tr').id;
             var precioProducto = parseFloat(button.closest('tr').querySelector('td:nth-child(4)').innerText);
@@ -99,10 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Agregar al carrito producto con código:", codigoProducto);
         });
     });
-
- 
-
-
 
 
     // Obtén el botón por su clase

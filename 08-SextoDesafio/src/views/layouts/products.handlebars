@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -9,57 +9,60 @@
     <link rel="stylesheet" href="/css/index.css">
 
 </head>
-<div>
-    <h1>Segunda Preentrega - Gelabert Francisco - Programación Backend - Comisión 55595 </h1>
-    <h2> Lista de Productos en Stock</h2>
-    <h3 id="usuario"></h3>
-    <h3 id="carrito"></h3>
-    <h3 id="carritoCantidad"></h3>
-    <h3 id="montoTotal"></h3>
-    <button class="ver-cart">Ver carrito</button>
 
+<body>
+    <div>
+        <h1>Segunda Preentrega - Gelabert Francisco - Programación Backend - Comisión 55595 </h1>
+        <h2> Lista de Productos en Stock</h2>
+        <h3 id="carrito"></h3>
+        <h3 id="carritoCantidad"></h3>
+        <h3 id="montoTotal"></h3>
+        <strong>Usuario:</strong> {{name}}, {{lastName}} <br>
 
-     <div class="detail">
-        <strong>Total de Páginas:</strong> {{totalPages}}<br>
-        <strong>prevPage:</strong> {{prevPage}}<br>
-        <strong>nextPage:</strong> {{nextPage}}<br>
-        <strong>hasPrevPage:</strong> {{hasPrevPage}}<br>
-        <strong>hasNextPage:</strong> {{hasNextPage}}<br>
-        {{#if prevLink}}
-        <strong>prevLink:</strong> <a href="{{prevLink}}">Anterior</a><br>
-        {{/if}}
-        {{#if nextLink}}
-        <strong>nextLink:</strong> <a href="{{nextLink}}">Siguiente</a><br>
-        {{/if}}
+        <button class="ver-cart">Ver carrito</button>
+
+        <div class="detail">
+            <strong>Total de Páginas:</strong> {{totalPages}}<br>
+            <strong>prevPage:</strong> {{prevPage}}<br>
+            <strong>nextPage:</strong> {{nextPage}}<br>
+            <strong>hasPrevPage:</strong> {{hasPrevPage}}<br>
+            <strong>hasNextPage:</strong> {{hasNextPage}}<br>
+            {{#if prevLink}}
+            <strong>prevLink:</strong> <a href="{{prevLink}}">Anterior</a><br>
+            {{/if}}
+            {{#if nextLink}}
+            <strong>nextLink:</strong> <a href="{{nextLink}}">Siguiente</a><br>
+            {{/if}}
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Acciones</th> <!-- Nueva columna para los botones -->
+                </tr>
+            </thead>
+            <tbody id="productList">
+                {{#each food}}
+                <tr id="{{this.code}}">
+                    <td>{{this.code}}</td>
+                    <td>{{this.title}}</td>
+                    <td>{{this.description}}</td>
+                    <td>{{this.price}}</td>
+                    <td>
+                        <button class="ver-btn">Ver</button>
+                        <button class="agregar-btn">Agregar al carrito</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Título</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Acciones</th> <!-- Nueva columna para los botones -->
-            </tr>
-        </thead>
-        <tbody id="productList">
-            {{#each food}}
-            <tr id="{{this.code}}">
-                <td>{{this.code}}</td>
-                <td>{{this.title}}</td>
-                <td>{{this.description}}</td>
-                <td>{{this.price}}</td>
-                <td>
-                    <button class="ver-btn">Ver</button>
-                    <button class="agregar-btn">Agregar al carrito</button>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="/js/cart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/cart.js"></script>
+</body>
 
 </html>
