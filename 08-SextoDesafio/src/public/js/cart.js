@@ -5,9 +5,17 @@
 const socket = io();
 console.log("Connected Carrito desde el cart");
 
+// Busca el elemento en el DOM utilizando el ID
+const idUsuarioElement = document.getElementById('idUsuario');
+
+// Accede al contenido del elemento (que será el valor renderizado por Handlebars)
+const idUsuarioValue = idUsuarioElement.textContent.trim();
+
+// Asigna el valor a la variable sUsuario
+let sUsuario = idUsuarioValue;
+
 // Recupera el valor almacenado en sessionStorage
 let sCarrito = sessionStorage.getItem('carrito');
-let sUsuario = sessionStorage.getItem('name');
 let sCantidad = sessionStorage.getItem('cantidad');
 let sMonto = sessionStorage.getItem('monto');
 
@@ -18,15 +26,14 @@ let nuevoUsuario = sUsuario === null ? "" : sUsuario;
 let cantidadCarrito = sCantidad === null ? 0 : parseInt(sCantidad);
 let montoTotal = sMonto === null ? 0 : parseFloat(sMonto);
 
-
 //const userElement = document.getElementById('usuario');
 //userElement.innerText = `Usuario:  ${nuevoUsuario}`;
 
 const campoElement = document.getElementById('carrito');
-campoElement.innerText = `${carrito}`;
+campoElement.innerText = `ID Carrito: ${carrito}`;
 
 const carritoElement = document.getElementById('carritoCantidad');
-carritoElement.innerText = `Carrito: ${cantidadCarrito} Productos ingresados  `;
+carritoElement.innerText = `Cant. Prod.: ${cantidadCarrito}`;
 
 const carritoMonto = document.getElementById('montoTotal');
 carritoMonto.innerText = `Monto Total: ${montoTotal} Pesos  `;
@@ -62,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             var codigoProducto = button.closest('tr').id;
             var precioProducto = parseFloat(button.closest('tr').querySelector('td:nth-child(4)').innerText);
-
+            
             if (carrito == "") {
                 console.log("no existe carrito se procede a crearlo")
                 socket.emit('crear_carrito', codigoProducto, nuevoUsuario);

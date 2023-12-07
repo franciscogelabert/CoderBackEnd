@@ -27,7 +27,7 @@ login.use(
         saveUninitialized: true,
         store: MongoStore.create({
             mongoUrl: URI,
-            ttl: 2 * 60, // Tiempo de vida de la sesión en segundos (2 minutos en este caso)
+            ttl: 3 * 60, // Tiempo de vida de la sesión en segundos (2 minutos en este caso)
         })
     }));
 

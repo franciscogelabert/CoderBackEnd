@@ -161,6 +161,7 @@ viewsRouter.get('/products', async (req, res) => {
         const sort = req.query.sort === 'ASC' ? 1 : -1;
         const category = req.query.category;
         const name = req.session.name;
+        const _id = req.session._id;
         const lastName = req.session.name;
 
         const options = {
@@ -194,6 +195,7 @@ viewsRouter.get('/products', async (req, res) => {
 
         res.render('index', {
             layout: 'products',
+            _id:_id,
             name: name,
             lastName: lastName,
             food: result.docs,

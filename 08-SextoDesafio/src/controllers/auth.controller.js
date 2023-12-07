@@ -26,6 +26,7 @@ export const loginUser = async (req, res) => {
     const user = await userModel.findOne({ email, password });
     console.log("Usuario LogIn", user);
     if (user) {
+      req.session._id = user._id;
       req.session.name = user.name;
       req.session.lastName = user.lastName;
       req.session.email = user.email;
@@ -33,7 +34,7 @@ export const loginUser = async (req, res) => {
       // Construye la cadena de consulta
       const queryParams = {
         page: 1,
-        limit: 2,
+        limit: 5,
         category: 'Verdura',
         sort: 'DESC',
       };
