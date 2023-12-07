@@ -1,17 +1,25 @@
 import { userModel } from '../../class/Dao/MongoDB/models/user.model.js';
-import querystring  from  'querystring';
+import querystring from 'querystring';
 
 // Registra a un nuevo usuario.
 export const registerUser = async (req, res) => {
   try {
     const { name, lastName, age, email, password } = req.body;
-    const user = new userModel({ name, lastName, age, email, password });
+    // Asigna el valor correcto a `rol` basándote en las condiciones especificadas
+    const rol = (email === "adminCoder@coder.com" && password === "adminCod3r123") ? "admin" : "usuario";
+
+    const user = new userModel({ name, lastName, age, email, password, rol });
+
+    console.log("Rol Registrado", rol);
     await user.save();
+
     const userGuardado = await userModel.findOne({ email, password });
     console.log("Usuario Registrado", userGuardado);
+
     req.session.name = name;
     req.session.lastName = lastName;
     req.session.email = email;
+    req.session.rol = rol;
     res.redirect("/profile");
   } catch (error) {
     console.log(error);
@@ -30,6 +38,7 @@ export const loginUser = async (req, res) => {
       req.session.name = user.name;
       req.session.lastName = user.lastName;
       req.session.email = user.email;
+      req.session.rol = user.rol;
 
       // Construye la cadena de consulta
       const queryParams = {
@@ -41,9 +50,9 @@ export const loginUser = async (req, res) => {
 
       const queryString = querystring.stringify(queryParams);
 
-        // Redirige a la URL completa con la cadena de consulta
-        res.redirect(`/api/products?${queryString}`);
-     
+      // Redirige a la URL completa con la cadena de consulta
+      res.redirect(`/api/products?${queryString}`);
+
     } else {
       res.redirect("/");
     }
@@ -61,6 +70,7 @@ export const logOutUser = async (req, res) => {
     delete req.session.name;
     delete req.session.lastName;
     delete req.session.email;
+    delete req.session.rol;
 
     if (req.session.user) {
       delete req.session.user;

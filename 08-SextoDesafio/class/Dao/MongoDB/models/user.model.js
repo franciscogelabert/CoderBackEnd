@@ -8,7 +8,8 @@ const userSchema= new mongoose.Schema({
     lastName: String,
     age:Number,
     email: String,
-    password: String
+    password: String,
+    rol:String,
 });
 
 userSchema.plugin(mongoosePaginate);

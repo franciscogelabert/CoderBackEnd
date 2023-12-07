@@ -162,7 +162,8 @@ viewsRouter.get('/products', async (req, res) => {
         const category = req.query.category;
         const name = req.session.name;
         const _id = req.session._id;
-        const lastName = req.session.name;
+        const rol = req.session.rol;
+        const lastName = req.session.lastName;
 
         const options = {
             page: page, // Página actual
@@ -196,6 +197,7 @@ viewsRouter.get('/products', async (req, res) => {
         res.render('index', {
             layout: 'products',
             _id:_id,
+            rol:rol,
             name: name,
             lastName: lastName,
             food: result.docs,

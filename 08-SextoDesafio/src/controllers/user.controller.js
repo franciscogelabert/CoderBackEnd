@@ -3,6 +3,7 @@ const showProfile = (req, res) => {
       layout: "profile",
       name: req.session.name,
       email: req.session.email,
+      rol:req.session.rol,
     };
     console.log(user);
     res.render("index", { user });
