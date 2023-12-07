@@ -27,11 +27,11 @@ Utilizando handlebars, se implementan tres layouts un con una vista estática (h
 
 | Layout | Acceso | Descripción |
 | --- | --- | --- | 
-| Home | http://localhost:8080/api|  Listado de Productos |
+| Home | http://localhost:8080/api/product|  Listado de Productos |
 | RealTimeProducts - gestión de Productos | http://localhost:8080/api/realtimeProducts| Listado de Productos - Premite la gestión de Productos  |
 | Chat | http://localhost:8080/api/chat | Pantalla de Chat de Usuario |
-| Products | http://localhost:8080/products | Gestión de Carrito de compras |
-| Product | http://localhost:8080/api/chat | Muestra detalle de producto |
+| Products | http://localhost:8080/products | Gestión de Carrito de compras (ahora solo autenticado) |
+| Product | http://localhost:8080/api/product | Muestra detalle de producto |
 
 
 ### Debajo se detallan las funciones utilizadas con WebSockets en el Cliente:

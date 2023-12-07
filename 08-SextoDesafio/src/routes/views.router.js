@@ -222,7 +222,7 @@ viewsRouter.get('/products', async (req, res) => {
 
 
 // Ruta para ver datos de los productos para agregar al carrito
-viewsRouter.get('/api', async (req, res) => {
+viewsRouter.get('/product', async (req, res) => {
     try {
 
         const limitQuery = parseInt(req.query.limit)
@@ -276,7 +276,7 @@ viewsRouter.post('/api', async (req, res) => {
 
 
 // API Chat
-viewsRouter.get('/api/chat', async (req, res) => {
+viewsRouter.get('/chat', async (req, res) => {
     try {
         let result = await messageModel.find();
         console.log(result);
@@ -332,40 +332,6 @@ viewsRouter.post('/realTimeProducts', (req, res) => {
     socketServer.emit("productAdded", newProduct);
     res.status(201).json('Producto agregado');
 });
-
-
-///////  COOKIES
-
-// Ruta para manejar la solicitud de la página de inicio
-viewsRouter.get('/', (req, res) => {
-    res.render('index', {
-        layout: 'login'
-    })
-});
-
-
-// Ruta para obtener el valor de la cookie 'user'
-viewsRouter.get('/getCookie', (req, res) => {
-    // Obtener y mostrar la cookie por consola
-    const userCookieValue = req.cookies.user;
-    console.log('Valor de la cookie "user":', userCookieValue);
-
-    const nameCookieValue = req.cookies.name;
-    console.log('Valor de la cookie "name":', nameCookieValue);
-
-    res.send('Cookies mostradas en la consola.');
-});
-
-// Ruta para manejar el botón submit
-viewsRouter.post('/submit', (req, res) => {
-    const { name, email } = req.body;
-    // Crear cookie con formato {user: correoDelInput}
-    res.cookie('user', email, { maxAge: 30000 }); // 30 segundos
-    res.cookie('name', name, { maxAge: 30000 }); // 30 segundos
-    console.log('Cookies guardadas:', req.cookies);
-    res.send('Cookie creada.');
-});
-
 
 
 export { viewsRouter };
