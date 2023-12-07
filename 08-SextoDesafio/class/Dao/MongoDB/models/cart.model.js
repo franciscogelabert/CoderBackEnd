@@ -10,10 +10,8 @@ const cartCollection = 'carts';
   
   const cartSchema = new mongoose.Schema({
     
-    IdUser: { type: String, required: true },
+    IdUser: { type: Schema.Types.ObjectId , ref: "users" },
     lista: [listaSchema]
   });
   
-
-
  export const  cartModel = mongoose.model(cartCollection,cartSchema);

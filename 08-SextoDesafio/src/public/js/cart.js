@@ -8,6 +8,7 @@ console.log("Connected Carrito desde el cart");
 // Busca el elemento en el DOM utilizando el ID
 const idUsuarioElement = document.getElementById('idUsuario');
 
+
 // Accede al contenido del elemento (que será el valor renderizado por Handlebars)
 const idUsuarioValue = idUsuarioElement.textContent.trim();
 
