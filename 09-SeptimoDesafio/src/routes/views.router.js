@@ -8,9 +8,33 @@ import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
 import { cartModel } from '../../class/Dao/MongoDB/models/cart.model.js';
 import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
 import mongoosePaginate from 'mongoose-paginate-v2';
+import cookieParser from "cookie-parser";
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import dotenv from 'dotenv';
+
+// Configura dotenv para cargar las variables de entorno desde el archivo .env
+dotenv.config();
+
+// Obtiene la cadena de conexión de MongoDB desde la variable de entorno
+const URI = process.env.MONGODB_URI;
 
 
 const viewsRouter = express.Router();
+
+
+viewsRouter.use(cookieParser());
+
+viewsRouter.use(
+    session({
+        secret: 'micAmbiArPoAlgoMasSeguro',
+        resave: false,
+        saveUninitialized: true,
+        store: MongoStore.create({
+            mongoUrl: URI,
+            ttl: 2 * 60, // Tiempo de vida de la sesión en segundos (2 minutos en este caso)
+        })
+    }));
 
 // Para trabajar con la Base Mongo - ProductModel
 
@@ -118,6 +142,8 @@ viewsRouter.get('/api/aggregate', async (req, res) => {
             status: estado
         });
 
+
+
     }
     catch (error) {
         console.log("Error:  ", error);
@@ -134,12 +160,10 @@ viewsRouter.get('/products', async (req, res) => {
         const limitQuery = req.query.limit === undefined ? 10 : parseInt(req.query.limit);
         const sort = req.query.sort === 'ASC' ? 1 : -1;
         const category = req.query.category;
-
-
-        console.log("page--------",page)
-        console.log("limitQuery--------",limitQuery)
-        console.log("sort--------",sort)
-        console.log("category--------",category)
+        const name = req.session.user.name;
+        const _id = req.session.user._id;
+        const rol = req.session.user.rol;
+        const lastName = req.session.user.lastName;
 
         const options = {
             page: page, // Página actual
@@ -160,16 +184,22 @@ viewsRouter.get('/products', async (req, res) => {
         console.log("sort", sort);
 
 
-        //http://localhost:8080/products?page=1&limit=2&category=Fruta&sort=DESC
+        //http://localhost:8080/api/products?page=1&limit=2&category=Fruta&sort=DESC
+
+
 
         const result = await productModel.paginate(query, options);
 
         console.log("result", result);
-        const prevLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
-        const nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
+        const prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
+        const nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}&limit=${limitQuery}&category=${category}&sort=${sort === 1 ? 'ASC' : 'DESC'}` : null;
 
         res.render('index', {
             layout: 'products',
+            _id:_id,
+            rol:rol,
+            name: name,
+            lastName: lastName,
             food: result.docs,
             totalPages: result.totalPages,
             prevPage: result.prevPage,
@@ -181,6 +211,8 @@ viewsRouter.get('/products', async (req, res) => {
             nextLink: nextLink
         });
 
+        //res.cookie("totalPages", result.totalPages, { maxAge: 10000 });
+  
     }
     catch (error) {
         console.log("Error:  ", error);
@@ -188,11 +220,8 @@ viewsRouter.get('/products', async (req, res) => {
 })
 
 
-
-
-
 // Ruta para ver datos de los productos para agregar al carrito
-viewsRouter.get('/api', async (req, res) => {
+viewsRouter.get('/product', async (req, res) => {
     try {
 
         const limitQuery = parseInt(req.query.limit)
@@ -246,7 +275,7 @@ viewsRouter.post('/api', async (req, res) => {
 
 
 // API Chat
-viewsRouter.get('/api/chat', async (req, res) => {
+viewsRouter.get('/chat', async (req, res) => {
     try {
         let result = await messageModel.find();
         console.log(result);
@@ -270,7 +299,7 @@ const lp = new ProductManager(farchivo);
 
 
 // Ruta para manejar la solicitud de la página de inicio
-viewsRouter.get('/', (req, res) => {
+viewsRouter.get('/listproduct', (req, res) => {
     lp.getProducts()
         .then((result) => {
             res.render('index', {
