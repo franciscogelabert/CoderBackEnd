@@ -6,26 +6,39 @@ import { createHash, isValidPassword } from '../../src/utils.js';
 const LocalStrategy = local.Strategy;
 
 const initializePassport = () => {
-    passport.use('register',
-        new LocalStrategy({ passReqToCallback: true, usernameField: "email" },
+
+    passport.use(
+        "register",
+        new LocalStrategy(
+            { passReqToCallback: true, usernameField: "email" },
             async (req, username, password, done) => {
-                const { name, lastname, email, age } = req.body;
+                const { name, lastName, age, email } = req.body;
+                const rol = (email === "adminCoder@coder.com" && password === "adminCod3r123") ? "admin" : "usuario";
+
                 try {
                     let user = await userModel.findOne({ email: username });
                     if (user) {
                         console.log("Usuario ya existe");
                         return done(null, false);
                     }
-                    const newUser = { name, lastname, age, passport: createHash(password), email };
-                    let result = userModel.create(newUser);
+                    const newUser = {
+                        name,
+                        lastName,
+                        age,
+                        email,
+                        password: createHash(password),
+                        rol,
+                    };
+
+                    let result = await userModel.create(newUser);
                     return done(null, result);
-
                 } catch (error) {
-                    return done("Error al Obtener usuario" + error);
-
+                    return done("Error al obtener usuario" + error);
                 }
+            }
+        )
+    );
 
-            }))
 
     passport.use('login',
         new LocalStrategy({ usernameField: "email" },
@@ -51,12 +64,12 @@ const initializePassport = () => {
 passport.serializeUser((user, done) => {
     console.log(user._id);
     done(null, user._id);
-  });
-  
-  passport.deserializeUser(async (id, done) => {
+});
+
+passport.deserializeUser(async (id, done) => {
     let user = await userModel.findById(id);
     done(null, user);
-  });
+});
 
 
 export default initializePassport;
