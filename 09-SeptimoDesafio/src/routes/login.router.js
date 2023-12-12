@@ -10,7 +10,7 @@ import loginRouter from '../routes/user/login.js';
 import profileRouter from '../routes/user/profile.js';
 import sessionsApiRouter from '../routes/api/session.js';
 import passport from 'passport';
-import initializePassport from './config/passport.config.js';
+import initializePassport from '../config/passport.config.js';
 
 // Configura dotenv para cargar las variables de entorno desde el archivo .env
 dotenv.config();

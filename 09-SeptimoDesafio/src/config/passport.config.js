@@ -1,7 +1,7 @@
 import passport from 'passport';
 import local from 'passport-local';
-import { userModel } from '../../class/Dao/MongoDB/models/user.model';
-import { createHash, isValidPassword } from '../../src/utils';
+import { userModel } from '../../class/Dao/MongoDB/models/user.model.js';
+import { createHash, isValidPassword } from '../../src/utils.js';
 
 const LocalStrategy = local.Strategy;
 
@@ -9,11 +9,11 @@ const initializePassport = () => {
     passport.use('register',
         new LocalStrategy({ passReqToCallback: true, usernameField: "email" },
             async (req, username, password, done) => {
-                const { name, lastname, email, age, password } = req.body;
+                const { name, lastname, email, age } = req.body;
                 try {
                     let user = await userModel.findOne({ email: username });
                     if (user) {
-                        console.log("Usurio ya existe");
+                        console.log("Usuario ya existe");
                         return done(null, false);
                     }
                     const newUser = { name, lastname, age, passport: createHash(password), email };
