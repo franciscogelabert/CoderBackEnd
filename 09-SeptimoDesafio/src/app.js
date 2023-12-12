@@ -16,6 +16,9 @@ import CartManagerDB from '../class/Cart/CartManagerDB.js';
 import Cart from '../class/Cart/Cart.js';
 import cookieParser from 'cookie-parser';
 
+
+
+
 // Configura Handlebars con opciones de tiempo de ejecución para que no muetsre un error de properties
 const hbs = handlebars.create({
     runtimeOptions: {
