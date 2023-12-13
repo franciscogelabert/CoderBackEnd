@@ -27,8 +27,40 @@ router.post(
   }
 );
 
-// router.post("/login", loginUser);
 
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  async (req, res) => {}
+);
+
+router.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (req, res) => {
+    req.session.user = req.user;
+    console.log("Usuario LogIn", req.session.user);
+
+    // Construye la cadena de consulta
+    const queryParams = {
+      page: 1,
+      limit: 5,
+      category: 'Verdura',
+      sort: 'DESC',
+    };
+
+    const queryString = querystring.stringify(queryParams);
+
+    // Redirige a la URL completa con la cadena de consulta
+    res.redirect(`/api/products?${queryString}`);
+
+  }
+);
+
+
+
+// router.post("/login", loginUser);
+/*
 router.post(
   "/login",
   passport.authenticate("login", { failureRedirect: "/faillogin" }),
@@ -57,6 +89,7 @@ router.post(
 
   }
 );
+*/
 
 router.get("/", logOutUser);
 
