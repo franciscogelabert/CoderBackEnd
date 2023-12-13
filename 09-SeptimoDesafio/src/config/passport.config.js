@@ -74,19 +74,8 @@ const initializePassport = () => {
       );
 
 
-passport.serializeUser((user, done) => {
-    console.log(user._id);
-    done(null, user._id);
-});
-
-passport.deserializeUser(async (id, done) => {
-    let user = await userModel.findById(id);
-    done(null, user);
-});
-
-
 /// Passport original
-/*
+
     passport.use('login',
         new LocalStrategy({ usernameField: "email" },
             async (username, password, done) => {
@@ -107,6 +96,17 @@ passport.deserializeUser(async (id, done) => {
             }
         ))
 
-*/
 };
+
+passport.serializeUser((user, done) => {
+    console.log(user._id);
+    done(null, user._id);
+});
+
+passport.deserializeUser(async (id, done) => {
+    let user = await userModel.findById(id);
+    done(null, user);
+});
+
+
 export default initializePassport;

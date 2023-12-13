@@ -57,10 +57,8 @@ router.get(
   }
 );
 
-
-
 // router.post("/login", loginUser);
-/*
+
 router.post(
   "/login",
   passport.authenticate("login", { failureRedirect: "/faillogin" }),
@@ -89,7 +87,7 @@ router.post(
 
   }
 );
-*/
+
 
 router.get("/", logOutUser);
 
