@@ -317,6 +317,31 @@ npm install connect-mongo
 
 ```
 
+Para codificar la Pass
+
+```bash
+
+npm install bcrypt
+
+```
+
+
+Para codificar la Passport
+
+```bash
+
+npm install passport passport-local
+
+```
+
+
+Para codificar la Passport GitHub
+
+```bash
+
+npm install passport-github2
+
+```
 
 
 Para correr la app
