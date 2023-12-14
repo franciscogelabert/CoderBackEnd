@@ -1,12 +1,12 @@
 ## Programación Backend -  Comisión 55595 
 
-*Sexto desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
+*Séptimo desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
 
 ## Descripción Funcional
 Se disponibilzan diferentes API's para consumir servicios relacionados a Vistas, Gestión de Productos (Products) y de Carritos (Carts) de un e-commerce.
 Debajo se detallan los mismos indicando Tipo de Método, URL, parámetros si aplica y Body si aplica; mas una breve descripción. En esta entrega se persisten y se consultan los datos en una Base de datos Mongo Atlas. En el caso que desee acceder al FileSystem, debe comnentar el código relacionado a la conexión con la base de datos y descomentar las dos líneas de código que se encuentra debajo de "Para usar con File Manager", en el archivo app.js.
 
-Para probar la funcionalidad pincipal en la que se gestiona el carrito de compras, inicialmente se debe Registrar/autenticar, para acceder al loguin debe utilizar :
+Para probar la funcionalidad pincipal en la que se gestiona el carrito de compras, inicialmente se debe Registrar/autenticar. En esta autenticación se puede se agrega bcrypt para codificar el password del usuario y permite la autenticación vía Paswword (previo registro) y utilizando las credenciales de GitHub, para acceder al loguin debe utilizar :
 
 http://localhost:8080/login
 
