@@ -72,7 +72,7 @@ app.use(express.json())
 
 // Conectar los routers a las rutas principales
 
-app.use('/', login);
+//app.use('/', login);
 app.use('/api', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
@@ -85,7 +85,8 @@ const socketServer = new Server(httpServer);
 // JWT
 
 
-app.use('/jwt', loginJwt);
+app.use('/', loginJwt);
+
 
 
 // Accesos al Servidor
