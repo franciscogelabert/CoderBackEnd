@@ -1,6 +1,7 @@
 import { viewsRouter } from './routes/views.router.js';
 import { productsRouter } from './routes/products.router.js';
 import { cartsRouter } from './routes/carts.router.js';
+import { loginJwt } from   './routes/loginJwt.router.js';
 import { login } from './routes/login.router.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
@@ -79,6 +80,12 @@ app.use('/api/carts', cartsRouter);
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
+
+
+// JWT
+
+
+app.use('/jwt', loginJwt);
 
 
 // Accesos al Servidor
