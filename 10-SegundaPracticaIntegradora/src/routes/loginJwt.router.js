@@ -50,7 +50,7 @@ loginJwt.post('/api/register', (req, res) => {
     res.send({ status: "success", access_token });
 
 })
-
+/*
 loginJwt.post('/api/login', (req, res) => {
     const { email, password } = req.body;
     const user = users.find(user => user.email === email && user.password === password);
@@ -58,20 +58,24 @@ loginJwt.post('/api/login', (req, res) => {
     if (!user) return res.status(400).send({ status: "error", error: "Invalid credentials" });
     const access_token = generateToken(user);
     res.send({ status: "success", access_token });
+  
+})*/
 
-    // Construye la cadena de consulta
-/*    const queryParams = {
-      page: 1,
-      limit: 5,
-      category: 'Verdura',
-      sort: 'DESC',
-    };
 
-    const queryString = querystring.stringify(queryParams);
-
-    // Redirige a la URL completa con la cadena de consulta
-    res.redirect(`/api/products?${queryString}`);*/
-})
+loginJwt.post("/api/login", (req, res) => {
+    const { email, password } = req.body;
+    if (email === "user@gmail.com" && password === "12345") {
+      let token = generateToken(req.body);
+      res
+        .cookie("access_token", token, {
+          maxAge: 60 * 60 * 1000 , httpOnly: true,
+        })
+        .send({ message: "Login Success" });
+    } else {
+      res.send({ message: "Error", error: "Error" });
+    }
+  });
+  
 
 loginJwt.get('/api/current', authToken, (req, res) => {
     res.send({ status: "success", payload: req.user })
