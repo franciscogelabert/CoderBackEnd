@@ -45,7 +45,7 @@ console.log('Paso 1 - Se crea el Product Manager en app.js');
 
 // creo el ProductManagerDB para Base de datos
 const lc = new CartManagerDB();
-console.log('Paso 2 - Se crea el Product Manager en app.js');
+console.log('Paso 2 - Se crea el Cart Manager en app.js');
 
 // creo el ProductManager para Base de datos
 const lm = new MessageManagerDB();
