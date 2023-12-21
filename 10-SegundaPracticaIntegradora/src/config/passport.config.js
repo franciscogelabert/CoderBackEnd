@@ -11,8 +11,7 @@ const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
 const LocalStrategy = local.Strategy;
-
-
+ 
 const initializePassport = () => {
 
     passport.use(
