@@ -1,47 +1,43 @@
 import express from 'express';
 import __dirname from '../utils.js';
-import session from 'express-session';
-import cookieParser from "cookie-parser";
-import MongoStore from 'connect-mongo';
-import dotenv from 'dotenv';
-
-import indexRouter from '../routes/user/index.js';
-import loginRouter from '../routes/user/login.js';
-import profileRouter from '../routes/user/profile.js';
-import sessionsApiRouter from '../routes/api/session.js';
-import passport from 'passport';
+import { passportCall } from "../utils.js";
+import authRouter from "./auth.router.js";
+import passport from "passport";
 import initializePassport from '../config/passport.config.js';
-
-// Configura dotenv para cargar las variables de entorno desde el archivo .env
-dotenv.config();
-
-// Obtiene la cadena de conexión de MongoDB desde la variable de entorno
-const URI = process.env.MONGODB_URI;
 
 const login = express.Router();
 
-login.use(cookieParser());
-
-login.use(
-    session({
-        secret: 'micAmbiArPoAlgoMasSeguro',
-        resave: false,
-        saveUninitialized: true,
-        store: MongoStore.create({
-            mongoUrl: URI,
-            ttl: 3 * 60, // Tiempo de vida de la sesión en segundos (2 minutos en este caso)
-        })
-    }));
-
 initializePassport();
 login.use(passport.initialize());
-login.use(passport.session());
 
-login.use('/login', loginRouter);
-login.use('/profile', profileRouter);
-login.use('/logout', sessionsApiRouter);
-login.use('/api/sessions', sessionsApiRouter);
-login.use('/', indexRouter);
+login.use("/api", authRouter);
+
+
+login.get("/", (req, res) => {
+  let data = {
+      layout: "jwt/home",
+  };
+  res.render("index", data);
+});
+
+login.get("/login", (req, res) => {
+  let data = {
+      layout: "jwt/login",
+  };
+  res.render("index", data);
+});
+
+login.get("/register", (req, res) => {
+  let data = {
+      layout: "jwt/register",
+  };
+  res.render("index", data);
+});
+
+login.get("/api/current", passportCall("jwt"), (req, res) => {
+  res.send(req.user);
+});
+
 
 login.use((err, req, res, next) => {
     console.error(err.stack);

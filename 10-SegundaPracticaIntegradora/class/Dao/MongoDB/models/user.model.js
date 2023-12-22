@@ -15,3 +15,4 @@ const userSchema= new mongoose.Schema({
 userSchema.plugin(mongoosePaginate);
 
 export const  userModel = mongoose.model(userCollection,userSchema);
+

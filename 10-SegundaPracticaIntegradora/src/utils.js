@@ -3,9 +3,11 @@ import { dirname } from 'path';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import passport from "passport";
+
+
 // Configura dotenv para cargar las variables de entorno desde el archivo .env
 dotenv.config();
-
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -48,6 +50,22 @@ export const authToken = (req, res, next) => {
     req.user = credentials.user;
     next();
   });
+};
+
+
+export const passportCall = (strategy) => {
+  return async (req, res, next) => {
+    passport.authenticate(strategy, function (err, user, info) {
+      if (err) return next(err);
+      if (!user) {
+        return res
+          .status(401)
+          .send({ error: info.messages?.info, messages: info.toString() });
+      }
+      req.user = user;
+      next();
+    })(req, res, next);
+  };
 };
 
 export default __dirname;

@@ -1,13 +1,13 @@
 import { viewsRouter } from './routes/views.router.js';
 import { productsRouter } from './routes/products.router.js';
 import { cartsRouter } from './routes/carts.router.js';
-import { loginJwt } from   './routes/loginJwt.router.js';
+import { db } from './db/connect.js';
 import { login } from './routes/login.router.js';
+import { loginJwt } from './routes/loginJwt.router.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
-import { db } from './db/connect.js';
 import Product from '../class/Product/Product.js';
 import ProductManager from '../class/Product/ProductManager.js';
 import ProductManagerDB from '../class/Product/ProductManagerDB.js';
@@ -84,8 +84,7 @@ const socketServer = new Server(httpServer);
 
 // JWT
 
-app.use('/', loginJwt);
-
+app.use('/', login);
 
 
 // Accesos al Servidor
