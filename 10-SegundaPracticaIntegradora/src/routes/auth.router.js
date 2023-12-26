@@ -9,32 +9,6 @@ import { userModel } from '../../class/Dao/MongoDB/models/user.model.js';
 
 const router = Router();
 
-router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password)
-    return res
-      .status(400)
-      .send({ status: "error", error: "Uno o varios datos incompletos" });
-
-  const findUser = await userModel.findOne({ email });
-  let result;
-  if (findUser) {
-    return res.status(400).send({
-      status: "error",
-      error: "Intenta hacer login con usuario y contraseña",
-    });
-  } else {
-    result = await userModel.create({
-      name,
-      email,
-      password: createHash(password),
-    });
-  }
-
-  res.send({ status: "success" });
-});
-
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -72,5 +46,43 @@ router.post("/login", async (req, res) => {
     res.redirect("/error");
   }
 });
+
+
+router.get("/", (req, res) => {
+  let data = {
+    layout: "profile",
+    user: req.session.user,
+  };
+  
+  res.render("index", data);
+});
+
+router.post("/register", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password)
+    return res
+      .status(400)
+      .send({ status: "error", error: "Uno o varios datos incompletos" });
+
+  const findUser = await userModel.findOne({ email });
+  let result;
+  if (findUser) {
+    return res.status(400).send({
+      status: "error",
+      error: "Intenta hacer login con usuario y contraseña",
+    });
+  } else {
+    result = await userModel.create({
+      name,
+      email,
+      password: createHash(password),
+    });
+  }
+
+  res.send({ status: "success" });
+});
+
+
 
 export default router;

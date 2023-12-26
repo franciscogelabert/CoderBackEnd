@@ -1,3 +1,4 @@
+
 fetch('/api/current', {
     method: "GET",
     headers: {
@@ -12,7 +13,8 @@ fetch('/api/current', {
     })
     .then((json) => {
         const paragraph = document.getElementById("result");
-        paragraph.innerHTML = `Hola, tus datos son  `;
+        paragraph.innerHTML = `Usuario autenticado -->  Id: ${json.user._id} Nombre:${json.user.name}  Mail: ${json.user.email}  `;
+ 
     });
 
 

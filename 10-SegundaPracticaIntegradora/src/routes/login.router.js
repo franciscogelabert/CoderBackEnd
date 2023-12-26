@@ -34,6 +34,7 @@ login.get("/register", (req, res) => {
   res.render("index", data);
 });
 
+
 login.get("/api/current", passportCall("jwt"), (req, res) => {
   res.send(req.user);
 });
