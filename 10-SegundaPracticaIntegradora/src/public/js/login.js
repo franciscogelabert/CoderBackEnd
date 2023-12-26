@@ -1,5 +1,4 @@
 function validateLogin() {
-    // Puedes agregar lógica de validación específica para el formulario de login aquí
     // Por ejemplo, verifica que los campos no estén vacíos
     var email = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -19,7 +18,6 @@ function validateLogin() {
 }
 
 function validateRegister() {
-    // Puedes agregar lógica de validación específica para el formulario de registro aquí
     // Por ejemplo, verifica que los campos no estén vacíos
     var name = document.getElementById('name').value;
     var lastName = document.getElementById('lastName').value;

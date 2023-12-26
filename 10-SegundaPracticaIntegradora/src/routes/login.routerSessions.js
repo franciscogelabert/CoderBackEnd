@@ -18,11 +18,11 @@ dotenv.config();
 // Obtiene la cadena de conexión de MongoDB desde la variable de entorno
 const URI = process.env.MONGODB_URI;
 
-const login = express.Router();
+const loginSession = express.Router();
 
-login.use(cookieParser());
+loginSession.use(cookieParser());
 
-login.use(
+loginSession.use(
     session({
         secret: 'micAmbiArPoAlgoMasSeguro',
         resave: false,
@@ -34,18 +34,18 @@ login.use(
     }));
 
 initializePassport();
-login.use(passport.initialize());
-login.use(passport.session());
+loginSession.use(passport.initialize());
+loginSession.use(passport.session());
 
-login.use('/login', loginRouter);
-login.use('/profile', profileRouter);
-login.use('/logout', sessionsApiRouter);
-login.use('/api/sessions', sessionsApiRouter);
-login.use('/', indexRouter);
+loginSession.use('/loginSession', loginRouter);
+loginSession.use('/profileSession', profileRouter);
+loginSession.use('/logoutSession', sessionsApiRouter);
+loginSession.use('/api/sessions', sessionsApiRouter);
+loginSession.use('/', indexRouter);
 
-login.use((err, req, res, next) => {
+loginSession.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Algo salió mal!');
 });
 
-export { login };
+export { loginSession };

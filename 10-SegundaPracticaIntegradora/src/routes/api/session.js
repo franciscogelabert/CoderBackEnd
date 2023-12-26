@@ -11,11 +11,6 @@ import passport from 'passport';
 
 const router = express.Router();
 
-//router.post("/register", registerUser);
-//router.post("/login", loginUser);
-//router.get("/", logOutUser);
-
-
 router.post(
   "/register",
   passport.authenticate("register", { failureRedirect: "/failregister" }),

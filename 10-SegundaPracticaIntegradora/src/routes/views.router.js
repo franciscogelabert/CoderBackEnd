@@ -142,8 +142,6 @@ viewsRouter.get('/api/aggregate', async (req, res) => {
             status: estado
         });
 
-
-
     }
     catch (error) {
         console.log("Error:  ", error);
@@ -211,8 +209,7 @@ viewsRouter.get('/products', async (req, res) => {
             nextLink: nextLink
         });
 
-        //res.cookie("totalPages", result.totalPages, { maxAge: 10000 });
-  
+        
     }
     catch (error) {
         console.log("Error:  ", error);

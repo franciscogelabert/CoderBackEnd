@@ -6,6 +6,7 @@ import {
   isValidPassword,
 } from "../utils.js";
 import { userModel } from '../../class/Dao/MongoDB/models/user.model.js';
+import querystring from 'querystring';
 
 const router = Router();
 
@@ -34,6 +35,9 @@ router.post("/login", async (req, res) => {
 
     delete user.password;
 
+    
+    
+
     let token = generateToken(user);
     res
       .cookie("access_token", token, {
@@ -41,21 +45,13 @@ router.post("/login", async (req, res) => {
         httpOnly: true,
       })
       .send({ message: "Login Success" });
+
   } catch (error) {
     console.log("Error, credenciales invalidas", error);
     res.redirect("/error");
   }
 });
 
-
-router.get("/", (req, res) => {
-  let data = {
-    layout: "profile",
-    user: req.session.user,
-  };
-  
-  res.render("index", data);
-});
 
 router.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
@@ -82,7 +78,5 @@ router.post("/register", async (req, res) => {
 
   res.send({ status: "success" });
 });
-
-
 
 export default router;

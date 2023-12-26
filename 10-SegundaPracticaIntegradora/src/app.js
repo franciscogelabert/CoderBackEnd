@@ -3,7 +3,6 @@ import { productsRouter } from './routes/products.router.js';
 import { cartsRouter } from './routes/carts.router.js';
 import { db } from './db/connect.js';
 import { login } from './routes/login.router.js';
-import { loginJwt } from './routes/loginJwt.router.js';
 import express from 'express';
 import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
@@ -32,10 +31,6 @@ const hbs = handlebars.create({
 hbs.handlebars.registerHelper('multiply', function (a, b) {
     return a * b;
 });
-
-// Para usar con File Manager
-//const farchivo = new FileManager('productos.json', `${__dirname}/files`);
-//const lp = new ProductManager(farchivo);
 
 
 // creo el ProductManagerDB para Base de datos
@@ -72,7 +67,6 @@ app.use(express.json())
 
 // Conectar los routers a las rutas principales
 
-//app.use('/', login);
 app.use('/api', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
@@ -80,6 +74,7 @@ app.use('/api/carts', cartsRouter);
 
 const httpServer = app.listen(port, () => { console.log("Escuchando en Puerto: ", { port }) });
 const socketServer = new Server(httpServer);
+
 
 
 // JWT
@@ -112,9 +107,7 @@ socketServer.on('connection', socket => {
             })
             .catch((error) => {
                 console.error("Error al insertar:", error);
-                // Manejo de errores, si la eliminación del producto falla
-                // socketServer.emit("productDeletionError", error);
-            });
+                });
     });
 
 
@@ -132,9 +125,7 @@ socketServer.on('connection', socket => {
             })
             .catch((error) => {
                 console.error("Error al eliminar producto:", error);
-                // Manejo de errores, si la eliminación del producto falla
-                // socketServer.emit("productDeletionError", error);
-            });
+                    });
     });
 
     /////////   Chat Socket ///////////////
