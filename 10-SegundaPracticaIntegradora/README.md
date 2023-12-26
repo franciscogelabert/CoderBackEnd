@@ -12,7 +12,7 @@ http://localhost:8080/login
 En esta autenticación se agrega bcrypt para codificar el password del usuario y permite la autenticación vía JWT :
 
 
-### IMPORTANTE: en esta entrega se agregan variables de entorno, para utilizarlas cambiar el nombre del archivo ".env.example" a ".env" y completar las variables con los valores entregados.
+## IMPORTANTE: en esta entrega se agregan variables de entorno, para utilizarlas cambiar el nombre del archivo ".env.example" a ".env" y completar las variables con los valores entregados.
 
 ### Info para Pruebas: 
 
