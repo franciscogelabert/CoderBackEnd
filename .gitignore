@@ -12,10 +12,6 @@ dist
 dist-ssr
 *.local
 
-# package
-package.json
-package-lock.json
-
 # docker
 *.yml
 
