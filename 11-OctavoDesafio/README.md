@@ -254,6 +254,14 @@ npm install mongodb
 
 ```
 
+Instalar *Mongoose*
+
+```bash
+
+npm install mongoose
+
+```
+
 Instalar *DOTeNV*
 
 Para las variables de entorno instalar dotenv, cambiar el nombre del archivo ".env.example"  a ".env" y completar las variables con los valores entregados.
