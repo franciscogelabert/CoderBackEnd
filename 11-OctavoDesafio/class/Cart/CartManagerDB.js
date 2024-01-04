@@ -250,62 +250,6 @@ class CartManagerDB {
         })
     }
 
-
-
-
 }
 
 export default CartManagerDB;
-/*
-
-// Usando Base de datos en Mongo
-
-const URI =`mongodb+srv://franciscogelabert:k6fNeJCfUJeOy77u@ecommerce.yssf83p.mongodb.net/ecommerce?retryWrites=true&w=majority`;
-
-mongoose.connect(URI)
-.then(
-    ()=>{
-        console.log('Base de datos lista para usarsedesde el CartManager DBdirdir');
-        },
-    (err)=>{
-        console.log('Ha ocurrido un error --> ',err);
-    }
-)
-*/
-/*
-const cart1 = new Cart([{ IdProd: 101, CantProd: 5 }, { IdProd: 102, CantProd: 2 }]);
-const cart2 = new Cart([{ IdProd: 103, CantProd: 4 }]);
-const cart3 = new Cart([{ IdProd: 104, CantProd: 5 }]);
-const cart4 = new Cart([{ IdProd: 104, CantProd: 5 }]);
-
-console.log('00- Se crean los 3 carritos');
-
-
-*/
-/*
-// creo el Cart Manager
-const lc = new CartManagerDB();
-console.log('02 - Se crea el Cart Manager');
-const idCart = '655a54dcf04594bdbf5a26ea';
-const isProducto = 152;
-
-lc.addProductCart(isProducto,idCart)
-    .then((productoInsertado) => {
-        // Hacer algo con el producto insertado, si es necesario
-    })
-    .catch((error) => {
-        // Manejar el error, si es necesario
-    });
-
-*/
-/*
-
-lc.addCart(cart1)
-    .then((productoInsertado) => {
-        // Hacer algo con el producto insertado, si es necesario
-    })
-    .catch((error) => {
-        // Manejar el error, si es necesario
-    });
-
-    */
