@@ -1,6 +1,6 @@
 import express from 'express';
-import ProductManagerDB from '../class/Product/ProductManagerDB.js';
-import Product from '../class/Product/Product.js';
+import ProductManagerDB from '../class/Dao/Product/ProductManagerDB.js';
+import Product from '../class/Dao/Product/Product.js';
 
 
 

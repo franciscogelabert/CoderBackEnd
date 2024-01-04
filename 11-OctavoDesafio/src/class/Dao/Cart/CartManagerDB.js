@@ -1,5 +1,5 @@
 import Cart from './Cart.js';
-import { cartModel } from '../../class/Dao/MongoDB/models/cart.model.js';
+import { cartModel } from '../MongoDB/models/cart.model.js';
 import mongoose from 'mongoose';
 
 

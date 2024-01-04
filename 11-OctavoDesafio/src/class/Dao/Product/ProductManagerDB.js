@@ -1,5 +1,5 @@
 import Product from './Product.js';
-import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
+import { productModel } from '../MongoDB/models/product.model.js';
 
 
 class ProductManagerDB {

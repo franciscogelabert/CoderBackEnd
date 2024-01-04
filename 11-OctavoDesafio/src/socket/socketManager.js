@@ -1,11 +1,11 @@
 // socketManager.js
 
 import { Server } from 'socket.io';
-import ProductManagerDB  from '../class/Product/ProductManagerDB.js';
-import CartManagerDB  from '../class/Cart/CartManagerDB.js';
+import ProductManagerDB  from '../class/Dao/Product/ProductManagerDB.js';
+import CartManagerDB  from '../class/Dao/Cart/CartManagerDB.js';
 import { db } from '../db/connect.js';
-import Cart from '../class/Cart/Cart.js';
-import Product from '../class/Product/Product.js';
+import Cart from '../class/Dao/Cart/Cart.js';
+import Product from '../class/Dao/Product/Product.js';
 
 export function configureSocketServer(httpServer) {
     const socketServer = new Server(httpServer);
