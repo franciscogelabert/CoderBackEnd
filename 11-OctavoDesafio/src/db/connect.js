@@ -7,6 +7,7 @@ dotenv.config();
 // Obtiene la cadena de conexión de MongoDB desde la variable de entorno
 const URI = process.env.MONGODB_URI;
 
+
 mongoose.connect(URI, {});
 
 const db = mongoose.connection;
