@@ -1,6 +1,6 @@
 import express from 'express';
-import Cart from '../../class/Cart/Cart.js';
-import CartManagerDB from '../../class/Cart/CartManagerDB.js';
+import Cart from '../class/Cart/Cart.js';
+import CartManagerDB from '../class/Cart/CartManagerDB.js';
 import __dirname from '../utils.js';
 
 const cartsRouter = express.Router();

@@ -1,6 +1,6 @@
 import express from 'express';
 import __dirname from '../utils.js';
-import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
+import { productModel } from '../class/Dao/MongoDB/models/product.model.js';
 import cookieParser from "cookie-parser";
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
