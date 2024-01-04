@@ -1,20 +1,14 @@
 import express from 'express';
-import ProductManager from '../../class/Product/ProductManager.js';
 import ProductManagerDB from '../../class/Product/ProductManagerDB.js';
 import Product from '../../class/Product/Product.js';
-import FileManager from '../../class/dao/FileSystem/FileManager.js';
-const productsRouter = express.Router();
+
+
 import __dirname from '../utils.js';
 
+const productsRouter = express.Router();
 
 
 
-//const farchivo = new FileManager('productos.json', `${__dirname}/files`);
-
-// creo el ProductManager para FileSystem
-//const lp = new ProductManager(farchivo);
-
-// creo el ProductManager para Base de datos
 const lp = new ProductManagerDB();
 
 

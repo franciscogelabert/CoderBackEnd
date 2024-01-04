@@ -1,13 +1,7 @@
 import express from 'express';
-import socketServer from '../app.js';
-import Product from '../../class/Product/Product.js';
-import ProductManager from '../../class/Product/ProductManager.js';
-import FileManager from '../../class/dao/FileSystem/FileManager.js';
 import __dirname from '../utils.js';
 import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
-import { cartModel } from '../../class/Dao/MongoDB/models/cart.model.js';
 import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
-import mongoosePaginate from 'mongoose-paginate-v2';
 import cookieParser from "cookie-parser";
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
@@ -151,7 +145,6 @@ viewsRouter.get('/api/aggregate', async (req, res) => {
 })
 
 
-
 // Ruta para ver todos los datos de todos los productos sin paginar
 viewsRouter.get('/products', async (req, res) => {
     try {
@@ -196,8 +189,8 @@ viewsRouter.get('/products', async (req, res) => {
 
         res.render('index', {
             layout: 'products',
-            _id:_id,
-            rol:rol,
+            _id: _id,
+            rol: rol,
             name: name,
             lastName: lastName,
             food: result.docs,
@@ -212,7 +205,7 @@ viewsRouter.get('/products', async (req, res) => {
         });
 
         //res.cookie("totalPages", result.totalPages, { maxAge: 10000 });
-  
+
     }
     catch (error) {
         console.log("Error:  ", error);
@@ -290,47 +283,6 @@ viewsRouter.get('/chat', async (req, res) => {
 })
 
 
-
-// Para trabajar con el ****FileSystem - ProductManager ****
-
-const farchivo = new FileManager('productos.json', `${__dirname}/files`);
-
-const lp = new ProductManager(farchivo);
-
-
-// Ruta para manejar la solicitud de la página de inicio
-viewsRouter.get('/listproduct', (req, res) => {
-    lp.getProducts()
-        .then((result) => {
-            res.render('index', {
-                layout: 'home',
-                food: result //lp.lista
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-
-});
-
-viewsRouter.get('/realTimeProducts', (req, res) => {
-    lp.getProducts()
-        .then((result) => {
-            res.render('index', {
-                layout: 'realTimeProducts',
-                food: result
-            });
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-
-});
-
-viewsRouter.post('/realTimeProducts', (req, res) => {
-    const newProduct = new Product(req.body.title, req.body.description, req.body.code, req.body.price, req.body.stock, req.body.thumbnail, req.body.estado, req.body.category);
-    lp.addProduct(newProduct);
-    socketServer.emit("productAdded", newProduct);
-    res.status(201).json('Producto agregado');
-});
 
 
 export { viewsRouter };
