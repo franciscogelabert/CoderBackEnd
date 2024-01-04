@@ -4,7 +4,6 @@ import session from 'express-session';
 import cookieParser from "cookie-parser";
 import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
-
 import indexRouter from '../routes/user/index.js';
 import loginRouter from '../routes/user/login.js';
 import profileRouter from '../routes/user/profile.js';
