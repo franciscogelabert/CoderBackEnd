@@ -1,5 +1,4 @@
 import Cart from './Cart.js';
-import FileManager from '../dao/FileSystem/FileManager.js'
 import { cartModel } from '../../class/Dao/MongoDB/models/cart.model.js';
 import mongoose from 'mongoose';
 

@@ -1,7 +1,6 @@
 import express from 'express';
 import __dirname from '../utils.js';
 import { productModel } from '../../class/Dao/MongoDB/models/product.model.js';
-import { messageModel } from '../../class/Dao/MongoDB/models/message.model.js';
 import cookieParser from "cookie-parser";
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
@@ -265,23 +264,6 @@ viewsRouter.post('/api', async (req, res) => {
         res.status(500).send({ result: 'error', message: 'Error al insertar el producto en la base de datos' });
     }
 });
-
-
-// API Chat
-viewsRouter.get('/chat', async (req, res) => {
-    try {
-        let result = await messageModel.find();
-        console.log(result);
-        res.render('index', {
-            layout: 'chat',
-            message: result
-        });
-    }
-    catch (error) {
-        console.log("Error:  ", error);
-    }
-})
-
 
 
 export { viewsRouter };
