@@ -8,14 +8,10 @@ import __dirname from './utils.js';
 import { Server } from 'socket.io';
 import { db } from './db/connect.js';
 import Product from '../class/Product/Product.js';
-import ProductManager from '../class/Product/ProductManager.js';
 import ProductManagerDB from '../class/Product/ProductManagerDB.js';
-import MessageManagerDB from '../class/Message/MessageManagerDB.js';
-import FileManager from '../class/dao/FileSystem/FileManager.js';
 import CartManagerDB from '../class/Cart/CartManagerDB.js';
 import Cart from '../class/Cart/Cart.js';
 import cookieParser from 'cookie-parser';
-
 
 
 
@@ -32,9 +28,7 @@ hbs.handlebars.registerHelper('multiply', function (a, b) {
     return a * b;
 });
 
-// Para usar con File Manager
-//const farchivo = new FileManager('productos.json', `${__dirname}/files`);
-//const lp = new ProductManager(farchivo);
+
 
 
 // creo el ProductManagerDB para Base de datos
@@ -45,10 +39,6 @@ console.log('Paso 1 - Se crea el Product Manager en app.js');
 // creo el ProductManagerDB para Base de datos
 const lc = new CartManagerDB();
 console.log('Paso 2 - Se crea el Product Manager en app.js');
-
-// creo el ProductManager para Base de datos
-const lm = new MessageManagerDB();
-console.log('Paso 3 - Se crea el Message Manager en app.js');
 
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
@@ -132,20 +122,7 @@ socketServer.on('connection', socket => {
             });
     });
 
-    /////////   Chat Socket ///////////////
-
-    socket.on('agregar_mensaje', (data) => {
-        const mensaje = data;
-        lm.addMessage(mensaje)
-            .then(() => {
-                socketServer.emit("actualizarChat", mensaje);
-            })
-            .catch((error) => {
-                console.error("Error al agregar Mensajes:", error);
-                socket.emit("errorChat", mensaje);
-            });
-    });
-
+   
     ///////// Cart Sockets ////////////////////
 
     socket.on('crear_carrito', (codigoProducto, usuario) => {
