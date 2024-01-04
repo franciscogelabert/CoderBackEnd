@@ -22,9 +22,7 @@ hbs.handlebars.registerHelper('multiply', function (a, b) {
 });
 
 
-
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
-
 const app = express();
 const port = 8080;
 
@@ -35,7 +33,6 @@ app.engine('handlebars', hbs.engine);
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
