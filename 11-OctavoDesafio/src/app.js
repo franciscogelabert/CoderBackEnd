@@ -29,16 +29,11 @@ hbs.handlebars.registerHelper('multiply', function (a, b) {
 });
 
 
-
-
 // creo el ProductManagerDB para Base de datos
 const lp = new ProductManagerDB();
-console.log('Paso 1 - Se crea el Product Manager en app.js');
-
 
 // creo el ProductManagerDB para Base de datos
 const lc = new CartManagerDB();
-console.log('Paso 2 - Se crea el Product Manager en app.js');
 
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta
@@ -53,7 +48,6 @@ app.engine('handlebars', hbs.engine);
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 app.use(express.static(__dirname + '/public'));
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
@@ -117,12 +111,10 @@ socketServer.on('connection', socket => {
             })
             .catch((error) => {
                 console.error("Error al eliminar producto:", error);
-                // Manejo de errores, si la eliminación del producto falla
-                // socketServer.emit("productDeletionError", error);
             });
     });
 
-   
+
     ///////// Cart Sockets ////////////////////
 
     socket.on('crear_carrito', (codigoProducto, usuario) => {
