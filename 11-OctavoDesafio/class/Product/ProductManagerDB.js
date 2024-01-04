@@ -126,8 +126,7 @@ class ProductManagerDB {
         });
     };
 
-
-   
+  
     getProductById = function (id) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -159,13 +158,7 @@ class ProductManagerDB {
             }
         });
     };
-
-
 }
-
-
-
-
 
 export default ProductManagerDB;
 
