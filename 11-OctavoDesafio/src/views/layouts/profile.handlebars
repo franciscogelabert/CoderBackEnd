@@ -1,0 +1,15 @@
+{{#if user}}
+{{#if user.name}}
+<h2>Perfil de Usuario</h2>
+<p>Bienvenido, {{user.name}} {{user.lastName}}!</p>
+<p>Email: {{user.email}}</p>
+<p>Rol: {{user.rol}}!</p>
+<a href="/logout" title="logout">Logout</a>
+{{else}}
+<h2>Usuario sin Autenticar !!</h2>
+<p>Debe autenticarse para ver su perfil.</p>
+<a href="/login" title="login">Login</a>
+{{/if}}
+{{else}}
+<p>User not logged in</p>
+{{/if}}
