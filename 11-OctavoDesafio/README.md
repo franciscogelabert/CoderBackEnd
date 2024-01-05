@@ -1,6 +1,6 @@
 ## Programación Backend -  Comisión 55595 
 
-*Séptimo desafío - Gelabert Francisco - Tutoría a cargo de Juan Manuel Gonzalez*
+*Séptimo desafío - Gelabert Francisco - Tutoría a cargo de Ivan Passalia*
 
 ## Descripción Funcional
 Se disponibilzan diferentes API's para consumir servicios relacionados a Vistas, Gestión de Productos (Products) y de Carritos (Carts) de un e-commerce.

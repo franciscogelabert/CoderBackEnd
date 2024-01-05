@@ -83,9 +83,6 @@ router.post(
   }
 );
 
-
 router.get("/", logOutUser);
-
-
 
 export default router;
