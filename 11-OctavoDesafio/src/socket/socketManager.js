@@ -1,8 +1,7 @@
 // socketManager.js
 
 import { Server } from 'socket.io';
-import {productDAO}  from '../dao/index.js';;
-import {cartDAO}  from '../dao/index.js';;
+import {productDAO, cartDAO}  from '../dao/index.js';;
 import { db } from '../db/connect.js';
 import Cart from '../class/Cart.js';
 import Product from '../class/Product.js';

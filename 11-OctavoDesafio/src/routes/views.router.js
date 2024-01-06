@@ -1,12 +1,10 @@
 import express from 'express';
 import __dirname from '../utils.js';
-import { productModel } from '../models/index.js';
 import { productDAO } from '../dao/index.js';
 import cookieParser from "cookie-parser";
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import dotenv from 'dotenv';
-import mongoosePaginate from 'mongoose-paginate-v2';
 
 // Configura dotenv para cargar las variables de entorno desde el archivo .env
 dotenv.config();
