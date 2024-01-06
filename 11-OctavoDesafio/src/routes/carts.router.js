@@ -1,12 +1,12 @@
 import express from 'express';
-import Cart from '../class/Dao/Cart/Cart.js';
-import CartManagerDB from '../class/Dao/Cart/CartManagerDB.js';
+import Cart from '../class/Cart.js';
+import {cartDAO} from '../dao/index.js';
 import __dirname from '../utils.js';
 
 const cartsRouter = express.Router();
 
 
-const lc = new CartManagerDB();
+const lc = new cartDAO();
 
 
 cartsRouter.get('/', (req, res) => {

@@ -1,6 +1,6 @@
 import express from 'express';
-import ProductManagerDB from '../class/Dao/Product/ProductManagerDB.js';
-import Product from '../class/Dao/Product/Product.js';
+import {productDAO} from '../dao/index.js';
+import Product from '../class/Product.js';
 
 
 
@@ -11,7 +11,7 @@ const productsRouter = express.Router();
 
 
 
-const lp = new ProductManagerDB();
+const lp = new productDAO();
 
 
 // crea Instancia del Product Manager y setea el nombre del Archivo, el Origen de datos y la ruta

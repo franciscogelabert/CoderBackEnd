@@ -1,4 +1,4 @@
-import { userModel } from '../class/Dao/MongoDB/models/user.model.js';
+import { userModel } from  '../models/index.js';
 import { createHash, isValidPassword } from '../utils.js';
 import querystring from 'querystring';
 

@@ -1,9 +1,8 @@
-import Cart from './Cart.js';
-import { cartModel } from '../MongoDB/models/cart.model.js';
+import { cartModel } from '../models/index.js';
 import mongoose from 'mongoose';
 
 
-class CartManagerDB {
+class cartDAO {
     constructor() {
         this.idUser;
         this.lista = [];
@@ -251,4 +250,4 @@ class CartManagerDB {
 
 }
 
-export default CartManagerDB;
+export default cartDAO;

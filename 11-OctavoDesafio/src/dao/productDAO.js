@@ -1,8 +1,8 @@
-import Product from './Product.js';
-import { productModel } from '../MongoDB/models/product.model.js';
+import { productModel } from '../models/index.js';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 
-class ProductManagerDB {
+class productDAO {
     constructor() {
         this.id = 0;
         this.lista = [];
@@ -158,7 +158,32 @@ class ProductManagerDB {
             }
         });
     };
+
+
+    async getPaginatedProducts(page, limit, sort, category) {
+        try {
+            const options = {
+                page: page,
+                limit: limit,
+                sort: { price: sort },
+                lean: true
+            };
+            const query = {};
+
+            // Agregar filtro por categoría si se proporciona
+            if (category) {
+                query.category = category;
+            }
+
+            const result = await productModel.paginate(query, options);
+            return result;
+        } catch (error) {
+            console.error('Error:', error);
+            throw error;
+        }
+    };
+
 }
 
-export default ProductManagerDB;
+export default productDAO;
 

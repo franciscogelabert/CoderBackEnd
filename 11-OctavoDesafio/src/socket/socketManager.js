@@ -1,17 +1,17 @@
 // socketManager.js
 
 import { Server } from 'socket.io';
-import ProductManagerDB  from '../class/Dao/Product/ProductManagerDB.js';
-import CartManagerDB  from '../class/Dao/Cart/CartManagerDB.js';
+import {productDAO}  from '../dao/index.js';;
+import {cartDAO}  from '../dao/index.js';;
 import { db } from '../db/connect.js';
-import Cart from '../class/Dao/Cart/Cart.js';
-import Product from '../class/Dao/Product/Product.js';
+import Cart from '../class/Cart.js';
+import Product from '../class/Product.js';
 
 export function configureSocketServer(httpServer) {
     const socketServer = new Server(httpServer);
 
-    const lp = new ProductManagerDB();
-    const lc = new CartManagerDB();
+    const lp = new productDAO();
+    const lc = new cartDAO();
 
     // Accesos al Servidor
 
