@@ -56,6 +56,16 @@ class userDAO {
             throw error;
         }
     }
+
+    async getUserById(id) {
+        try {
+            const user = await userModel.findById(id);
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+  
 }
 
 export default userDAO;
