@@ -28,6 +28,7 @@ const initializePassport = () => {
     )
   );
 
+
   passport.use(
     'github',
     new GitHubStrategy(
