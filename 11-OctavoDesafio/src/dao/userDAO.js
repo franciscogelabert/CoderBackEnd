@@ -26,19 +26,37 @@ class userDAO {
 
     async loginUser(email, password) {
         try {
+            console.log("loginUser---->",email);
             const user = await userModel.findOne({ email }, { email: 1, name: 1, lastName: 1, age: 1, password: 1, rol: 1 });
+            console.log("loginUser---->",user);
 
             if (!user) {
-                throw new Error('Usuario y/o contraseña incorrecta');
+                throw new Error('Usuario incorrecto');
             }
 
             if (!isValidPassword(user, password)) {
-                throw new Error('Usuario y/o contraseña incorrecta');
+                throw new Error('Contraseña incorrectaaaaaa');
             }
 
             delete user.password;
 
             return user;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async findUser(email) {
+        try {
+            console.log("loginUser---->",email);
+            const user = await userModel.findOne({ email }, { email: 1, name: 1, lastName: 1, age: 1, password: 1, rol: 1 });
+            console.log("loginUser---->",user);
+
+            if (!user) {
+                throw new Error('Usuario incorrecto');
+            }
+
+                      return user;
         } catch (error) {
             throw error;
         }

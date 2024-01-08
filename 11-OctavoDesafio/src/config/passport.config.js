@@ -2,7 +2,6 @@ import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import UserDAO from '../dao/userDAO.js';
-import { createHash, isValidPassword } from '../../src/utils.js';
 import 'dotenv/config.js';
 
 const LocalStrategy = local.Strategy;
@@ -39,7 +38,7 @@ const initializePassport = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const user = await userDAO.loginUser(profile._json.email, '');
+          const user = await userDAO.findUser(profile._json.email, '');
           if (!user) {
             const newUser = {
               name: profile._json.name,
