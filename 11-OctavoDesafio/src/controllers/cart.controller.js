@@ -67,17 +67,15 @@ class CartController {
     }
   }
 
-  async addNewCart(req, res) {
+  async addNewCart(cart) {
     try {
-      const newCart = await this.cartDAO.addCart(req.body);
-
-      res.status(200).json({ message: 'Carrito agregado', data: newCart });
-
+        const newCart = await this.cartDAO.addCart(cart);
+        return newCart;
     } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Error interno del servidor' });
+        console.error('Error:', error);
+        throw new Error('Error interno del servidor');
     }
-  }
+}
 
   async addProductToCart(req, res) {
     try {
