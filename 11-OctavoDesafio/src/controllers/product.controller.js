@@ -37,6 +37,21 @@ class ProductController {
     }
   }
 
+  async getProductByCod(cod,res) {
+    const code = cod;
+
+    try {
+      const product = await this.productDAO.getProductByCode(code);
+      if (product) {
+        res.status(200).json(product);
+      } else {
+        res.status(404).json({ error: 'Producto no encontrado' });
+      }
+    } catch (error) {
+      console.error('Error al obtener producto por código:', error);
+      res.status(500).json({ error: 'Error al obtener producto por código' });
+    }
+  }
 
 
   async getProductByCode(req, res) {

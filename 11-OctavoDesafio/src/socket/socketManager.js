@@ -19,7 +19,7 @@ export function configureSocketServer(httpServer) {
     socketServer.on('connection', socket => {
         console.log('Nuevo Cliente Conectado (Server 1)');
         socket.on('agregar_producto', (data) => {
-            lp.getProductByCode(data.code)
+            lp.getProductByCod(data.code)
                 .then((result) => {
                     console.log("Proceso de Agregado", result);
                     if (result === false) {
@@ -69,7 +69,7 @@ export function configureSocketServer(httpServer) {
 
             // Obtener el ID en Base del Producto seleccionado por codigo
 
-            lp.getProductByCode(codigoProducto)
+            lp.getProductByCod(codigoProducto)
                 .then((result) => {
                     const info = {
                         "IdUser": usuario,
@@ -103,7 +103,7 @@ export function configureSocketServer(httpServer) {
         socket.on('agregar_producto_carrito', (codigoProducto, carrito) => {
 
             // Obtener el ID en Base del Producto seleccionado por codigo
-            lp.getProductByCode(codigoProducto)
+            lp.getProductByCod(codigoProducto)
                 .then((result) => {
 
                     lc.addProductToCart(result[0]._id, carrito)
