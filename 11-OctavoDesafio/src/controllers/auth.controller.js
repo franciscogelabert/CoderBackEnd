@@ -1,12 +1,12 @@
-import UserDAO from '../dao/userDAO.js';
+import {userDAO} from '../dao/index.js';
 
-const userDAO = new UserDAO();
+const uDAO = new userDAO();
 
 export const registerUser = async (req, res) => {
   try {
     const { name, lastName, age, email, password } = req.body;
 
-    const user = await userDAO.registerUser(name, lastName, age, email, password);
+    const user = await uDAO.registerUser(name, lastName, age, email, password);
 
     req.session.user = user;
 
@@ -23,7 +23,7 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await userDAO.loginUser(email, password);
+    const user = await uDAO.loginUser(email, password);
 
     req.session.user = user;
 
@@ -38,7 +38,7 @@ export const loginUser = async (req, res) => {
 
 export const logOutUser = async (req, res) => {
   try {
-    const loggedOut = await userDAO.logOutUser(req.session);
+    const loggedOut = await uDAO.logOutUser(req.session);
 
     if (loggedOut) {
       // Opcionalmente, puedes destruir completamente la sesión

@@ -1,147 +1,45 @@
 import express from 'express';
-import Cart from '../class/Cart.js';
-import {cartDAO} from '../dao/index.js';
 import __dirname from '../utils.js';
+import CartController from '../controllers/cart.controller.js';
 
 const cartsRouter = express.Router();
 
-
-const lc = new cartDAO();
-
-
-cartsRouter.get('/', (req, res) => {
-    lc.getCarts()
-        .then((result) => {
-            res.send(result);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-})
-
-cartsRouter.get('/:id', (req, res) => {
-
-    const id = req.params.id;
-
-    lc.getCartsById(id).then((result) => {
-        res.send(result);
-
-    })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-})
+const cartController = new CartController();
 
 cartsRouter.get('/customer/:id', (req, res) => {
+  cartController.renderCartPage(req, res);
+});
 
-    const id = req.params.id;
-    lc.getCartById(id).then((result) => 
-    {
-        res.render('index', {
-            layout: 'carts',
-            itemCart: result.lista,
-            IdUser: result.IdUser,
-            IdCart: id,
-            cantProd: result.cantProd,
-            precioTotal:result.precioTotal
-        }); 
+cartsRouter.get('/', (req, res) => {
+  cartController.getCartsList(req, res);
+});
 
-    })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-})
+cartsRouter.get('/:id', (req, res) => {
+  cartController.getCartById(req, res);
+});
 
 cartsRouter.post('/', (req, res) => {
-    console.log(req.body);
-
-    const newCart = new Cart(req.body);
-
-    console.log(newCart);
-    lc.addCart(newCart);
-    res.status(200).json({ message: 'Cart agregadoooo', data: newCart });
+  cartController.addNewCart(req, res);
 });
 
 cartsRouter.post('/:cid/product/:pid', (req, res) => {
-
-    if (req.params.cid ?? req.params.pid) {
-        //const id = parseInt(req.params.cid, 10); // paresar cid si se utiliza con File System
-        const cid = req.params.cid;
-        const pid = req.params.pid;
-        lc.addProductCart(pid, cid);
-        res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
-
-    } else {
-
-        res.status(201).json('Parámetros inválidos');
-    }
-
+  cartController.addProductToCart(req, res);
 });
 
 cartsRouter.put('/', (req, res) => {
-    if (req.query.id ?? req.query.codProd) {
-        const id = req.query.id;
-        const codProd = parseInt(req.query.codProd, 10);
-        lc.addProductCart(codProd, id);
-        res.status(201).json('Producto actualizado');
-
-    } else {
-
-        res.status(201).json('Parámetros inválidos');
-    }
-
+  cartController.updateProductInCart(req, res);
 });
-
 
 cartsRouter.put('/:cid/product/:pid', (req, res) => {
-
-    if (req.params.cid ?? req.params.pid) {
-        //const id = parseInt(req.params.cid, 10); // paresar cid si se utiliza con File System
-        const cantidad = req.body.cantidad;
-        const cid = req.params.cid;
-        const pid = req.params.pid;
-        lc.addProductCartCantidad(pid, cid, cantidad);
-        res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
-
-    } else {
-
-        res.status(201).json('Parámetros inválidos');
-    }
-
+  cartController.updateProductInCart(req, res);
 });
-
 
 cartsRouter.delete('/:cid/product/:pid', (req, res) => {
-
-    if (req.params.cid ?? req.params.pid) {
-        //const id = parseInt(req.params.cid, 10); // paresar cid si se utiliza con File System
-        const cantidad = req.body.cantidad;
-        const cid = req.params.cid;
-        const pid = req.params.pid;
-        lc.removeProductCart(pid, cid);
-        res.status(201).json({ message: `Se eliminó del carrito con ID ${cid} el Producto con Código ${pid}` });
-
-    } else {
-
-        res.status(201).json('Parámetros inválidos');
-    }
-
+  cartController.removeProductFromCart(req, res);
 });
-
 
 cartsRouter.delete('/:cid', (req, res) => {
-
-    if (req.params.cid) {
-        const cid = req.params.cid;
-        lc.removeProductCartAll(cid);
-        res.status(201).json({ message: `Se eliminaron todos los productos de carrito con ID ${cid}` });
-
-    } else {
-
-        res.status(201).json('Parámetros inválidos');
-    }
-
+  cartController.removeAllProductsFromCart(req, res);
 });
-
 
 export { cartsRouter };

@@ -176,6 +176,7 @@ class cartDAO {
     getCartById = function (id) {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log("cart DAO",id);
                 const carrito = await cartModel.findById(id)
                     .populate({
                         path: 'lista.IdProd',

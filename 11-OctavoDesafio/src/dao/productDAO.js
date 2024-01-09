@@ -1,6 +1,4 @@
 import { productModel } from '../models/index.js';
-import mongoosePaginate from 'mongoose-paginate-v2';
-
 
 class productDAO {
     constructor() {
