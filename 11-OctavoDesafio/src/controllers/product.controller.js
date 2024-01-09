@@ -213,6 +213,15 @@ class ProductController {
     }
   };
 
+  async socketAddProduct(req, res) {
+    try {
+     
+    } catch (error) {
+      console.log("Error: ", error);
+      res.status(500).send({ result: 'error', message: 'Error al insertar el producto en la base de datos' });
+    }
+  };
+ 
 
 }
 
