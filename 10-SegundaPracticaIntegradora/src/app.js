@@ -148,7 +148,7 @@ socketServer.on('connection', socket => {
 
         // Obtener el ID en Base del Producto seleccionado por codigo
 
-        lp.getProductByCode(codigoProducto)
+        lp.getProductByCod(codigoProducto)
             .then((result) => {
                 const info = {
                     "IdUser": usuario,
@@ -183,7 +183,7 @@ socketServer.on('connection', socket => {
     socket.on('agregar_producto_carrito', (codigoProducto, carrito) => {
 
         // Obtener el ID en Base del Producto seleccionado por codigo
-        lp.getProductByCode(codigoProducto)
+        lp.getProductByCod(codigoProducto)
             .then((result) => {
 
                 lc.addProductCart(result[0]._id, carrito)
