@@ -141,7 +141,7 @@ class productDAO {
         });
     }
     
-    getProductByCode = function (code) {
+   /* getProductByCode = function (code) {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await productModel.find({ code: code });
@@ -149,6 +149,23 @@ class productDAO {
                     resolve(result);
                 } else {
                     resolve(false);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };*/
+
+
+    getProductByCode = function (code) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const result = await productModel.find({ code: code });
+                if (result && result.length > 0) {
+                    resolve(result);
+                } else {
+                    reject(new Error('Producto no encontrado'));
                 }
             } catch (error) {
                 console.error('Error:', error);

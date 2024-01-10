@@ -1,45 +1,44 @@
 import express from 'express';
 import __dirname from '../utils.js';
-import CartController from '../controllers/cart.controller.js';
+import { cartController } from '../controllers/index.js';;
 
 const cartsRouter = express.Router();
-
-const cartController = new CartController();
+const lcc= new cartController();
 
 cartsRouter.get('/customer/:id', (req, res) => {
-  cartController.renderCartPage(req, res);
+  lcc.renderCartPage(req, res);
 });
 
 cartsRouter.get('/', (req, res) => {
-  cartController.getCartsList(req, res);
+  lcc.getCartsList(req, res);
 });
 
 cartsRouter.get('/:id', (req, res) => {
-  cartController.getCartById(req, res);
+  lcc.getCartById(req, res);
 });
 
 cartsRouter.post('/', (req, res) => {
-  cartController.addNewCart(req, res);
+  lcc.addNewCart(req, res);
 });
 
 cartsRouter.post('/:cid/product/:pid', (req, res) => {
-  cartController.addProductToCart(req, res);
+  lcc.addProductToCart(req, res);
 });
 
 cartsRouter.put('/', (req, res) => {
-  cartController.updateProductInCart(req, res);
+  lcc.updateProductInCart(req, res);
 });
 
 cartsRouter.put('/:cid/product/:pid', (req, res) => {
-  cartController.updateProductInCart(req, res);
+  lcc.updateProductInCart(req, res);
 });
 
 cartsRouter.delete('/:cid/product/:pid', (req, res) => {
-  cartController.removeProductFromCart(req, res);
+  lcc.removeProductFromCart(req, res);
 });
 
 cartsRouter.delete('/:cid', (req, res) => {
-  cartController.removeAllProductsFromCart(req, res);
+  lcc.removeAllProductsFromCart(req, res);
 });
 
 export { cartsRouter };

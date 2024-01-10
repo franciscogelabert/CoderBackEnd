@@ -37,21 +37,18 @@ class ProductController {
     }
   }
 
-  async getProductByCod(cod, socketResponse) {
-    const code = cod;
 
+  async getProductsByCode(code) {
     try {
-        const product = await this.productDAO.getProductByCode(code);
-        if (product) {
-            socketResponse(product);
-        } else {
-            socketResponse({ error: 'Producto no encontrado' });
-        }
+      const result = await this.productDAO.getProductByCode(code);
+
+      console.log("result--> ", result);
+      return result;
     } catch (error) {
-        console.error('Error al obtener producto por código:', error);
-        socketResponse({ error: 'Error al obtener producto por código' });
+      console.error('Error en ProductController.getProductByCode:', error);
+      throw error;
     }
-}
+  };
 
   async getProductByCode(req, res) {
     const code = req.params.cod;
@@ -229,13 +226,45 @@ class ProductController {
 
   async socketAddProduct(req, res) {
     try {
-     
+
     } catch (error) {
       console.log("Error: ", error);
       res.status(500).send({ result: 'error', message: 'Error al insertar el producto en la base de datos' });
     }
   };
- 
+
+
+  async seEncuentra(codigo) {
+    try {
+        const result = await this.productDAO.seEncuentra(codigo);
+
+        if (result.length > 0) {
+            return result;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error en ProductController.seEncuentra:', error);
+        throw error;
+    }
+}
+
+async deleteProductByCode(codigo) {
+    try {
+        const resultado = await this.productDAO.deleteProductByCode(codigo);
+
+        if (resultado === true) {
+            console.log('Producto eliminado correctamente.');
+            return true;
+        } else {
+            console.log('Producto a Eliminar no encontrado.');
+            return false;
+        }
+    } catch (error) {
+        console.error('Error en ProductController.deleteProductByCode:', error);
+        throw error;
+    }
+}
 
 }
 

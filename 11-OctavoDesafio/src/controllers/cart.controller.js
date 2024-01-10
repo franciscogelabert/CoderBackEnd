@@ -1,9 +1,44 @@
 import CartDAO from '../dao/cartDAO.js';
+import Cart from '../class/Cart.js';
+import {productController}  from '../controllers/index.js';;
 
 class CartController {
   constructor() {
     this.cartDAO = new CartDAO();
   }
+  
+  async createCartFromSocket(codigoProducto, usuario) {
+    try {
+      const lpc = new productController();
+      const product = await lpc.getProductsByCode(codigoProducto);
+
+      if (product) {
+        const cartInfo = {
+          "IdUser": usuario,
+          "lista": [
+            {
+              "IdProd": product[0]._id,
+              "CantProd": 1
+            }
+          ]
+        };
+
+        const newCart = new Cart(cartInfo);
+        const cartId = await this.addNewCart(newCart);
+
+        
+        return { cartId, price: product[0].price };
+
+
+      } else {
+        throw new Error("Producto no encontrado");
+      }
+    } catch (error) {
+      console.error('Error en CartController.createCartFromSocket:', error);
+      throw error;
+    }
+  }
+
 
   async renderCartPage(req, res) {
     try {
@@ -37,6 +72,15 @@ class CartController {
     }
   }
 
+  async addProductCart(idProduct, idCart) {
+    try {
+      const result = await this.cartDAO.addProductCart(idProduct, idCart);
+      return result;
+    } catch (error) {
+      console.error('Error al agregar producto al carrito:', error);
+      throw new Error('Error al agregar producto al carrito');
+    }
+  }
 
   async getCartsList(req, res) {
     try {
@@ -77,6 +121,8 @@ class CartController {
     }
 }
 
+
+
   async addProductToCart(req, res) {
     try {
       const cid = req.params.cid;
@@ -114,6 +160,15 @@ class CartController {
     }
   }
 
+  async removeProductCart(idProduct, idCart) {
+    try {
+        const result = await this.cartDAO.removeProductCart(idProduct, idCart);
+        return result;
+    } catch (error) {
+        console.error('Error al eliminar producto del carrito:', error);
+        throw new Error('Error al eliminar producto del carrito');
+    }
+}
   async removeProductFromCart(req, res) {
     try {
       const cid = req.params.cid;
