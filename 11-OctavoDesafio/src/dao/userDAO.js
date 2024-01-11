@@ -1,12 +1,20 @@
 import { userModel } from '../models/index.js';
 import { createHash, isValidPassword } from '../utils.js';
+import dotenv from 'dotenv';
+
+// Configura dotenv para cargar las variables de entorno desde el archivo .env
+dotenv.config();
+
+// Obtiene la cadena de conexión de MongoDB desde la variable de entorno
+const usuario = process.env.ADMIN_EMAIL;
+const pass = process.env.ADMIN_PASSWORD;
 
 class userDAO {
     constructor() { }
 
     async registerUser(name, lastName, age, email, password) {
         try {
-            const rol = (email === 'adminCoder@coder.com' && password === 'adminCod3r123') ? 'admin' : 'usuario';
+            const rol = (email === usuario && password === pass) ? 'admin' : 'usuario';
 
             if (!name || !lastName || !email || !password) {
                 throw new Error('Incomplete values');
