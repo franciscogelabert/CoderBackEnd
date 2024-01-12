@@ -4,15 +4,11 @@ import { productDAO } from '../dao/index.js';
 import cookieParser from "cookie-parser";
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import dotenv from 'dotenv';
+import { config } from '../config/config.js';
 import ProductController from '../controllers/product.controller.js'
 const productController = new ProductController();
 
-// Configura dotenv para cargar las variables de entorno desde el archivo .env
-dotenv.config();
 
-// Obtiene la cadena de conexión de MongoDB desde la variable de entorno
-const URI = process.env.MONGODB_URI;
 const viewsRouter = express.Router();
 const pDAO = new productDAO()
 
@@ -25,7 +21,7 @@ viewsRouter.use(
         resave: false,
         saveUninitialized: true,
         store: MongoStore.create({
-            mongoUrl: URI,
+            mongoUrl: config.mongo.URI,
             ttl: 2 * 60, // Tiempo de vida de la sesión en segundos (2 minutos en este caso)
         })
     }));

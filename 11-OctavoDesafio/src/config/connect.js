@@ -1,14 +1,12 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import { config } from './config.js';
 
-// Configura dotenv para cargar las variables de entorno desde el archivo .env
-dotenv.config();
 
 // Obtiene la cadena de conexión de MongoDB desde la variable de entorno
-const URI = process.env.MONGODB_URI;
+//const URI = process.env.MONGODB_URI;
 
 
-mongoose.connect(URI, {});
+mongoose.connect(config.mongo.URI, {});
 
 const db = mongoose.connection;
 

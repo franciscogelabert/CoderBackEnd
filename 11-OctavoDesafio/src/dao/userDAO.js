@@ -1,13 +1,11 @@
 import { userModel } from '../models/index.js';
 import { createHash, isValidPassword } from '../utils.js';
-import dotenv from 'dotenv';
+import { config } from '../config/config.js';
 
-// Configura dotenv para cargar las variables de entorno desde el archivo .env
-dotenv.config();
 
 // Obtiene la cadena de conexión de MongoDB desde la variable de entorno
-const usuario = process.env.ADMIN_EMAIL;
-const pass = process.env.ADMIN_PASSWORD;
+const usuario = config.admin.usuario;
+const pass = config.admin.pass;
 
 class userDAO {
     constructor() { }
@@ -34,9 +32,7 @@ class userDAO {
 
     async loginUser(email, password) {
         try {
-            console.log("loginUser---->",email);
             const user = await userModel.findOne({ email }, { email: 1, name: 1, lastName: 1, age: 1, password: 1, rol: 1 });
-            console.log("loginUser---->",user);
 
             if (!user) {
                 throw new Error('Usuario incorrecto');
@@ -56,15 +52,13 @@ class userDAO {
 
     async findUser(email) {
         try {
-            console.log("loginUser---->",email);
-            const user = await userModel.findOne({ email }, { email: 1, name: 1, lastName: 1, age: 1, password: 1, rol: 1 });
-            console.log("loginUser---->",user);
 
+            const user = await userModel.findOne({ email }, { email: 1, name: 1, lastName: 1, age: 1, password: 1, rol: 1 });
             if (!user) {
                 throw new Error('Usuario incorrecto');
             }
 
-                      return user;
+            return user;
         } catch (error) {
             throw error;
         }
@@ -91,7 +85,7 @@ class userDAO {
             throw error;
         }
     }
-  
+
 }
 
 export default userDAO;

@@ -141,23 +141,7 @@ class productDAO {
         });
     }
     
-   /* getProductByCode = function (code) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const result = await productModel.find({ code: code });
-                 if (result) {
-                    resolve(result);
-                } else {
-                    resolve(false);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                reject(error);
-            }
-        });
-    };*/
-
-
+   
     getProductByCode = function (code) {
         return new Promise(async (resolve, reject) => {
             try {

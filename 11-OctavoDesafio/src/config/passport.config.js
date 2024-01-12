@@ -2,7 +2,7 @@ import passport from 'passport';
 import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import UserDAO from '../dao/userDAO.js';
-import 'dotenv/config.js';
+import { config } from '../config/config.js';
 
 const LocalStrategy = local.Strategy;
 
@@ -32,9 +32,9 @@ const initializePassport = () => {
     'github',
     new GitHubStrategy(
       {
-        clientID: process.env.gitclientid,
-        clientSecret: process.env.gitclientsecret,
-        callbackURL: process.env.gitcallbackurl,
+        clientID: config.GitHub.clientID,
+        clientSecret: config.GitHub.clientSecret,
+        callbackURL: config.GitHub.callbackURL,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
