@@ -24,6 +24,7 @@ class MessageController {
       throw error;
     }
   }
+
 }
 
 export default MessageController;

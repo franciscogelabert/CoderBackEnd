@@ -1,16 +1,20 @@
 import express from 'express';
 import __dirname from '../utils.js';
-import { productDAO } from '../dao/index.js';
+
 import cookieParser from "cookie-parser";
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { config } from '../config/config.js';
+
+import MessageController from '../controllers/message.controller.js'
 import ProductController from '../controllers/product.controller.js'
+
 const productController = new ProductController();
+const messageController = new MessageController();
 
 
 const viewsRouter = express.Router();
-const pDAO = new productDAO()
+
 
 
 viewsRouter.use(cookieParser());
@@ -43,20 +47,25 @@ viewsRouter.post('/api', async (req, res) => {
     await productController.addSendProduct(req, res);
 });
 
+
 // API Chat
+
 viewsRouter.get('/chat', async (req, res) => {
     try {
-        let result = await messageModel.find();
-        console.log(result);
+        const messages = await messageController.getMessages();
         res.render('index', {
             layout: 'chat',
-            message: result
+            message: messages
         });
-    }
-    catch (error) {
+    } catch (error) {
         console.log("Error:  ", error);
+        // Maneja el error según tus necesidades
+        res.render('error', { error: 'Error interno del servidor' });
     }
-})
+});
+
+
+
 
 
 export { viewsRouter };
