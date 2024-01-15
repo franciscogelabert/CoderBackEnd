@@ -15,8 +15,6 @@ const messageController = new MessageController();
 
 const viewsRouter = express.Router();
 
-
-
 viewsRouter.use(cookieParser());
 
 viewsRouter.use(
@@ -49,7 +47,6 @@ viewsRouter.post('/api', async (req, res) => {
 
 
 // API Chat
-
 viewsRouter.get('/chat', async (req, res) => {
     try {
         const messages = await messageController.getMessages();
@@ -63,9 +60,5 @@ viewsRouter.get('/chat', async (req, res) => {
         res.render('error', { error: 'Error interno del servidor' });
     }
 });
-
-
-
-
 
 export { viewsRouter };
