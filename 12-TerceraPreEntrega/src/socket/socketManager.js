@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import { productController, cartController } from '../controllers/index.js';;
+import { productController, cartController, messageController } from '../controllers/index.js';
 import { db } from '../config/connect.js';
 import Product from '../class/Product.js';
 
@@ -8,6 +8,7 @@ export function configureSocketServer(httpServer) {
 
     const lpc = new productController();
     const lcc = new cartController();
+    const lmc = new messageController();
 
     // Accesos al Servidor
 
@@ -59,7 +60,7 @@ export function configureSocketServer(httpServer) {
 
         socket.on('agregar_mensaje', (data) => {
             const mensaje = data;
-            lm.addMessage(mensaje)
+            lmc.addMessage(mensaje)
                 .then(() => {
                     socketServer.emit("actualizarChat", mensaje);
                 })

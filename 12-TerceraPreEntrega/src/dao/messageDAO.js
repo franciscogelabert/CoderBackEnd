@@ -1,7 +1,7 @@
-import { messageModel } from '../Dao/MongoDB/models/message.model.js';
+import {messageModel} from '../models/index.js';
 
 
-class MessageManagerDB {
+class messageDAO {
     constructor() {
         this.author = "";
         this.message = "";
@@ -21,7 +21,7 @@ class MessageManagerDB {
         });
     }
 
-    getProducts = function () {
+    getMessage = function () {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await messageModel.find();
@@ -36,22 +36,5 @@ class MessageManagerDB {
 }
 
 
-export default MessageManagerDB;
+export default messageDAO;
 
-/*
-const lm = new MessageManagerDB;
-
-
-const nuevoMensaje = {
-    author: 'Fancisco',
-    message: 'Cuarto mensaje de Chat',
-    };
-
-lm.addMessage(nuevoMensaje)
-    .then((mensajeInsertado) => {
-        // Hacer algo con el producto insertado, si es necesario
-    })
-    .catch((error) => {
-        // Manejar el error, si es necesario
-    });
-*/
