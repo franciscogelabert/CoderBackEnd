@@ -120,18 +120,17 @@ class CartController {
     try {
       const id = req.params.id;
       const cartDetails = await this.cartDAO.getCartsById(id);
+
+      if (!req.session.user) {
+        return res.status(403).send({ status: "Error", error: "Usuario no autenticado. Debe iniciar sesión para consultar los datos del carrito" });
+      }
+
       const userAutenticado = req.session.user._id.toString(); // Convertir a string
       const userCarrito = cartDetails.IdUser.toString(); // Convertir a string
 
       if (!cartDetails) {
         return res.status(404).json({ error: 'Carrito no encontrado' });
-      } else if (!userAutenticado) {
-        return res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar los datos del carrito" });
       }
-
-      console.log("userAutenticado", userAutenticado);
-      console.log("userCarrito", userCarrito);
-
       if (userAutenticado === userCarrito) {
         res.send(cartDetails);
       } else {
@@ -140,7 +139,7 @@ class CartController {
       }
     } catch (error) {
       console.error('Error:', error);
-      res.status(500).json({ error: 'Debe estar autenticado para continuar' });
+      res.status(500).json({ error: 'Error interno del servidor' });
     }
   }
 
