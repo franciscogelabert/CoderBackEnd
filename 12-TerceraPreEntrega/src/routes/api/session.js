@@ -26,7 +26,7 @@ router.post(
 router.get(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] }),
-  async (req, res) => {}
+  async (req, res) => { }
 );
 
 router.get(
@@ -66,20 +66,30 @@ router.post(
     delete user.password;
     req.session.user = user;
     console.log("Usuario LogIn", req.session.user);
+    console.log("User", user.rol);
 
-    // Construye la cadena de consulta
-    const queryParams = {
-      page: 1,
-      limit: 5,
-      category: 'Verdura',
-      sort: 'DESC',
-    };
+    if (user.rol === 'usuario') {
 
-    const queryString = querystring.stringify(queryParams);
+      // Construye la cadena de consulta
+      const queryParams = {
+        page: 1,
+        limit: 5,
+        category: 'Verdura',
+        sort: 'DESC',
+      };
 
-    // Redirige a la URL completa con la cadena de consulta
-    res.redirect(`/api/products?${queryString}`);
+      const queryString = querystring.stringify(queryParams);
 
+      // Redirige a la URL completa con la cadena de consulta
+      res.redirect(`/api/products?${queryString}`);
+
+    } else if (user.rol === "admin") {
+      // Redirige a la URL para admin
+      res.redirect(`/api/api/realTimeProducts`);
+    } else {
+      // Manejar otros roles si es necesario
+      res.status(403).send({ status: "Error", error: "Forbidden" });
+    }
   }
 );
 

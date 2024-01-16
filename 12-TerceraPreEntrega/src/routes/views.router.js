@@ -30,7 +30,16 @@ viewsRouter.use(
 
 
 viewsRouter.get('/api/realTimeProducts', async (req, res) => {
-    await productController.getProductsRealTime(req, res);
+
+    const user = req.session.user;
+
+    if (user.rol === "admin") {
+        // Redirige a la URL para admin
+        await productController.getProductsRealTime(req, res);
+    } else {
+        // Manejar otros roles si es necesario
+        res.status(403).send({ status: "Error", error: "Usuario no Autorizado debe ser Admin para gestionar los datos del Producto" });
+    }
 });
 
 viewsRouter.get('/products', async (req, res) => {
