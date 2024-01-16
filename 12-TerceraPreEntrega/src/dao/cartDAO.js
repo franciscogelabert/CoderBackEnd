@@ -23,6 +23,19 @@ class cartDAO {
         });
     }
 
+
+    getCartsByUserId = function (idUser) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const result = await cartModel.find({ IdUser: idUser });
+                resolve(result);
+            } catch (error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+        });
+    };
+    
     async updateCartById(id, cart) {
         try {
             const resultado = await cartModel.updateOne({ _id: id }, { $set: cart });

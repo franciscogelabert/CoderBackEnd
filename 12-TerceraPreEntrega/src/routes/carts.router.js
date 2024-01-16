@@ -3,11 +3,15 @@ import __dirname from '../utils.js';
 import { cartController } from '../controllers/index.js';;
 
 const cartsRouter = express.Router();
-const lcc= new cartController();
+const lcc = new cartController();
 
 cartsRouter.get('/customer/:id', (req, res) => {
   lcc.renderCartPage(req, res);
 });
+
+cartsRouter.get('/user/:id', (req, res) => {
+    lcc.getCartsByUserId(req, res);
+ });
 
 cartsRouter.get('/', (req, res) => {
   lcc.getCartsList(req, res);
