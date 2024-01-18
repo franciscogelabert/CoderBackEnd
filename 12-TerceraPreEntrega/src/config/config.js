@@ -14,6 +14,9 @@ export const config = {
         clientID: process.env.gitclientid,
         clientSecret: process.env.gitclientsecret,
         callbackURL: process.env.gitcallbackurl,
+    },
+    persistence: {
+        type: process.env.PERSISTENCE,
     }
 
 }

@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
 import { productController, cartController, messageController } from '../controllers/index.js';
-import { db } from '../config/connect.js';
+import { conexion } from '../dao/factory.js';
 import Product from '../class/Product.js';
 
 export function configureSocketServer(httpServer) {
