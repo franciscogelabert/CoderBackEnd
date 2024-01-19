@@ -59,9 +59,21 @@ viewsRouter.post('/api', async (req, res) => {
 viewsRouter.get('/chat', async (req, res) => {
     try {
         const messages = await messageController.getMessages();
+        const user = req.session.user;
+        const name = user.name;
+        const _id = user._id;
+        const rol = user.rol;
+        const lastName = user.lastName;
+
         res.render('index', {
             layout: 'chat',
-            message: messages
+            message: messages, 
+            name: user.name,
+            lastName:user.lastName,
+            email:user.email,
+            _id : user._id,
+            rol: user.rol
+
         });
     } catch (error) {
         console.log("Error:  ", error);

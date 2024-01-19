@@ -28,6 +28,7 @@ login.use(
     }));
 
 initializePassport();
+
 login.use(passport.initialize());
 login.use(passport.session());
 

@@ -6,23 +6,6 @@ const socket = io();
 console.log("connected");
 
 
-Swal.fire({
-    title: "Ingrese su Usuario: ",
-    input: "email",
-    inputLabel: "su dirección de correo electrónico",
-    inputPlaceholder: "Ingrese su dirección de correo electrónico"
-}).then((result) => {
-    if (result.isConfirmed) {
-        const email = result.value;
-        console.log('email', email);
-        if (email) {
-            document.getElementById('author').value = email;
-            Swal.fire(`Usuario Ingresado: ${email}`);
-        }
-    }
-});
-
-
 // agrega listener para escuchar el click del botnon registar
 
 let btn_publicar = document.getElementById('btn_publicar');
@@ -33,8 +16,10 @@ let btn_publicar = document.getElementById('btn_publicar');
 btn_publicar.addEventListener('click', (e) => {
     e.preventDefault();
 
-    let author = document.getElementById('author').value
+
     let message = document.getElementById('message').value
+    let author = document.getElementById('author').value
+    console.log("author------------->", author);
 
     let new_message = {
         "author": author,
@@ -84,12 +69,12 @@ socket.on("actualizarChat", (message) => {
     newChat.appendChild(author);
     newChat.appendChild(txt);
 
-   
+
     // Reemplazar el elemento <li> con la nueva fila <tr>
     div.appendChild(newChat);
 
     document.getElementById('message').value = '';
-   
+
 });
 
 

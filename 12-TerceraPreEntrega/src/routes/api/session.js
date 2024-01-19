@@ -52,8 +52,6 @@ router.get(
   }
 );
 
-// router.post("/login", loginUser);
-
 router.post(
   "/login",
   passport.authenticate("login", { failureRedirect: "/faillogin" }),
@@ -62,7 +60,7 @@ router.post(
     if (!user)
       return res
         .status(400)
-        .send({ status: "Error", error: "Inalid Credentials" });
+        .send({ status: "Error", error: "Invalid Credentials" });
     delete user.password;
     req.session.user = user;
     console.log("Usuario LogIn", req.session.user);
