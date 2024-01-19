@@ -17,10 +17,9 @@ btn_publicar.addEventListener('click', (e) => {
     e.preventDefault();
 
 
-    let message = document.getElementById('message').value
-    let author = document.getElementById('author').value
-    console.log("author------------->", author);
-
+    let message = document.getElementById('message').value;
+    let author = document.getElementById('author').value;
+    
     let new_message = {
         "author": author,
         "message": message
