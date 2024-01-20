@@ -5,6 +5,7 @@ class UserDTO{
         this.email=userInfo?.email;
         this.age=userInfo?.age;
         this.rol=userInfo?.rol;
+        this._id=userInfo?._id;
          }
 }
 export default UserDTO;
