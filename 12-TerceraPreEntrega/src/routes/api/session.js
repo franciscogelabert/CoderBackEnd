@@ -1,5 +1,6 @@
 import express from "express";
 import querystring from 'querystring';
+import UserDTO from "../../dao/DTO/userDTO.js";
 
 import {
   registerUser,
@@ -61,10 +62,13 @@ router.post(
       return res
         .status(400)
         .send({ status: "Error", error: "Invalid Credentials" });
-    delete user.password;
-    req.session.user = user;
+   
+        const userDTO = new UserDTO(user)
+        req.session.user = userDTO;
+
+    
     console.log("Usuario LogIn", req.session.user);
-    console.log("User", user.rol);
+    console.log("User", userDTO.rol);
 
     if (user.rol === 'usuario') {
 

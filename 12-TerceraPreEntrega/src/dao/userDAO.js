@@ -1,11 +1,13 @@
 import { userModel } from '../models/index.js';
 import { createHash, isValidPassword } from '../utils.js';
 import { config } from '../config/config.js';
+import UserDTO from './DTO/userDTO.js';
 
 
 // Obtiene la cadena de conexión de MongoDB desde la variable de entorno
 const usuario = config.admin.usuario;
 const pass = config.admin.pass;
+
 
 class userDAO {
     constructor() { }
@@ -22,9 +24,9 @@ class userDAO {
 
             await user.save();
 
-            delete user.password;
+            const userDTO = new UserDTO(user)
 
-            return user;
+            return userDTO;
         } catch (error) {
             throw error;
         }
@@ -42,8 +44,6 @@ class userDAO {
                 throw new Error('Contraseña incorrectaaaaaa');
             }
 
-            delete user.password;
-
             return user;
         } catch (error) {
             throw error;
@@ -57,8 +57,8 @@ class userDAO {
             if (!user) {
                 throw new Error('Usuario incorrecto');
             }
-
-            return user;
+            const userDTO = new UserDTO(user)
+            return userDTO;
         } catch (error) {
             throw error;
         }
@@ -80,12 +80,12 @@ class userDAO {
     async getUserById(id) {
         try {
             const user = await userModel.findById(id);
-            return user;
+            const userDTO = new UserDTO(user)
+            return userDTO;
         } catch (error) {
             throw error;
         }
     }
 
 }
-
 export default userDAO;

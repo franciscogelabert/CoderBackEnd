@@ -1,10 +1,10 @@
 // product.controller.js
 
-import ProductDAO from '../dao/productDAO.js';
+import { productDAO } from '../dao/index.js';
 
 class ProductController {
   constructor() {
-    this.productDAO = new ProductDAO();
+    this.productDAO = new productDAO();
   }
 
   async getAllProducts(req, res) {
