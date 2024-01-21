@@ -140,5 +140,3 @@ socket.on("carritoActualizado", (precioProducto) => {
 
 });
 
-
-
