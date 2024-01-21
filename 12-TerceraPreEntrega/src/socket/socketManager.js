@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import { productController, cartController, messageController } from '../controllers/index.js';
+import { productController, cartController, messageController, orderController } from '../controllers/index.js';
 import { conexion } from '../dao/factory.js';
 import Product from '../class/Product.js';
 
@@ -9,6 +9,7 @@ export function configureSocketServer(httpServer) {
     const lpc = new productController();
     const lcc = new cartController();
     const lmc = new messageController();
+    const loc = new orderController();
 
     // Accesos al Servidor
 
@@ -109,7 +110,27 @@ export function configureSocketServer(httpServer) {
             }
         });
 
+        ///////////////  Gestión de Ordenes /////////////////////
+       
+        socket.on('crear_orden', async (order) => {
+            try {
+                console.log("Order en socket Manager----------->",order);
+                const result = await loc.createOrderFromSocket(order);
+                console.log("Orden Creada");
+                socket.emit("ordenCreada", result);
+            } catch (error) {
+                console.error("Error Intentar finalizar el Pedido: ", error);
+                socket.emit("Error Intentar finalizar el Pedido");
+            }
+        });
+
+
+        
     });
+
+
+
+
 
     return socketServer;
 }

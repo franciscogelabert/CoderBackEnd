@@ -1,49 +1,49 @@
-import { orderModel } from '../models/order.model.js'; // Ajusta la ruta según tu estructura de archivos
+import { orderModel } from '../models/order.model.js';
+import Order from '../class/Order.js';
 
-export const orderDAO = {
-  async createOrder(userId, cartId) {
-    try {
-      const newOrder = new orderModel({ userId, cartId });
-      const savedOrder = await newOrder.save();
-      return savedOrder;
-    } catch (error) {
-      throw new Error(`Error al crear la orden: ${error.message}`);
-    }
-  },
+class OrderDAO {
+  constructor() {
+    this.userId;
+    this.cartId;
+    this.quantity;
+    this.totalPrice;
+    this.orderDate;
+    this.state;
+  }
+  createOrder = function (order) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const newOrder = await orderModel.create(order);
+        console.log('Cart insertado:', newOrder);
+        resolve(newOrder);
 
-  async deleteOrder(orderId) {
-    try {
-      const deletedOrder = await orderModel.findByIdAndDelete(orderId);
-      return deletedOrder;
-    } catch (error) {
-      throw new Error(`Error al eliminar la orden: ${error.message}`);
-    }
-  },
+      } catch (error) {
+        console.error('Error:', error);
+        reject(error);
+      }
+    });
+  }
+}
 
-  async getOrderById(orderId) {
-    try {
-      const order = await orderModel.findById(orderId);
-      return order;
-    } catch (error) {
-      throw new Error(`Error al obtener la orden: ${error.message}`);
-    }
-  },
+export default OrderDAO;
+/*
+const objDAO = new OrderDAO();
+console.log("dao Creado");
 
-  async getOrdersByUserId(userId) {
-    try {
-      const orders = await orderModel.find({ userId });
-      return orders;
-    } catch (error) {
-      throw new Error(`Error al obtener las órdenes del usuario: ${error.message}`);
-    }
-  },
-
-  async updateOrder(orderId, updateData) {
-    try {
-      const updatedOrder = await orderModel.findByIdAndUpdate(orderId, updateData, { new: true });
-      return updatedOrder;
-    } catch (error) {
-      throw new Error(`Error al actualizar la orden: ${error.message}`);
-    }
-  },
+const order = {
+  userId: '6575e091db0aad49836c9262',
+  cartId: '65ad30e856da7b559072308d',
+  quantity: '2',
+  totalPrice: '123',
+  orderDate: '21/1/2024, 12:17:10',
+  state: 'Pendiente'
 };
+
+
+const objOrder = new Order(order);
+console.log("Orden Creada");
+
+objDAO.createOrder(objOrder);
+
+console.log("Orden Guardada en la Base");
+*/

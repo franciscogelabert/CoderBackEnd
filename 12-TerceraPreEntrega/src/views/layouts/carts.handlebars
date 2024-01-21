@@ -13,10 +13,22 @@
     <div>
         <h1>Octavo Desafío - Gelabert Francisco - Programación Backend - Comisión 55595 </h1>
         <h2> Lista de Productos en el Carrito</h2>
-        <h3 id="idUser"> Usuario registrado: {{IdUser}}</h3>
-        <h3 id="idCarrito"> {{IdCart}}</h3>
-        <h3 id="idCantProd"> Cantidad Productos: {{cantProd}}</h3>
-         <h3 id="idPriceTotal"> Precio Total: {{precioTotal}}</h3>
+        <div>
+            <span>Usuario: </span>
+            <h3 id="idUser">{{IdUser}}</h3>
+        </div>
+        <div>
+            <span>Carrito: </span>
+            <h3 id="idCarrito">{{IdCart}}</h3>
+        </div>
+        <div>
+            <span>Cantidad de Productos: </span>
+            <h3 id="idCantProd">{{cantProd}}</h3>
+        </div>
+        <div>
+            <span>Precio Total: </span>
+            <h3 id="idPriceTotal">{{precioTotal}}</h3>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -44,7 +56,7 @@
                 </tr>
                 {{/each}}
             </tbody>
-             <button class="end-btn">Finalizar Pedido</button>
+            <button class="end-btn">Finalizar Pedido</button>
         </table>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
