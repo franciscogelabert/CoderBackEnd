@@ -1,5 +1,6 @@
 import OrderDAO from '../dao/orderDAO.js';
 import Order from '../class/Order.js';
+import { cartController } from './index.js';
 
 class OrderController {
   constructor() {
@@ -9,7 +10,12 @@ class OrderController {
   async createOrderFromSocket(order) {
     try {
      const objOrder = new Order(order)
+     const objCart = new cartController();
       const newOrder = await this.orderDAO.createOrder(objOrder);
+    
+      //actualiza el stock de los productos cuando persiste la orden
+
+      objCart.updateStocksByIdCart(newOrder.cartId);
       return { newOrder };
     } catch (error) {
       console.error('Error en OrderController.createOrderFromSocket:', error);

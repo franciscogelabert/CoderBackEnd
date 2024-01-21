@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             var codigoProducto = button.closest('tr').id;
             var precioProducto = parseFloat(button.closest('tr').querySelector('td:nth-child(4)').innerText);
-            
+
             if (carrito == "") {
                 console.log("no existe carrito se procede a crearlo")
                 socket.emit('crear_carrito', codigoProducto, nuevoUsuario);
@@ -109,7 +109,7 @@ socket.on("carritoCreado", (carritoId, precioProducto) => {
     carrito = carritoId;
     cantidadCarrito++;
     montoTotal = montoTotal + precioProducto;
-    
+
     const campoElement = document.getElementById('carrito');
     campoElement.innerText = `${carritoId}`;
 
@@ -139,4 +139,13 @@ socket.on("carritoActualizado", (precioProducto) => {
     sessionStorage.setItem('monto', montoTotal);
 
 });
+
+socket.on("stockInsuficiente", (codigoProducto) => {
+
+    console.log("NO se puede agregar al carrito no posee Stock el producto con:", idProducto);
+
+});
+
+
+
 

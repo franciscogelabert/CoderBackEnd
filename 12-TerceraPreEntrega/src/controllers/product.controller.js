@@ -236,35 +236,71 @@ class ProductController {
 
   async seEncuentra(codigo) {
     try {
-        const result = await this.productDAO.seEncuentra(codigo);
+      const result = await this.productDAO.seEncuentra(codigo);
 
-        if (result.length > 0) {
-            return result;
-        } else {
-            return false;
-        }
+      if (result.length > 0) {
+        return result;
+      } else {
+        return false;
+      }
     } catch (error) {
-        console.error('Error en ProductController.seEncuentra:', error);
-        throw error;
+      console.error('Error en ProductController.seEncuentra:', error);
+      throw error;
     }
-}
+  }
 
-async deleteProductByCode(codigo) {
+  async deleteProductByCode(codigo) {
     try {
-        const resultado = await this.productDAO.deleteProductByCode(codigo);
+      const resultado = await this.productDAO.deleteProductByCode(codigo);
 
-        if (resultado === true) {
-            console.log('Producto eliminado correctamente.');
-            return true;
-        } else {
-            console.log('Producto a Eliminar no encontrado.');
-            return false;
-        }
+      if (resultado === true) {
+        console.log('Producto eliminado correctamente.');
+        return true;
+      } else {
+        console.log('Producto a Eliminar no encontrado.');
+        return false;
+      }
     } catch (error) {
-        console.error('Error en ProductController.deleteProductByCode:', error);
-        throw error;
+      console.error('Error en ProductController.deleteProductByCode:', error);
+      throw error;
     }
-}
+  }
+
+  async decrementStockById(idProducto, cantidad) {
+
+    try {
+      const success = await this.productDAO.decrementStockById(idProducto, cantidad);
+      if (success) {
+        console.log('Stock del producto con ID ${id} decrementado');
+        return true;
+      } else {
+        console.log('Producto no encontrado o no hay suficiente stock');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al decrementar el stock:', error);
+      return false;
+    }
+  }
+  async isStockAvailable(id) {
+    try {
+
+
+      if (!id) {
+        return res.status(400).json({ error: 'Parámetros inválidos' });
+      }
+
+      const isAvailable = await this.productDAO.isStockAvailable(id);
+
+      return isAvailable;
+    } catch (error) {
+      console.error('Error:', error);
+
+      console.log('Error interno del servidor');
+      return false;
+    }
+  }
+
 
 }
 

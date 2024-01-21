@@ -39,6 +39,33 @@ class CartController {
     }
   }
 
+
+  async updateStocksByIdCart(idCart) {
+    try {
+      // Obtén el carrito por su ID
+      const carrito = await this.cartDAO.getCartById(idCart);
+      const lpc = new productController();
+
+      if (!carrito) {
+        console.log('Carrito no encontrado.');
+        return false;
+      }
+
+      // Itera sobre cada elemento en el carrito y actualiza el stock utilizando decrementStockById
+      for (const item of carrito.lista) {
+        const idProducto = item.IdProd;
+        const cantidad = item.CantProd;
+        // Utiliza el método del ProductController para decrementar el stock
+        await lpc.decrementStockById(idProducto, cantidad);
+      }
+      return true;
+    } catch (error) {
+      console.error('Error al actualizar stocks:', error);
+      throw error;
+    }
+  }
+
+
   async getCartsByUserId(req, res) {
     try {
       const idUser = req.params.id;

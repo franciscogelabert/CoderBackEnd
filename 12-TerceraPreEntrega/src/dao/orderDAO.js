@@ -14,7 +14,7 @@ class OrderDAO {
     return new Promise(async (resolve, reject) => {
       try {
         const newOrder = await orderModel.create(order);
-        console.log('Cart insertado:', newOrder);
+        console.log('Order insertado:', newOrder);
         resolve(newOrder);
 
       } catch (error) {

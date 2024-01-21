@@ -77,8 +77,13 @@ export function configureSocketServer(httpServer) {
 
         socket.on('crear_carrito', async (codigoProducto, usuario) => {
             try {
-                const { cartId, price } = await lcc.createCartFromSocket(codigoProducto, usuario);
-                socket.emit('carritoCreado', cartId, price);
+
+                if (lpc.isStockAvailable(codigoProducto)) {
+                    const { cartId, price } = await lcc.createCartFromSocket(codigoProducto, usuario);
+                    socket.emit('carritoCreado', cartId, price);
+                } else
+                    socket.emit('stockInsuficiente', codigoProducto);
+
             } catch (error) {
                 console.error('Error al crear el carrito:', error);
                 socket.emit('Error Carrito'); // Asegúrate de definir mensaje adecuadamente
@@ -88,15 +93,21 @@ export function configureSocketServer(httpServer) {
 
         socket.on('agregar_producto_carrito', async (codigoProducto, carrito) => {
             try {
-                const result = await lpc.getProductsByCode(codigoProducto);
-                const cartId = await lcc.addProductCart(result[0]._id, carrito);
-                console.log("carritoActualizado --->", carrito);
-                socket.emit("carritoActualizado", result[0].price);
+                if (lpc.isStockAvailable(codigoProducto)) {
+                    const result = await lpc.getProductsByCode(codigoProducto);
+                    const cartId = await lcc.addProductCart(result[0]._id, carrito);
+                    console.log("carritoActualizado --->", carrito);
+                    socket.emit("carritoActualizado", result[0].price);
+                } else
+                    socket.emit('stockInsuficiente', codigoProducto);
+
             } catch (error) {
                 console.error("Error al Crear el Carrito: ", error);
                 socket.emit("Error al Crear el Carrito");
             }
         });
+
+
 
 
         socket.on('eliminar_producto_carrito', async (idProducto, idCarrito) => {
@@ -111,10 +122,11 @@ export function configureSocketServer(httpServer) {
         });
 
         ///////////////  Gestión de Ordenes /////////////////////
-       
+
         socket.on('crear_orden', async (order) => {
             try {
-                console.log("Order en socket Manager----------->",order);
+                console.log("Order en socket Manager----------->", order);
+
                 const result = await loc.createOrderFromSocket(order);
                 console.log("Orden Creada");
                 socket.emit("ordenCreada", result);
@@ -125,7 +137,7 @@ export function configureSocketServer(httpServer) {
         });
 
 
-        
+
     });
 
 

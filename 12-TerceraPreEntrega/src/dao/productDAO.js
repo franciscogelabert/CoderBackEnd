@@ -61,7 +61,7 @@ class productDAO {
     async deleteProductById(id) {
         try {
             // Utiliza el método deleteOne para eliminar un producto por su código
-            const resultado = await productModel.deleteOne( { _id: id } );
+            const resultado = await productModel.deleteOne({ _id: id });
 
             if (resultado.deletedCount === 1) {
                 console.log('Producto eliminado correctamente.');
@@ -94,7 +94,7 @@ class productDAO {
         }
     }
 
-     async updateProductById (id, producto) {
+    async updateProductById(id, producto) {
         try {
             const resultado = await productModel.updateOne({ _id: id }, { $set: producto });
 
@@ -124,7 +124,7 @@ class productDAO {
         });
     };
 
-  
+
     getProductById = function (id) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -140,8 +140,8 @@ class productDAO {
             }
         });
     }
-    
-   
+
+
     getProductByCode = function (code) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -181,6 +181,58 @@ class productDAO {
             throw error;
         }
     };
+
+
+    async decrementStockById(id, cantidad) {
+        try {
+            // Buscar el producto por su ID
+            const producto = await productModel.findById(id);
+
+            if (!producto) {
+                console.log('Producto no encontrado.');
+                return false;
+            }
+
+            // Verificar que hay suficiente stock para decrementar
+            if (producto.stock >= cantidad) {
+                // Calcular el nuevo stock
+                const nuevoStock = producto.stock - cantidad;
+
+                // Actualizar el stock en la base de datos
+                const resultado = await productModel.updateOne({ _id: id }, { $set: { stock: nuevoStock } });
+
+                if (resultado.modifiedCount === 1) {
+                    console.log('Stock decrementado correctamente. Nuevo stock:', nuevoStock);
+                    return true;
+                } else {
+                    console.log('Error al decrementar el stock.');
+                    return false;
+                }
+            } else {
+                console.log('No hay suficiente stock para decrementar.');
+                return false;
+            }
+        } catch (error) {
+            console.error('Error al decrementar el stock:', error);
+            throw error;
+        }
+    }
+
+    async isStockAvailable(id) {
+        try {
+            const producto = await productModel.findById(id);
+    
+            if (!producto) {
+                console.log('Producto no encontrado.');
+                return false;
+            }
+    
+            return producto.stock > 0;
+        } catch (error) {
+            console.error('Error al verificar el stock:', error);
+            throw error;
+        }
+    }
 
 }
 
