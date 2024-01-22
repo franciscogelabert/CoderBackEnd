@@ -92,6 +92,7 @@ class CartController {
   async renderCartPage(req, res) {
     try {
       const id = req.params.id;
+      const user = req.session.user;
       const cartDetails = await this.cartDAO.getCartById(id);
 
       if (!cartDetails) {
@@ -102,15 +103,23 @@ class CartController {
         });
       }
 
-      res.render('index', {
-        layout: 'carts',
-        itemCart: cartDetails.lista,
-        IdUser: cartDetails.IdUser,
-        IdCart: id,
-        cantProd: cartDetails.cantProd,
-        precioTotal: cartDetails.precioTotal
-      });
+      if (user._id) {
+        if (cartDetails.IdUser == user._id) {
 
+          res.render('index', {
+            layout: 'carts',
+            itemCart: cartDetails.lista,
+            IdUser: cartDetails.IdUser,
+            IdCart: id,
+            cantProd: cartDetails.cantProd,
+            precioTotal: cartDetails.precioTotal
+          });
+        } else {
+          res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
+        }
+      } else {
+        res.status(403).send({ status: "Error", error: "Autenticarse para realizar la consutlao" });
+      }
     } catch (error) {
       console.error('Error:', error);
       // Manejar el error de manera adecuada según tus necesidades

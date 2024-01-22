@@ -65,19 +65,23 @@ viewsRouter.get('/chat', async (req, res) => {
         const rol = user.rol;
         const lastName = user.lastName;
 
-        res.render('index', {
-            layout: 'chat',
-            message: messages, 
-            name: user.name,
-            lastName:user.lastName,
-            email:user.email,
-            _id : user._id,
-            rol: user.rol
-
-        });
+        if (user.rol === "usuario") {
+            res.render('index', {
+                layout: 'chat',
+                message: messages,
+                name: user.name,
+                lastName: user.lastName,
+                email: user.email,
+                _id: user._id,
+                rol: user.rol
+            });
+        } else {
+          
+            res.status(403).send({ status: "Error", error: "Usuario no Autorizado para acceder al Chat el mismo debe poseer los permisos de Usuario" });
+        }
     } catch (error) {
         console.log("Error:  ", error);
-        // Maneja el error según tus necesidades
+        
         res.render('error', { error: 'Error interno del servidor' });
     }
 });
