@@ -1,16 +1,16 @@
-import CartDAO from '../dao/cartDAO.js';
+import { CartRepository } from '../dao/Repository/index.js';
 import Cart from '../class/Cart.js';
-import { productController } from '../controllers/index.js';;
+import { ProductRepository } from '../dao/Repository/index.js';;
 
 class CartController {
   constructor() {
-    this.cartDAO = new CartDAO();
+    this.CartRepository = new CartRepository();
   }
 
   async createCartFromSocket(codigoProducto, usuario) {
     try {
-      const lpc = new productController();
-      const product = await lpc.getProductsByCode(codigoProducto);
+      const lpc = new ProductRepository();
+      const product = await lpc.getProductByCode(codigoProducto);
 
       if (product) {
         const cartInfo = {
@@ -41,24 +41,23 @@ class CartController {
   async updateStocksByIdCart(idCart) {
     try {
       // Obtén el carrito por su ID
-      const carrito = await this.cartDAO.getCartById(idCart);
-      const lpc = new productController();
-      
+      const carrito = await this.CartRepository.getCartById(idCart);
+      const lpc = new ProductRepository();
+
 
       if (!carrito) {
         console.log('Carrito no encontrado.');
         return false;
       }
 
-      
-          // Itera sobre cada elemento en el carrito y actualiza el stock utilizando decrementStockById
-          for (const item of carrito.lista) {
-            const idProducto = item.IdProd;
-            const cantidad = item.CantProd;
-            // Utiliza el método del ProductController para decrementar el stock
-            await lpc.decrementStockById(idProducto, cantidad);
-          }
-          return true;
+      // Itera sobre cada elemento en el carrito y actualiza el stock utilizando decrementStockById
+      for (const item of carrito.lista) {
+        const idProducto = item.IdProd;
+        const cantidad = item.CantProd;
+        // Utiliza el método del productRepository para decrementar el stock
+        await lpc.decrementStockById(idProducto, cantidad);
+      }
+      return true;
     } catch (error) {
       console.error('Error al actualizar stocks:', error);
       throw error;
@@ -75,11 +74,9 @@ class CartController {
         return res.status(400).json({ error: 'Parámetros inválidos' });
       }
 
-
-
       if (user._id) {
         if (cartDetails.IdUser == user._id) {
-          const userCarts = await this.cartDAO.getCartsByUserId(idUser);
+          const userCarts = await this.CartRepository.getCartsByUserId(idUser);
         } else {
           res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
         }
@@ -104,7 +101,7 @@ class CartController {
     try {
       const id = req.params.id;
       const user = req.session.user;
-      const cartDetails = await this.cartDAO.getCartById(id);
+      const cartDetails = await this.CartRepository.getCartById(id);
 
       if (!cartDetails) {
         // Manejar el caso en el que no se encuentre el carrito
@@ -143,7 +140,7 @@ class CartController {
 
   async addProductCart(idProduct, idCart) {
     try {
-      const result = await this.cartDAO.addProductCart(idProduct, idCart);
+      const result = await this.CartRepository.addProductToCart(idProduct, idCart);
       return result;
     } catch (error) {
       console.error('Error al agregar producto al carrito:', error);
@@ -153,7 +150,7 @@ class CartController {
 
   async getCartsList(req, res) {
     try {
-      const cartsList = await this.cartDAO.getCarts();
+      const cartsList = await this.CartRepository.getCarts();
       res.send(cartsList);
     } catch (error) {
       console.error('Error:', error);
@@ -164,7 +161,7 @@ class CartController {
   async getCartById(req, res) {
     try {
       const id = req.params.id;
-      const cartDetails = await this.cartDAO.getCartsById(id);
+      const cartDetails = await this.CartRepository.getCartById(id);
 
       if (!req.session.user) {
         return res.status(403).send({ status: "Error", error: "Usuario no autenticado. Debe iniciar sesión para consultar los datos del carrito" });
@@ -190,7 +187,7 @@ class CartController {
 
   async addNewCart(cart) {
     try {
-      const newCart = await this.cartDAO.addCart(cart);
+      const newCart = await this.CartRepository.addCart(cart);
       return newCart;
     } catch (error) {
       console.error('Error:', error);
@@ -207,7 +204,7 @@ class CartController {
       if (user._id) {
         if (cartDetails.IdUser == user._id) {
           if (cid && pid) {
-            await this.cartDAO.addProductCart(pid, cid);
+            await this.CartRepository.addProductToCart(pid, cid);
             res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
           } else {
             res.status(400).json('Parámetros inválidos');
@@ -235,7 +232,7 @@ class CartController {
         if (cartDetails.IdUser == user._id) {
           if (cid && pid) {
             const cantidad = req.body.cantidad;
-            await this.cartDAO.addProductCartCantidad(pid, cid, cantidad);
+            await this.CartRepository.addProductToCartWithQuantity(pid, cid, cantidad);
             res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
           } else {
             res.status(400).json('Parámetros inválidos');
@@ -254,19 +251,8 @@ class CartController {
 
   async removeProductCart(idProduct, idCart) {
     try {
-      const user = req.session.user;
-
-      if (user._id) {
-        if (cartDetails.IdUser == user._id) {
-          const result = await this.cartDAO.removeProductCart(idProduct, idCart);
-          return result;
-        } else {
-          res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
-        }
-      } else {
-        res.status(403).send({ status: "Error", error: "Autenticarse para realizar la consutlao" });
-      }
-
+      const result = await this.CartRepository.removeProductFromCart(idProduct, idCart);
+      return result;
     } catch (error) {
       console.error('Error al eliminar producto del carrito:', error);
       throw new Error('Error al eliminar producto del carrito');
@@ -281,7 +267,7 @@ class CartController {
       if (user._id) {
         if (cartDetails.IdUser == user._id) {
           if (cid && pid) {
-            await this.cartDAO.removeProductCart(pid, cid);
+            await this.CartRepository.removeProductFromCart(pid, cid);
             res.status(201).json({ message: `Se eliminó del carrito con ID ${cid} el Producto con Código ${pid}` });
           } else {
             res.status(400).json('Parámetros inválidos');
@@ -306,7 +292,7 @@ class CartController {
       if (user._id) {
         if (cartDetails.IdUser == user._id) {
           if (cid) {
-            await this.cartDAO.removeProductCartAll(cid);
+            await this.CartRepository.removeAllProductsFromCart(cid);
             res.status(201).json({ message: `Se eliminaron todos los productos de carrito con ID ${cid}` });
           } else {
             res.status(400).json('Parámetros inválidos');
@@ -322,10 +308,6 @@ class CartController {
       res.status(500).json({ error: 'Error interno del servidor' });
     }
   }
-
 }
-
-
-
 
 export default CartController;
