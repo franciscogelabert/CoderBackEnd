@@ -25,8 +25,6 @@ class CartController {
 
         const newCart = new Cart(cartInfo);
         const cartId = await this.addNewCart(newCart);
-
-
         return { cartId, price: product[0].price };
 
 
@@ -45,20 +43,22 @@ class CartController {
       // Obtén el carrito por su ID
       const carrito = await this.cartDAO.getCartById(idCart);
       const lpc = new productController();
+      
 
       if (!carrito) {
         console.log('Carrito no encontrado.');
         return false;
       }
 
-      // Itera sobre cada elemento en el carrito y actualiza el stock utilizando decrementStockById
-      for (const item of carrito.lista) {
-        const idProducto = item.IdProd;
-        const cantidad = item.CantProd;
-        // Utiliza el método del ProductController para decrementar el stock
-        await lpc.decrementStockById(idProducto, cantidad);
-      }
-      return true;
+      
+          // Itera sobre cada elemento en el carrito y actualiza el stock utilizando decrementStockById
+          for (const item of carrito.lista) {
+            const idProducto = item.IdProd;
+            const cantidad = item.CantProd;
+            // Utiliza el método del ProductController para decrementar el stock
+            await lpc.decrementStockById(idProducto, cantidad);
+          }
+          return true;
     } catch (error) {
       console.error('Error al actualizar stocks:', error);
       throw error;
@@ -69,12 +69,23 @@ class CartController {
   async getCartsByUserId(req, res) {
     try {
       const idUser = req.params.id;
+      const user = req.session.user;
 
       if (!idUser) {
         return res.status(400).json({ error: 'Parámetros inválidos' });
       }
 
-      const userCarts = await this.cartDAO.getCartsByUserId(idUser);
+
+
+      if (user._id) {
+        if (cartDetails.IdUser == user._id) {
+          const userCarts = await this.cartDAO.getCartsByUserId(idUser);
+        } else {
+          res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
+        }
+      } else {
+        res.status(403).send({ status: "Error", error: "Autenticarse para realizar la consutlao" });
+      }
 
       if (!userCarts || userCarts.length === 0) {
         return res.status(404).json({ error: 'No se encontraron carritos para el usuario especificado' });
@@ -143,9 +154,7 @@ class CartController {
   async getCartsList(req, res) {
     try {
       const cartsList = await this.cartDAO.getCarts();
-
       res.send(cartsList);
-
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ error: 'Error interno del servidor' });
@@ -189,18 +198,25 @@ class CartController {
     }
   }
 
-
-
   async addProductToCart(req, res) {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
+      const user = req.session.user;
 
-      if (cid && pid) {
-        await this.cartDAO.addProductCart(pid, cid);
-        res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
+      if (user._id) {
+        if (cartDetails.IdUser == user._id) {
+          if (cid && pid) {
+            await this.cartDAO.addProductCart(pid, cid);
+            res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
+          } else {
+            res.status(400).json('Parámetros inválidos');
+          }
+        } else {
+          res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
+        }
       } else {
-        res.status(400).json('Parámetros inválidos');
+        res.status(403).send({ status: "Error", error: "Autenticarse para realizar la consutlao" });
       }
 
     } catch (error) {
@@ -213,15 +229,23 @@ class CartController {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
+      const user = req.session.user;
 
-      if (cid && pid) {
-        const cantidad = req.body.cantidad;
-        await this.cartDAO.addProductCartCantidad(pid, cid, cantidad);
-        res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
+      if (user._id) {
+        if (cartDetails.IdUser == user._id) {
+          if (cid && pid) {
+            const cantidad = req.body.cantidad;
+            await this.cartDAO.addProductCartCantidad(pid, cid, cantidad);
+            res.status(201).json({ message: `Carrito con ID ${cid} Modificado. Se modificó la cantidad del Producto con Código ${pid}` });
+          } else {
+            res.status(400).json('Parámetros inválidos');
+          }
+        } else {
+          res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
+        }
       } else {
-        res.status(400).json('Parámetros inválidos');
+        res.status(403).send({ status: "Error", error: "Autenticarse para realizar la consutlao" });
       }
-
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ error: 'Error interno del servidor' });
@@ -230,8 +254,19 @@ class CartController {
 
   async removeProductCart(idProduct, idCart) {
     try {
-      const result = await this.cartDAO.removeProductCart(idProduct, idCart);
-      return result;
+      const user = req.session.user;
+
+      if (user._id) {
+        if (cartDetails.IdUser == user._id) {
+          const result = await this.cartDAO.removeProductCart(idProduct, idCart);
+          return result;
+        } else {
+          res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
+        }
+      } else {
+        res.status(403).send({ status: "Error", error: "Autenticarse para realizar la consutlao" });
+      }
+
     } catch (error) {
       console.error('Error al eliminar producto del carrito:', error);
       throw new Error('Error al eliminar producto del carrito');
@@ -241,14 +276,22 @@ class CartController {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
+      const user = req.session.user;
 
-      if (cid && pid) {
-        await this.cartDAO.removeProductCart(pid, cid);
-        res.status(201).json({ message: `Se eliminó del carrito con ID ${cid} el Producto con Código ${pid}` });
+      if (user._id) {
+        if (cartDetails.IdUser == user._id) {
+          if (cid && pid) {
+            await this.cartDAO.removeProductCart(pid, cid);
+            res.status(201).json({ message: `Se eliminó del carrito con ID ${cid} el Producto con Código ${pid}` });
+          } else {
+            res.status(400).json('Parámetros inválidos');
+          }
+        } else {
+          res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
+        }
       } else {
-        res.status(400).json('Parámetros inválidos');
+        res.status(403).send({ status: "Error", error: "Autenticarse para realizar la consutlao" });
       }
-
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ error: 'Error interno del servidor' });
@@ -258,14 +301,22 @@ class CartController {
   async removeAllProductsFromCart(req, res) {
     try {
       const cid = req.params.cid;
+      const user = req.session.user;
 
-      if (cid) {
-        await this.cartDAO.removeProductCartAll(cid);
-        res.status(201).json({ message: `Se eliminaron todos los productos de carrito con ID ${cid}` });
+      if (user._id) {
+        if (cartDetails.IdUser == user._id) {
+          if (cid) {
+            await this.cartDAO.removeProductCartAll(cid);
+            res.status(201).json({ message: `Se eliminaron todos los productos de carrito con ID ${cid}` });
+          } else {
+            res.status(400).json('Parámetros inválidos');
+          }
+        } else {
+          res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });
+        }
       } else {
-        res.status(400).json('Parámetros inválidos');
+        res.status(403).send({ status: "Error", error: "Autenticarse para realizar la consutlao" });
       }
-
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ error: 'Error interno del servidor' });

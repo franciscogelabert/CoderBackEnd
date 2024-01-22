@@ -1,17 +1,17 @@
 // product.controller.js
 
-import { productDAO } from '../dao/index.js';
+import { ProductRepository } from '../dao/Repository/index.js';
 
 class ProductController {
   constructor() {
-    this.productDAO = new productDAO();
+    this.productRepository = new ProductRepository();
   }
 
   async getAllProducts(req, res) {
     try {
       const limitQuery = req.query.limit;
 
-      const products = await this.productDAO.getProducts();
+      const products = await this.productRepository.getProducts();
       const limitedProducts = limitQuery ? products.slice(0, limitQuery) : products;
 
       res.status(200).json(limitedProducts);
@@ -25,7 +25,7 @@ class ProductController {
     const id = req.params.id;
 
     try {
-      const product = await this.productDAO.getProductById(id);
+      const product = await this.productRepository.getProductById(id);
       if (product) {
         res.status(200).json(product);
       } else {
@@ -40,7 +40,7 @@ class ProductController {
 
   async getProductsByCode(code) {
     try {
-      const result = await this.productDAO.getProductByCode(code);
+      const result = await this.productRepository.getProductByCode(code);
 
       console.log("result--> ", result);
       return result;
@@ -54,7 +54,7 @@ class ProductController {
     const code = req.params.cod;
 
     try {
-      const product = await this.productDAO.getProductByCode(code);
+      const product = await this.productRepository.getProductByCode(code);
       if (product) {
         res.status(200).json(product);
       } else {
@@ -70,7 +70,7 @@ class ProductController {
     const { title, description, code, price, stock, thumbnail, estado, category } = req.body;
 
     try {
-      const newProduct = await this.productDAO.addProduct({ title, description, code, price, stock, thumbnail, estado, category });
+      const newProduct = await this.productRepository.addProduct({ title, description, code, price, stock, thumbnail, estado, category });
       res.status(201).json({ message: 'Producto agregado', product: newProduct });
     } catch (error) {
       console.error('Error al agregar producto:', error);
@@ -84,7 +84,7 @@ class ProductController {
     const updatedProductData = req.body;
 
     try {
-      const success = await this.productDAO.updateProductById(id, updatedProductData);
+      const success = await this.productRepository.updateProductById(id, updatedProductData);
       if (success) {
         res.status(200).json({ message: `Producto con ID ${id} actualizado` });
       } else {
@@ -100,7 +100,7 @@ class ProductController {
     const id = req.params.id;
 
     try {
-      const success = await this.productDAO.deleteProductById(id);
+      const success = await this.productRepository.deleteProductById(id);
       if (success) {
         res.status(200).json({ message: `Producto con ID ${id} eliminado` });
       } else {
@@ -131,7 +131,7 @@ class ProductController {
 
 
 
-      const result = await this.productDAO.getPaginatedProducts(page, limitQuery, sort, category);
+      const result = await this.productRepository.getPaginatedProducts(page, limitQuery, sort, category);
 
 
       console.log("result", result);
@@ -167,13 +167,13 @@ class ProductController {
 
       // Usar el DAO en lugar del modelo para obtener datos en tiempo real
       if (limitQuery) {
-        const result = await this.productDAO.getProducts(); // Usa el método del DAO
+        const result = await this.productRepository.getProducts(); // Usa el método del DAO
         res.render('index', {
           layout: 'realTimeProducts',
           food: result.slice(0, limitQuery)
         });
       } else {
-        const result = await this.productDAO.getProducts(); // Usa el método del DAO
+        const result = await this.productRepository.getProducts(); // Usa el método del DAO
         res.render('index', {
           layout: 'realTimeProducts',
           food: result
@@ -189,7 +189,7 @@ class ProductController {
     try {
       const limitQuery = parseInt(req.query.limit);
 
-      let result = limitQuery ? await pDAO.getProducts().limit(limitQuery) : await pDAO.getProducts();
+      let result = limitQuery ? await this.productRepository.getProducts().limit(limitQuery) : await pDAO.getProducts();
 
       res.render('index', {
         layout: 'home',
@@ -236,7 +236,7 @@ class ProductController {
 
   async seEncuentra(codigo) {
     try {
-      const result = await this.productDAO.seEncuentra(codigo);
+      const result = await this.productRepository.seEncuentra(codigo);
 
       if (result.length > 0) {
         return result;
@@ -251,7 +251,7 @@ class ProductController {
 
   async deleteProductByCode(codigo) {
     try {
-      const resultado = await this.productDAO.deleteProductByCode(codigo);
+      const resultado = await this.productRepository.deleteProductByCode(codigo);
 
       if (resultado === true) {
         console.log('Producto eliminado correctamente.');
@@ -269,7 +269,7 @@ class ProductController {
   async decrementStockById(idProducto, cantidad) {
 
     try {
-      const success = await this.productDAO.decrementStockById(idProducto, cantidad);
+      const success = await this.productRepository.decrementStockById(idProducto, cantidad);
       if (success) {
         console.log('Stock del producto con ID ${id} decrementado');
         return true;
@@ -290,7 +290,7 @@ class ProductController {
         return res.status(400).json({ error: 'Parámetros inválidos' });
       }
 
-      const isAvailable = await this.productDAO.isStockAvailable(id);
+      const isAvailable = await this.productRepository.isStockAvailable(id);
 
       return isAvailable;
     } catch (error) {

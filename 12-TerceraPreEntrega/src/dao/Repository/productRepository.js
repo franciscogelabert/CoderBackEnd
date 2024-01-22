@@ -33,6 +33,16 @@ class ProductRepository {
       }
     }
   
+
+    async getProducts() {
+      try {
+        return await this.productDAO.getProducts();
+      } catch (error) {
+        console.error('Error en ProductRepository.getProducts:', error);
+        throw error;
+      }
+    }
+
     async addProduct(productData) {
       try {
         return await this.productDAO.addProduct(productData);

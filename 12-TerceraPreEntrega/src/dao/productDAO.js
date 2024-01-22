@@ -220,7 +220,8 @@ class productDAO {
 
     async isStockAvailable(id) {
         try {
-            const producto = await productModel.findById(id);
+            const objectId = mongoose.Types.ObjectId(id);
+            const producto = await productModel.findById(objectId);
     
             if (!producto) {
                 console.log('Producto no encontrado.');
