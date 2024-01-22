@@ -8,7 +8,8 @@ const orderSchema = new mongoose.Schema({
   orderDate: { type: String, required: true },
   state: { type: String, required: true },
   quantity: { type: Number, required: true },
-  totalPrice: { type: Number, required: true }
+  totalPrice: { type: Number, required: true },
+  email: { type: String, required: true }
 });
 
 export const orderModel = mongoose.model(orderCollection, orderSchema);

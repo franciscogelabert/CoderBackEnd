@@ -122,6 +122,7 @@ class ProductController {
       const sort = req.query.sort === 'ASC' ? 1 : -1;
       const category = req.query.category;
       const name = req.session.user.name;
+      const email = req.session.user.email;
       const _id = req.session.user._id;
       const rol = req.session.user.rol;
       const lastName = req.session.user.lastName;
@@ -144,6 +145,7 @@ class ProductController {
         rol: rol,
         name: name,
         lastName: lastName,
+        email: email,
         food: result.docs,
         totalPages: result.totalPages,
         prevPage: result.prevPage,

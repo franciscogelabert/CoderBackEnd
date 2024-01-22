@@ -120,7 +120,8 @@ class CartController {
             IdUser: cartDetails.IdUser,
             IdCart: id,
             cantProd: cartDetails.cantProd,
-            precioTotal: cartDetails.precioTotal
+            precioTotal: cartDetails.precioTotal,
+            email:user.email
           });
         } else {
           res.status(403).send({ status: "Error", error: "Usuario no Autorizado para consultar el carrito" });

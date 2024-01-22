@@ -36,7 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const idUsuarioElement = document.getElementById('idUser').textContent;
             const idCarrito = document.getElementById('idCarrito').textContent;
             const idCantProd = document.getElementById('idCantProd').textContent;
-            const idPriceTotal = document.getElementById('idPriceTotal').textContent;
+            const idPriceTotal = document.getElementById('idPriceTotal').textContent; 
+            const email = document.getElementById('email').textContent;
 
             // Obtener la fecha y hora actual
             const fechaHora = new Date();
@@ -49,7 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 quantity: idCantProd,
                 totalPrice: idPriceTotal,
                 orderDate: fechaHoraString,
-                state: 'Pendiente'
+                state: 'Pendiente',
+                email:email
             };
             socket.emit('crear_orden', order);
 
@@ -98,6 +100,7 @@ socket.on("ordenCreada", (idOrden) => {
             <p><strong>Estado:</strong> ${newOrder.state}</p>
             <p><strong>Total:</strong> ${newOrder.totalPrice}</p>
             <p><strong>ID de Usuario:</strong> ${newOrder.userId}</p>
+            <p><strong>Correo Electrónico:</strong> ${newOrder.email}</p>
         `,
         icon: 'success'
     });

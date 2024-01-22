@@ -7,6 +7,7 @@ class Order {
         this.state = order.state;
         this.quantity = order.quantity;
         this.totalPrice = order.totalPrice;
+        this.email = order.email;
    }
 }
 

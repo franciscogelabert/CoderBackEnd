@@ -19,6 +19,7 @@
         <h3 id="montoTotal"></h3>
         <h3> <strong id="idUsuario">{{_id}}</strong> </h3>
         <h3> <strong>Usuario:</strong> {{name}} {{lastName}} </h3>
+        <h3> <strong>Email:</strong> {{email}} </h3>
         <a href="/logout" title="logout">Logout</a>
         <h3> <strong>Rol:</strong> {{rol}}</h3>
 
@@ -64,7 +65,7 @@
                 </tr>
                 {{/each}}
             </tbody>
-        </table> 
+        </table>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
